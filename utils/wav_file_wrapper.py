@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import re
 import numpy as np
 import scipy.io.wavfile as wav
@@ -48,39 +49,38 @@ class WavFile:
 
     def get_sub_track(self, start_sec=None, end_sec=None, channel=0):
         r"""
-        :param start_sec: start position in seconds. if None, treat as start_sec = 0 seconds
+        :param start_sec: start position in seconds. if None, treat as 0 seconds
 
-        :param end_sec: finish position in seconds. if None, treat as end_sec = end_of_track in seconds
+        :param end_sec: finish position in seconds. if None, treat as end_of_track in seconds
 
         :param channel: channel (usually 0 or 1)
 
         :return: part of track's channel, starting form start_sec and finishing end_sec
         """
         if start_sec is not None and end_sec is not None and start_sec >= end_sec:
-            raise Exception("Start should be less then end")
+            raise Exception("Start should be less than end")
 
         l_border = 0 if start_sec is None else self.convert_seconds_to_ticks(start_sec)
         r_border = len(self) if end_sec is None else self.convert_seconds_to_ticks(end_sec)
         return self.samples[l_border:r_border, channel]
 
-    def split(self, part_time):
+    def split(self, nb_secs):
         """
-        :param part_time: count of second in each part
+        :param nb_secs: number of seconds in each part
         """
-        l_border = 0
-        r_border = self.samples.shape[0]
-        print r_border, self.convert_seconds_to_ticks(part_time)
-        print self.samples.shape
-        part_begin = 0
-        idx = 0
-        # print self.get_channels()
-        while part_begin + self.convert_seconds_to_ticks(part_time) <= r_border:
-            wav.write(self.file_name[:-4] + "_" + str(idx) + self.file_name[-4:], self.rate, \
-                      self.samples[part_begin:part_begin + self.convert_seconds_to_ticks(part_time)])
+        _, extension = os.path.splitext(self.file_name)
+        extension_len = len(extension)
+
+        for idx, part in enumerate(xrange(0, len(self), nb_secs)):
+            l_border = self.convert_seconds_to_ticks(part)
+            r_border = self.convert_seconds_to_ticks(min(part + nb_secs, len(self)))
+            wav.write(
+                filename=self.file_name[:-extension_len] + "_" + str(idx) + self.file_name[-extension_len:],
+                rate=self.rate,
+                data=self.samples[l_border:r_border]
+            )
             print idx
-            print self.samples[part_begin:part_begin + self.convert_seconds_to_ticks(part_time)].shape
-            idx += 1
-            part_begin += self.convert_seconds_to_ticks(part_time)
+            print self.samples[l_border:r_border].shape
 
 
 if __name__ == "__main__":
