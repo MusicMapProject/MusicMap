@@ -16,13 +16,18 @@ class WavFile:
         self.file_name = file_name
         self.rate, self.samples = wav.read(file_name)
 
+        if len(self.samples.shape) == 1:
+            self.samples.reshape((len(self.samples), 1))
+        elif len(self.samples.shape) != 2:
+            raise Exception("Wrong file format!")
+
         if scale:
             nb_bits = re.findall(r"int(\d+)", str(self.samples.dtype))
             if len(nb_bits) > 0:
                 nb_bits = int(nb_bits[0])
                 self.samples = np.divide(self.samples, 2.0 ** nb_bits)
             else:
-                raise Exception("Wrong input format")
+                raise Exception("Wrong file format!")
 
     def __len__(self):
         r"""
