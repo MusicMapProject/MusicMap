@@ -61,7 +61,7 @@ class WavFile:
             raise Exception("Start should be less than end")
 
         l_border = 0 if start_sec is None else self.convert_seconds_to_ticks(start_sec)
-        r_border = len(self) if end_sec is None else self.convert_seconds_to_ticks(end_sec)
+        r_border = self.samples.shape[0] if end_sec is None else self.convert_seconds_to_ticks(end_sec)
         return self.samples[l_border:r_border, channel]
 
     def split(self, nb_secs):
