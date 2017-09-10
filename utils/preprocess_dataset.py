@@ -2,6 +2,7 @@
 #coding: utf-8
 import os
 from tqdm import tqdm
+import wav_file_wrapper
 
 def add_postfix(dir_name, postfix):
     """
@@ -14,5 +15,5 @@ def add_postfix(dir_name, postfix):
         os.rename(dir_name + f, dir_name + f[:-4] + postfix + ".mp3")
 
 
-add_postfix("../data/Deam/audio/", "D")
-add_postfix("../data/1000S/clips_45seconds/", "S")
+# add_postfix("../data/Deam/audio/", "D")
+# add_postfix("../data/1000S/clips_45seconds/", "S")

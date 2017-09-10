@@ -55,5 +55,19 @@ class WavFile:
         r_border = len(self) if end_sec is None else end_sec * self.rate
         return self.samples[l_border:r_border, channel]
 
+    def split(self, part_time):
+        """
+        :param part_time: count of second in each part
+        """
+        l_border = 0
+        r_border = len(self)
+        print r_border, part_time * self.rate
+        parts = self.samples[l_border:r_border:(part_time * self.rate)]
+        print r_border, part_time * self.rate
+        for idx, part in enumerate(parts):
+            print idx
+            wav.write(self.file_name[:-4] + "_" + str(idx) + self.file_name[-4:], self.rate, part)
+
+
 if __name__ == "__main__":
     pass
