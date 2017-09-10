@@ -18,7 +18,7 @@ class WavFile:
         self.rate, self.samples = wav.read(file_name)
 
         if len(self.samples.shape) == 1:
-            self.samples.reshape((len(self.samples), 1))
+            self.samples = self.samples.reshape((len(self.samples), 1))
         elif len(self.samples.shape) != 2:
             raise Exception("Wrong file format!")
 
