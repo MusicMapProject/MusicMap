@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-#coding: utf-8
+# -*- coding: utf-8 -*-
+
 import os
 from tqdm import tqdm
-import wav_file_wrapper
+
 
 def add_postfix(dir_name, postfix):
     """
