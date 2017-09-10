@@ -60,13 +60,19 @@ class WavFile:
         :param part_time: count of second in each part
         """
         l_border = 0
-        r_border = len(self)
+        r_border = len(self) * self.rate
         print r_border, part_time * self.rate
-        parts = self.samples[l_border:r_border:(part_time * self.rate)]
-        print r_border, part_time * self.rate
-        for idx, part in enumerate(parts):
+        print self.samples.shape
+        part_begin = 0
+        idx = 0
+        # print self.get_channels()
+        while part_begin + part_time * self.rate <= r_border:
+            wav.write(self.file_name[:-4] + "_" + str(idx) + self.file_name[-4:], self.rate, \
+                      self.samples[part_begin:part_begin + part_time * self.rate])
             print idx
-            wav.write(self.file_name[:-4] + "_" + str(idx) + self.file_name[-4:], self.rate, part)
+            print self.samples[part_begin:part_begin + part_time * self.rate].shape
+            idx += 1
+            part_begin += part_time * self.rate
 
 
 if __name__ == "__main__":
