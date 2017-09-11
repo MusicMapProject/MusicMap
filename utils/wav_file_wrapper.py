@@ -5,6 +5,7 @@ import os
 import re
 import numpy as np
 import scipy.io.wavfile as wav
+import matplotlib.pyplot as plt
 
 
 class WavFile:
@@ -100,10 +101,11 @@ def create_spectrogram(sample, out_path):
     ax.set_axis_off()
     figure.add_axes(ax)
     spectrum, freqs, time, image = ax.specgram(
-        x=sample, NFFT=2**6, noverlap=2**5, Fs=2, cmap='jet'
+        x=sample[:, 0].reshape(-1), NFFT=2**6, noverlap=2**5, Fs=2, cmap='jet'
     )
     
     figure.savefig(out_path)
+    plt.close(figure)
 
 
 if __name__ == "__main__":
