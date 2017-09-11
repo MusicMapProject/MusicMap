@@ -70,7 +70,7 @@ class WavFile:
         r_border = self.samples.shape[0] if end_sec is None else self.convert_seconds_to_ticks(end_sec)
         return WavFile(self.samples[l_border:r_border], self.rate)
 
-def split(file_name, nb_secs):
+def split(file_name, nb_secs, dir_dst):
     """
     :param file_name: input file name
     :param nb_secs: number of seconds in each part
@@ -83,10 +83,9 @@ def split(file_name, nb_secs):
             break
 
         wav_current = wav_file.get_sub_track(part, part + nb_secs)
-        wav_current.write(file_name="{}_{}{}".format(filename, idx, extension))
-
-        print idx
-        print wav_current.samples.shape
+        wav_current.write(
+            file_name="{}{}_{}{}".format(dir_dst, filename.split("/")[-1], idx, extension)
+        )
 
 
 if __name__ == "__main__":
