@@ -68,11 +68,14 @@ class WavFile:
         """
         :param nb_secs: number of seconds in each part
         """
+        print self.get_channels()
         _, extension = os.path.splitext(self.file_name)
         extension_len = len(extension)
 
         for idx, part in enumerate(xrange(0, len(self), nb_secs)):
             l_border = self.convert_seconds_to_ticks(part)
+            if part + nb_secs > len(self):
+                break
             r_border = self.convert_seconds_to_ticks(min(part + nb_secs, len(self)))
             wav.write(
                 filename=self.file_name[:-extension_len] + "_" + str(idx) + self.file_name[-extension_len:],
