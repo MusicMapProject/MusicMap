@@ -68,7 +68,8 @@ class WavFile:
 
         l_border = 0 if start_sec is None else self.convert_seconds_to_ticks(start_sec)
         r_border = self.samples.shape[0] if end_sec is None else self.convert_seconds_to_ticks(end_sec)
-        return WavFile(self.samples[l_border:r_border], self.rate)
+        return WavFile(self.samples[l_border:r_border,:], self.rate)
+
 
 def split(file_name, nb_secs, dir_dst):
     """
@@ -86,6 +87,23 @@ def split(file_name, nb_secs, dir_dst):
         wav_current.write(
             file_name="{}{}_{}{}".format(dir_dst, filename.split("/")[-1], idx, extension)
         )
+
+def create_spectrogram(sample, out_path):
+
+    """
+    :param sample: sample of wav file
+    :param out_path: output gistorgam save in out_path
+    """
+
+    figure = plt.figure(frameon=False)
+    ax = plt.Axes(figure, [0., 0., 1., 1.])
+    ax.set_axis_off()
+    figure.add_axes(ax)
+    spectrum, freqs, time, image = ax.specgram(
+        x=sample, NFFT=2**6, noverlap=2**5, Fs=2, cmap='jet'
+    )
+    
+    figure.savefig(out_path)
 
 
 if __name__ == "__main__":
