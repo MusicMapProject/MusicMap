@@ -10,6 +10,7 @@ import wav_file_wrapper
 import multiprocessing
 import sys
 
+
 def add_postfix(dir_name, postfix):
     """
     Add postfix to all files in directory
@@ -21,6 +22,7 @@ def add_postfix(dir_name, postfix):
     for f in tqdm(files):
         filename, extension = os.path.splitext(f)
         os.rename(dir_name + filename + extension, dir_name + filename + postfix + extension)
+
 
 def split_one_audio((f, dir_src, dir_dst, nb_secs)):
     """
@@ -50,7 +52,8 @@ def create_one_spectrogram((f, dir_src, dir_dst)):
     """
     filename, extension = os.path.splitext(f)
     wav_file = WavFile.read(dir_src + f)
-    create_spectrogram(wav_file.samples, dir_dst + filename)
+    save_spectrogram(wav_file, dir_dst + filename)
+
 
 def process_all_files(process_function, dir_src, dir_dst, function_param=None):
     """

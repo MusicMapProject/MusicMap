@@ -69,7 +69,7 @@ class WavFile:
 
         l_border = 0 if start_sec is None else self.convert_seconds_to_ticks(start_sec)
         r_border = self.samples.shape[0] if end_sec is None else self.convert_seconds_to_ticks(end_sec)
-        return WavFile(self.samples[l_border:r_border,:], self.rate)
+        return WavFile(self.samples[l_border:r_border, :], self.rate)
 
 
 def split(file_name, nb_secs, dir_dst):
@@ -86,24 +86,37 @@ def split(file_name, nb_secs, dir_dst):
 
         wav_current = wav_file.get_sub_track(part, part + nb_secs)
         wav_current.write(
-            file_name="{}{}_{}{}".format(dir_dst, filename.split("/")[-1], idx, extension)
+            file_name="{}{}_{}{}".format(dir_dst, os.path.basename(filename), idx, extension)
         )
 
-def create_spectrogram(sample, out_path):
 
+def time_series(ax, sample, rate, freq=0.001):
+    x = np.arange(0, len(sample) / rate, freq)
+    y = sample[(x * rate).astype(int)]
+    ax.plot(x, y, linewidth=0.5)
+
+
+def spectrogram(ax, sample, rate, window_width, overlap_pct=0.5):
+    return ax.specgram(
+        x=sample,
+        NFFT=window_width,
+        noverlap=window_width * overlap_pct,
+        Fs=rate,
+        cmap='jet'
+    )
+
+
+def save_spectrogram(wav_file, out_path):
     """
     :param sample: sample of wav file
     :param out_path: output gistorgam save in out_path
     """
-
     figure = plt.figure(frameon=False)
     ax = plt.Axes(figure, [0., 0., 1., 1.])
     ax.set_axis_off()
     figure.add_axes(ax)
-    spectrum, freqs, time, image = ax.specgram(
-        x=sample[:, 0].reshape(-1), NFFT=2**6, noverlap=2**5, Fs=2, cmap='jet'
-    )
-    
+    spectrum, freqs, time, image = \
+        spectrogram(ax, wav_file.get_channel(0), wav_file.rate, wav_file.rate / 64, 0.5)
     figure.savefig(out_path)
     plt.close(figure)
 
