@@ -6,9 +6,8 @@ from tqdm import tqdm
 from wav_file_wrapper import *
 from mp3_to_wav import mp3_to_wav
 from multiprocessing import Pool
-import wav_file_wrapper
-import multiprocessing
-import sys
+import warnings
+import numpy
 
 def add_postfix(dir_name, postfix):
     """
@@ -77,15 +76,15 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
     #4 processes - 5 min
     #16 processes - 3 min
     #32 processes - 4 min
-    pool = Pool(processes=8)
+    pool = Pool(processes=16)
 
     if function_param is not None:
-        res = pool.map(
+        res = pool.map_async(
             process_function,
             zip(files_src, [dir_src] * len(files_src), [dir_dst] * len(files_src), [function_param] * len(files_src))
         )
     else:
-        res = pool.map(
+        res = pool.map_async(
             process_function,
             zip(files_src, [dir_src] * len(files_src), [dir_dst] * len(files_src))
         )
@@ -98,5 +97,5 @@ if __name__ == "__main__":
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")
-    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_trololo/", 10)
-    process_all_files(create_one_spectrogram, "../data/audio_trololo/", "../data/spectrs_10sec/")
+    #process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_10sec/", 10)
+    process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec/")

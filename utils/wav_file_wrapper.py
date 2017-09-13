@@ -103,7 +103,6 @@ def create_spectrogram(sample, out_path):
     spectrum, freqs, time, image = ax.specgram(
         x=sample[:, 0].reshape(-1), NFFT=2**6, noverlap=2**5, Fs=2, cmap='jet'
     )
-    
     figure.savefig(out_path)
     plt.close(figure)
 
