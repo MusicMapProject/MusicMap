@@ -7,6 +7,9 @@ import numpy as np
 import scipy.io.wavfile as wav
 import matplotlib.pyplot as plt
 
+import librosa
+from librosa.display import specshow
+
 
 class WavFile:
     def __init__(self, samples, rate, scale=False):
@@ -90,37 +93,26 @@ def split(file_name, nb_secs, dir_dst):
         )
 
 
-def time_series(ax, sample, rate, freq=0.001):
-    x = np.arange(0, len(sample) / rate, freq)
-    y = sample[(x * rate).astype(int)]
-    ax.plot(x, y, linewidth=0.5)
-
-
-def spectrogram(ax, sample, rate, window_width, overlap_pct=0.5):
-    return ax.specgram(
-        x=sample,
-        NFFT=window_width,
-        noverlap=window_width * overlap_pct,
-        Fs=rate,
-        cmap='jet'
-    )
-
-
-def save_spectrogram(wav_file, out_path):
+def save_spectrogram(wav_file, png_image, size=None):
     """
-    :param sample: sample of wav file
-    :param out_path: output gistorgam save in out_path
+    :param wav_file:  input  file *.wav
+    :param png_image: output file *.png
+    :param size: output size of image. default = 1 + wav_file.rate / 2
     """
-    figure = plt.figure(frameon=False)
+    default_height = 862
+
+    D = librosa.amplitude_to_db(librosa.stft(wav_file.get_channel(0)), ref=np.max)
+    D = D[:, :default_height]
+
+    if size is None:
+        size = D.shape
+
+    figure = plt.figure(frameon=False, figsize=size, dpi=1)
     ax = plt.Axes(figure, [0., 0., 1., 1.])
     ax.set_axis_off()
     figure.add_axes(ax)
-    # spectrum, freqs, time, image = ax.specgram(
-    #     x=sample[:, 0].reshape(-1), NFFT=2**6, noverlap=2**5, Fs=2, cmap='jet'
-    # )
-    spectrum, freqs, time, image = \
-        spectrogram(ax, wav_file.get_channel(0), wav_file.rate, wav_file.rate / 64, 0.5)
-    figure.savefig(out_path)
+    specshow(D, y_axis='linear', cmap='jet')
+    figure.savefig(png_image)
     plt.close(figure)
 
 
