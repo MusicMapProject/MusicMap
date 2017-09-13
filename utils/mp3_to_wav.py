@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 from pydub import AudioSegment
 
 
 def mp3_to_wav(path_music):
     sound = AudioSegment.from_mp3(path_music)
-    sound.export(path_music[:-4] + ".wav", format="wav")
-    return path_music + ".wav"
+    name = os.path.splitext(path_music)[0] + ".wav"
+    sound.export(name, format="wav")
+    return name
 
 
 if __name__ == "__main__":
