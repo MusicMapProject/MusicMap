@@ -51,7 +51,7 @@ def create_one_spectrogram((f, dir_src, dir_dst)):
     """
     filename, extension = os.path.splitext(f)
     wav_file = WavFile.read(dir_src + f)
-    save_spectrogram(wav_file, dir_dst + filename)
+    save_spectrogram(wav_file, dir_dst + filename, size=(256, 215))
 
 
 def process_all_files(process_function, dir_src, dir_dst, function_param=None):
