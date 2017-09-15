@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import gc
 import re
 import numpy as np
 import scipy.io.wavfile as wav
@@ -112,8 +113,9 @@ def save_spectrogram(wav_file, png_image, size=None):
     ax.set_axis_off()
     figure.add_axes(ax)
     specshow(D, y_axis='linear', cmap='jet')
-    figure.savefig(png_image)
+    figure.savefig(png_image, dpi = 1)
     plt.close(figure)
+    gc.collect()
 
 
 if __name__ == "__main__":
