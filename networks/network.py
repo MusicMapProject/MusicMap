@@ -97,8 +97,9 @@ def train(num_epoch = 6):
 
     print('Finished Training')
 
-ssd_path = "/mnt/ssd/"
 if __name__ == "__main__":
+    ssd_path = "/mnt/ssd/"
+
     trainset = SpectrogramDataset(
         csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_train.csv",
         img_path=ssd_path + "/musicmap_data/spectrs_10sec_new/",
