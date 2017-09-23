@@ -54,6 +54,7 @@ def create_one_spectrogram((f, dir_src, dir_dst)):
     save_spectrogram(wav_file, dir_dst + filename, size=(256, 215))
 
 
+    #32 processes - 4 min
 def process_all_files(process_function, dir_src, dir_dst, function_param=None):
     """
     Function for process all files in directory with process function with parameter
@@ -69,8 +70,7 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
         os.makedirs(dir_dst)
 
     files_src = os.listdir(dir_src)
-    print len(files_src)
-    print len(set(files_src))
+    print "WAV files cnt: ", len(files_src)
 
     #for split
     #8 processes - 4 min
@@ -78,7 +78,6 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
     #multiprocessing.cpu_count() == 4
     #4 processes - 5 min
     #16 processes - 3 min
-    #32 processes - 4 min
     pool = Pool(processes=16)
 
     if function_param is not None:
@@ -96,9 +95,66 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
     pool.join()
 
 
+def create_labels_for_dataset(labels_file, new_labels_file, tracks_dir):
+    """
+    """
+    tmp_df = np.asarray(pd.read_csv(labels_file))
+    song_va = {i[1]: [i[2], i[3]] for i in tmp_df}
+
+    tracks_filename = os.listdir(tracks_dir)
+    songs_parts = {}
+    for track in tracks_filename:
+        filename, extension = os.path.splitext(track)
+
+        song_id = filename.split("_")[0]
+        if song_id not in songs_parts:
+            songs_parts[song_id] = []
+        songs_parts[song_id].append(track)
+
+    # print song_va
+    #     print len(song_va)
+    #     print songs_parts
+    #     print len(songs_parts)
+
+    new_labels = []
+    for song in songs_parts.keys():
+        if song in song_va:
+            for part in songs_parts[song]:
+                new_labels.append([part, song_va[song][0], song_va[song][1]])
+
+                #     print new_labels[:10]
+    new_labels = np.asarray(new_labels)
+    #     print new_labels[:10]
+    #     print new_labels.shape
+
+    tmp_df = pd.DataFrame(data=new_labels, columns=["song_id", "valence", "arousal"])
+    tmp_df.to_csv(new_labels_file, index=False)
+
+
+def train_val_split(csv_file):
+    data = pd.read_csv(csv_file).values
+    validate_sample_idx = {i: 0 for i in r.sample(range(len(data)), int(len(data) * 0.1))}
+    train_data = []
+    validate_data = []
+    for idx, sample in enumerate(data):
+        if idx in validate_sample_idx:
+            validate_data.append(sample)
+        else:
+            train_data.append(sample)
+
+    filename, ext = os.path.splitext(csv_file)
+    tmp_df = pd.DataFrame(data=train_data, columns=["song_filename", "valence", "arousal"])
+    tmp_df.to_csv(filename + "_train" + ext, index=False)
+
+    tmp_df = pd.DataFrame(data=validate_data, columns=["song_filename", "valence", "arousal"])
+    tmp_df.to_csv(filename + "_val" + ext, index=False)
+
+
 if __name__ == "__main__":
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")
-    #process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_10sec/", 10)
-    process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec/")
+    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_15sec/", 15)
+    process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec_new/")
+    # wav_file = WavFile.read("../data/audio_parts_10sec/5S_1.wav")
+    # save_spectrogram(wav_file, "trololo.png", size=(256, 215))
