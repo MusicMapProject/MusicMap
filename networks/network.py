@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from tqdm import tqdm
 import torch.optim as optim
 from data_loader import SpectrogramDataset
 import torch
@@ -8,7 +9,6 @@ import torchvision.transforms as transforms
 
 import matplotlib.pyplot as plt
 import numpy as np
-from tqdm import tqdm
 
 from torch.autograd import Variable
 import torch.nn as nn
@@ -97,16 +97,17 @@ def train(num_epoch = 6):
 
     print('Finished Training')
 
+ssd_path = "../../../../../mnt/ssd/"
 if __name__ == "__main__":
     trainset = SpectrogramDataset(
-        csv_path="../data/labels/spectrs_10sec_labels_train.csv",
-        img_path="../data/spectrs_10sec_new/",
+        csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_train.csv",
+        img_path=ssd_path + "/musicmap_data/spectrs_10sec_new/",
         transform=transform
     )
 
     validateset = SpectrogramDataset(
-        csv_path="../data/labels/spectrs_10sec_labels_val.csv",
-        img_path="../data/spectrs_10sec_new/",
+        csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_val.csv",
+        img_path=ssd_path + "musicmap_data/spectrs_10sec_new/",
         transform=transform
     )
 
@@ -123,59 +124,6 @@ if __name__ == "__main__":
 
     torch.save(net, "../models/test_model")
     train(2)
-# outputs = net(Variable(images))
-
-########################################################################
-# The outputs are energies for the 10 classes.
-# Higher the energy for a class, the more the network
-# thinks that the image is of the particular class.
-# So, let's get the index of the highest energy:
-# _, predicted = torch.max(outputs.data, 1)
-#
-# print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
-#                               for j in range(4)))
-
-########################################################################
-# The results seem pretty good.
-#
-# Let us look at how the network performs on the whole dataset.
-
-# correct = 0
-# total = 0
-# for data in testloader:
-#     images, labels = data
-#     outputs = net(Variable(images))
-#     _, predicted = torch.max(outputs.data, 1)
-#     total += labels.size(0)
-#     correct += (predicted == labels).sum()
-#
-# print('Accuracy of the network on the 10000 test images: %d %%' % (
-#     100 * correct / total))
-
-########################################################################
-# That looks waaay better than chance, which is 10% accuracy (randomly picking
-# a class out of 10 classes).
-# Seems like the network learnt something.
-#
-# Hmmm, what are the classes that performed well, and the classes that did
-# not perform well:
-
-# class_correct = list(0. for i in range(10))
-# class_total = list(0. for i in range(10))
-# for data in testloader:
-#     images, labels = data
-#     outputs = net(Variable(images))
-#     _, predicted = torch.max(outputs.data, 1)
-#     c = (predicted == labels).squeeze()
-#     for i in range(4):
-#         label = labels[i]
-#         class_correct[label] += c[i]
-#         class_total[label] += 1
-#
-#
-# for i in range(10):
-#     print('Accuracy of %5s : %2d %%' % (
-#         classes[i], 100 * class_correct[i] / class_total[i]))
 
 ########################################################################
 # Okay, so what next?
@@ -189,7 +137,7 @@ if __name__ == "__main__":
 # This will recursively go over all modules and convert their parameters and
 # buffers to CUDA tensors:
 #
-# .. code:: python
+# . code:: python
 #
 #     net.cuda()
 #
