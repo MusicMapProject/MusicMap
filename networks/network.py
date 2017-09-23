@@ -77,9 +77,9 @@ def train(num_epoch = 6):
             optimizer.step()
 
             running_loss += loss.data[0]
-            if i % 200 == 199:    # print every 2000 mini-batches
+            if i % 130 == 129:    # print every 2000 mini-batches
                 print('[%d, %5d] Train loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 200))
+                      (epoch + 1, i + 1, running_loss / 130))
                 running_loss = 0.0
 
 
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         transform=transform
     )
 
-    train_loader = torch.utils.data.DataLoader(trainset, batch_size=50,
+    train_loader = torch.utils.data.DataLoader(trainset, batch_size=70,
                                                shuffle=True, num_workers=16)
 
     validate_loader = torch.utils.data.DataLoader(validateset, batch_size=50,
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
     torch.save(net, "../models/test_model")
-    train(10)
+    train(50)
 
 ########################################################################
 # Okay, so what next?
