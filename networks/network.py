@@ -114,7 +114,7 @@ if __name__ == "__main__":
         transform=transform
     )
 
-    train_loader = torch.utils.data.DataLoader(train_set, batch_size=50,
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=70,
                                                shuffle=True, num_workers=16)
 
     valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=50,
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
     torch.save(net, "../models/test_model")
-    train(10)
+    train(nb_epochs=50, verbose_step=130)
 
 ########################################################################
 # Okay, so what next?
