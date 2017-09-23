@@ -77,7 +77,7 @@ def train(num_epoch = 6):
             optimizer.step()
 
             running_loss += loss.data[0]
-            if i % 200 == 1:    # print every 2000 mini-batches
+            if i % 200 == 199:    # print every 2000 mini-batches
                 print('[%d, %5d] Train loss: %.3f' %
                       (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
@@ -112,11 +112,11 @@ if __name__ == "__main__":
         transform=transform
     )
 
-    train_loader = torch.utils.data.DataLoader(trainset, batch_size=30,
-                                               shuffle=True, num_workers=1)
+    train_loader = torch.utils.data.DataLoader(trainset, batch_size=50,
+                                               shuffle=True, num_workers=16)
 
-    validate_loader = torch.utils.data.DataLoader(validateset, batch_size=30,
-                                                  shuffle=False, num_workers=1)
+    validate_loader = torch.utils.data.DataLoader(validateset, batch_size=50,
+                                                  shuffle=False, num_workers=16)
 
     net = Net()
 
