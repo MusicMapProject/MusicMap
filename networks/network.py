@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from tqdm import tqdm
 import torch.optim as optim
 from data_loader import SpectrogramDataset
@@ -14,6 +16,8 @@ from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 
+
+logging.basicConfig(filename='./train.log', filemode='w', level=logging.INFO)
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -58,67 +62,65 @@ class Net(nn.Module):
         return x
 
 
-def train(num_epoch = 6):
-    for epoch in range(num_epoch):
+def train(nb_epochs=6, verbose_step=200):
+    for epoch in range(nb_epochs):
 
-        running_loss = 0.0
-        for i, data in tqdm(enumerate(train_loader, 0)):
-            inputs, labels = data
-            # print labels
-            # print inputs
+        # train step
+        current_loss = 0.0
+        for i, (inputs, labels) in tqdm(enumerate(train_loader, 0)):
             inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
-
             optimizer.zero_grad()
-            # print inputs
             outputs = net(inputs)
-            # print outputs
+
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
 
-            running_loss += loss.data[0]
-            if i % 200 == 199:    # print every 2000 mini-batches
-                print('[%d, %5d] Train loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 200))
-                running_loss = 0.0
+            current_loss += loss.data[0]
 
+            if (i + 1) % verbose_step == 0:
+                logging.info(
+                    "train; epoch = {:d}; batch = {:d}; loss = {:.3f}".format(
+                        epoch + 1, i + 1, current_loss / verbose_step
+                    ))
+                current_loss = 0.0
 
-        mse = 0
-        batch_cnt = 0
-        for data in validate_loader:
-            inputs, labels = data
+        # valid step
+        mse_score, nb_batches = 0, 0
+        for (inputs, labels) in valid_loader:
             inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
             outputs = net(inputs)
-            mse += criterion(outputs, labels).data
-            batch_cnt += 1
-        print "\rValidation mean MSE:", mse/float(batch_cnt)
+            mse_score += criterion(outputs, labels).data
+            nb_batches += 1
+        mse_score /= float(nb_batches)
 
+        logging.info("valid; epoch = {:d}; loss = {:.3f}".format(epoch + 1, mse_score[0]))
 
-    print('Finished Training')
+    print 'Finished Training'
+
 
 if __name__ == "__main__":
     ssd_path = "/mnt/ssd/"
 
-    trainset = SpectrogramDataset(
+    train_set = SpectrogramDataset(
         csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_train.csv",
-        img_path=ssd_path + "/musicmap_data/spectrs_10sec_new/",
+        img_path=ssd_path + "musicmap_data/spectrs_10sec_new/",
         transform=transform
     )
 
-    validateset = SpectrogramDataset(
+    valid_set = SpectrogramDataset(
         csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_val.csv",
         img_path=ssd_path + "musicmap_data/spectrs_10sec_new/",
         transform=transform
     )
 
-    train_loader = torch.utils.data.DataLoader(trainset, batch_size=50,
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=50,
                                                shuffle=True, num_workers=16)
 
-    validate_loader = torch.utils.data.DataLoader(validateset, batch_size=50,
-                                                  shuffle=False, num_workers=16)
+    valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=50,
+                                               shuffle=False, num_workers=16)
 
     net = Net()
-
     net.cuda()
     criterion = nn.MSELoss()
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
@@ -153,3 +155,4 @@ if __name__ == "__main__":
 # Why dont I notice MASSIVE speedup compared to CPU? Because your network
 # is realllly small.
 #
+
