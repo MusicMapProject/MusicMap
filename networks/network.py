@@ -79,11 +79,10 @@ def train(num_epoch = 6):
             running_loss += loss.data[0]
             if i % 200 == 199:    # print every 2000 mini-batches
                 print('[%d, %5d] Train loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 2000))
+                      (epoch + 1, i + 1, running_loss / 200))
                 running_loss = 0.0
 
 
-        print "Validation"
         mse = 0
         batch_cnt = 0
         for data in validate_loader:
