@@ -18,7 +18,7 @@ import torch.nn.functional as F
 
 if __name__ == '__main__':
     import os, sys
-    # get an absolute path to the directory that contains mypackage
+
     network_dir = os.path.dirname(os.path.join(os.getcwd(), __file__))
     sys.path.append(os.path.normpath(os.path.join(network_dir, '..')))
     from utils import visualization
@@ -51,10 +51,10 @@ class Net(nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
         self.conv5 = nn.Conv2d(64, 128, 5)
         self.pool = nn.MaxPool2d(2, 2)
-        self.fc1 = nn.Linear(128 * 2 * 4, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-        self.fc4 = nn.Linear(10, 2)
+        self.fc1 = nn.Linear(128 * 2 * 4, 200)
+        self.fc2 = nn.Linear(200, 100)
+        self.fc3 = nn.Linear(100, 20)
+        self.fc4 = nn.Linear(20, 2)
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
@@ -70,7 +70,7 @@ class Net(nn.Module):
         return x
 
 
-def train(nb_epochs=6, verbose_step=200, save_step=20):
+def train(nb_epochs=6, verbose_step=200, save_step=20, visualize_step=5):
     for epoch in range(nb_epochs):
 
         # train step
@@ -106,6 +106,19 @@ def train(nb_epochs=6, verbose_step=200, save_step=20):
         if epoch % save_step == 0:
             torch.save(net, "../models/test_model_epoch_" + str(epoch))
         
+        if epoch % visualize_step == 0:
+            for (inputs, labels) in valid_loader:
+                inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
+                outputs = net(inputs)
+                outputs = outputs.data.cpu().numpy()
+                names = valid_set.get_songnames(range(0,200,4))
+                print outputs[:10]
+                print "labels", labels[:10]
+                visualization.show_on_map(
+                    outputs[0:200:4,0], outputs[0:200:4,1], names, "../train_pic/" + str(epoch)
+                )
+                break
+        
         logging.info("valid; epoch = {:d}; loss = {:.3f}".format(epoch + 1, mse_score[0]))
 
         print "\repochs passed: {}".format(epoch+1)
@@ -136,11 +149,11 @@ if __name__ == "__main__":
                                                shuffle=False, num_workers=16)
 
     # net = Net()
-    net= torch.nn.DataParallel(Net(), device_ids=[0,1])
+    net= torch.nn.DataParallel(Net(), device_ids=[0, 1, 2])
     net.cuda()
 
     criterion = nn.MSELoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.8)
+    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
     # optimizer = optim.Adadelta(net.parameters(), lr=0.01)
 
     train(nb_epochs=10000000, verbose_step=50)
