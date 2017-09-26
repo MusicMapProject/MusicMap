@@ -15,10 +15,7 @@ import numpy
 def add_postfix(dir_name, postfix):
     """
     Add postfix to all files in directory
-
-    ::
     """
-
     files = os.listdir(dir_name)
     for f in tqdm(files):
         filename, extension = os.path.splitext(f)
@@ -151,13 +148,18 @@ def train_val_split(csv_file):
     tmp_df = pd.DataFrame(data=validate_data, columns=["song_filename", "valence", "arousal"])
     tmp_df.to_csv(filename + "_val" + ext, index=False)
 
+
 def preprocess_dir(dir_path, nb_secs=10):
     dir_name, path = dir_path.split("/")[-1],  "/".join(dir_path.split("/")[:-1])
-    parts_dir = path + "/" + dir_name +"_parts"
-    spectrs_dir =  path + "/" + dir_name + "_spectrs"
+    preprocess_data_dir = path + "/preprocess_data_" + dir_name
+    os.mkdir(preprocess_data_dir)
+    parts_dir = preprocess_data_dir + "/audio_parts/"
+    spectrs_dir =  preprocess_data_dir + "/spectrs/"
     process_all_files(split_one_audio, dir_path, parts_dir)
     process_all_files(create_one_spectrogram, parts_dir, spectrs_dir)
 
+def audio2dataset(dir_path, nb_secs):
+    preprocess_dir(dir_path, nb_secs)
 
 if __name__ == "__main__":
     # add_postfix("../data/Deam/audio/", "D")

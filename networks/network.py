@@ -69,91 +69,122 @@ class Net(nn.Module):
         x = self.fc4(x)
         return x
 
+class Network:
+    def __init__(self):
+        self.net = None
+        self.ssd_path = "/mnt/ssd/"
 
-def train(nb_epochs=6, verbose_step=200, save_step=20, visualize_step=5):
-    for epoch in range(nb_epochs):
+    def load(self, model_filename):
+        self.net = torch.load(model_filename)
 
-        # train step
-        current_loss = 0.0
-        for i, (inputs, labels) in tqdm(enumerate(train_loader, 0)):
-            inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
-            optimizer.zero_grad()
-            outputs = net(inputs)
+    def predict(self, img_dir):
+        if not self.net:
+            raise Exception("Load or train model before predict, bro")
+        else:
+            test_set = SpectrogramDataset(
+                csv_path=None,
+                img_path=img_dir,
+                transform=transform,
+                train=False
+            )
 
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
+            test_loader = torch.utils.data.DataLoader(test_set, batch_size=200,
+                                                       shuffle=False, num_workers=16)
 
-            current_loss += loss.data[0]
+            predictions = np.asarray([])
+            for inputs in test_loader:
+                inputs = Variable(inputs.cuda())
+                outputs = self.net(inputs)
+                predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
 
-            if (i + 1) % verbose_step == 0:
-                logging.info(
-                    "train; epoch = {:d}; batch_num = {:d}; loss = {:.3f}".format(
-                        epoch + 1, i + 1, current_loss / verbose_step
-                    ))
-                current_loss = 0.0
+            return predictions, test_set.get_songnames()
 
-        # valid step
-        mse_score, nb_batches = 0, 0
-        for (inputs, labels) in valid_loader:
-            inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
-            outputs = net(inputs)
-            mse_score += criterion(outputs, labels).data
-            nb_batches += 1
-        mse_score /= float(nb_batches)
-        
-        #save step
-        if epoch % save_step == 0:
-            torch.save(net, "../models/test_model_epoch_" + str(epoch))
-        
-        if epoch % visualize_step == 0:
+
+    def train(self, nb_epochs=6, verbose_step=200, save_step=20, visualize_step=5):
+
+        train_set = SpectrogramDataset(
+            csv_path=self.ssd_path + "musicmap_data/spectrs_10sec_labels_train.csv",
+            img_path=self.ssd_path + "musicmap_data/spectrs_10sec_new/",
+            transform=transform
+        )
+
+        valid_set = SpectrogramDataset(
+            csv_path=self.ssd_path + "musicmap_data/spectrs_10sec_labels_val.csv",
+            img_path=self.ssd_path + "musicmap_data/spectrs_10sec_new/",
+            transform=transform
+        )
+
+        train_loader = torch.utils.data.DataLoader(train_set, batch_size=200,
+                                                   shuffle=True, num_workers=16)
+
+        valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=200,
+                                                   shuffle=False, num_workers=16)
+
+        # net = Net()
+        self.net = torch.nn.DataParallel(Net(), device_ids=[0, 1, 2])
+        self.net.cuda()
+
+        criterion = nn.MSELoss()
+        optimizer = optim.SGD(self.net.parameters(), lr=0.001, momentum=0.9)
+
+        for epoch in range(nb_epochs):
+
+            # train step
+            current_loss = 0.0
+            for i, (inputs, labels) in tqdm(enumerate(train_loader, 0)):
+                inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
+                optimizer.zero_grad()
+                outputs = self.net(inputs)
+
+                loss = criterion(outputs, labels)
+                loss.backward()
+                optimizer.step()
+
+                current_loss += loss.data[0]
+
+                if (i + 1) % verbose_step == 0:
+                    logging.info(
+                        "train; epoch = {:d}; batch_num = {:d}; loss = {:.3f}".format(
+                            epoch + 1, i + 1, current_loss / verbose_step
+                        ))
+                    current_loss = 0.0
+
+            # valid step
+            mse_score, nb_batches = 0, 0
             for (inputs, labels) in valid_loader:
                 inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
-                outputs = net(inputs)
-                outputs = outputs.data.cpu().numpy()
-                names = valid_set.get_songnames(range(0,200,4))
-                print outputs[:10]
-                print "labels", labels[:10]
-                visualization.show_on_map(
-                    outputs[0:200:4,0], outputs[0:200:4,1], names, "../train_pic/" + str(epoch)
-                )
-                break
-        
-        logging.info("valid; epoch = {:d}; loss = {:.3f}".format(epoch + 1, mse_score[0]))
+                outputs = self.net(inputs)
+                mse_score += criterion(outputs, labels).data
+                nb_batches += 1
+            mse_score /= float(nb_batches)
 
-        print "\repochs passed: {}".format(epoch+1)
+            #save step
+            if epoch % save_step == 0:
+                torch.save(self.net, "../models/test_model_epoch_" + str(epoch))
 
-    print 'Finished Training'
+            if epoch % visualize_step == 0:
+                for (inputs, labels) in valid_loader:
+                    inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
+                    outputs = self.net(inputs)
+                    outputs = outputs.data.cpu().numpy()
+                    names = valid_set.get_songnames(range(0,200,4))
+                    print outputs[:10]
+                    print "labels", labels[:10]
+                    visualization.show_on_map(
+                        outputs[0:200:4,0], outputs[0:200:4,1], names, "../train_pic/" + str(epoch)
+                    )
+                    break
+
+            logging.info("valid; epoch = {:d}; loss = {:.3f}".format(epoch + 1, mse_score[0]))
+
+            print "\repochs passed: {}".format(epoch+1)
+
+        print 'Finished Training'
 
 
 if __name__ == "__main__":
     # print torch.cuda.is_available()
-    ssd_path = "/mnt/ssd/"
 
-    train_set = SpectrogramDataset(
-        csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_train.csv",
-        img_path=ssd_path + "musicmap_data/spectrs_10sec_new/",
-        transform=transform
-    )
-
-    valid_set = SpectrogramDataset(
-        csv_path=ssd_path + "musicmap_data/spectrs_10sec_labels_val.csv",
-        img_path=ssd_path + "musicmap_data/spectrs_10sec_new/",
-        transform=transform
-    )
-
-    train_loader = torch.utils.data.DataLoader(train_set, batch_size=200,
-                                               shuffle=True, num_workers=16)
-
-    valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=200,
-                                               shuffle=False, num_workers=16)
-
-    # net = Net()
-    net= torch.nn.DataParallel(Net(), device_ids=[0, 1, 2])
-    net.cuda()
-
-    criterion = nn.MSELoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
     # optimizer = optim.Adadelta(net.parameters(), lr=0.01)
-
-    train(nb_epochs=10000000, verbose_step=50)
+    net = Network()
+    net.train(nb_epochs=10000000, verbose_step=50)
