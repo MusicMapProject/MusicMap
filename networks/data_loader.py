@@ -14,13 +14,13 @@ class SpectrogramDataset(Dataset):
     """
 
     def __init__(self, csv_path, img_path, transform=None):
-        tmp_df = pd.read_csv(csv_path, dtype={"valence":float, "arousal":float})
+        self.tmp_df = pd.read_csv(csv_path, dtype={"valence":float, "arousal":float})
 
         self.img_path = img_path
         self.transform = transform
 
-        self.X_train = tmp_df['song_filename'].values
-        self.y_train = tmp_df[['valence', 'arousal']].values
+        self.X_train = self.tmp_df['song_filename'].values
+        self.y_train = self.tmp_df[['valence', 'arousal']].values
 
     def __getitem__(self, index):
         img = Image.open(self.img_path + self.X_train[index])
@@ -33,6 +33,11 @@ class SpectrogramDataset(Dataset):
 
     def __len__(self):
         return len(self.X_train)
+    
+    
+    def get_songnames(self, idxs):
+        return self.tmp_df['song_filename'].values[idxs]
+        
 
 
 # dataset = SpectrogramDataset("../data/labels/spectrs_10sec_labels.csv", "../data/spectrs_10sec_new/")
