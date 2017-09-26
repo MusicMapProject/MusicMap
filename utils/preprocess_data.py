@@ -32,8 +32,11 @@ def split_one_audio((f, dir_src, dir_dst, nb_secs)):
     :nb_secs: number of seconds in each part
     :return:
     """
-    filename, extension = os.path.splitext(f)
-    mp3_to_wav(dir_src + filename + extension)
+    try:
+        filename, extension = os.path.splitext(f)
+        mp3_to_wav(dir_src + filename + extension)
+    except:
+        return
     new_extension = '.wav'
     # print "create " + dir_src + filename + new_extension
     split(dir_src + filename + new_extension, nb_secs, dir_dst)
@@ -48,7 +51,8 @@ def create_one_spectrogram((f, dir_src, dir_dst)):
     :dir_dst: destination directory
     :return:
     """
-    filename, extension = os.path.splitext(f)
+    # filename, extension = os.path.splitext(f) в аудио может быть точка в названии :(
+    filename, extension = ".".join(f.strip().split(".")[:-1]), f.strip().split(".")[-1]
     wav_file = WavFile.read(dir_src + f)
     save_spectrogram(wav_file, dir_dst + filename, size=(256, 215))
 
@@ -150,22 +154,25 @@ def train_val_split(csv_file):
 
 
 def preprocess_dir(dir_path, nb_secs=10):
-    dir_name, path = dir_path.split("/")[-1],  "/".join(dir_path.split("/")[:-1])
+    path, dir_name = os.path.split(dir_path.strip("/"))
+    # print path, dir_name
     preprocess_data_dir = path + "/preprocess_data_" + dir_name
-    os.mkdir(preprocess_data_dir)
+    try:
+        os.mkdir(preprocess_data_dir)
+    except:
+        pass
     parts_dir = preprocess_data_dir + "/audio_parts/"
     spectrs_dir =  preprocess_data_dir + "/spectrs/"
-    process_all_files(split_one_audio, dir_path, parts_dir)
+    # print parts_dir, spectrs_dir
+    process_all_files(split_one_audio, dir_path, parts_dir, nb_secs)
     process_all_files(create_one_spectrogram, parts_dir, spectrs_dir)
 
-def audio2dataset(dir_path, nb_secs):
-    preprocess_dir(dir_path, nb_secs)
-
 if __name__ == "__main__":
+    pass
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")
     # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_15sec/", 15)
-    process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec_new/")
+    # process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec_new/")
     # wav_file = WavFile.read("../data/audio_parts_10sec/5S_1.wav")
     # save_spectrogram(wav_file, "trololo.png", size=(256, 215))

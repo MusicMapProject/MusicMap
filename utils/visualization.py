@@ -5,7 +5,7 @@ import os
 import gc
 plt.switch_backend('agg')
 
-def show_on_map(valence_list, arousal_list, annotations, image_name, figsize=(12, 12)):
+def show_on_map(valence_list, arousal_list, annotations, image_name, figsize=(15, 15)):
     fig = plt.figure(figsize=figsize)
     ax = fig.add_subplot(111)
     image = plt.imread('../utils/va_scale.jpg')

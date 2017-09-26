@@ -101,6 +101,9 @@ def save_spectrogram(wav_file, png_image, size=None):
     :param size: output size of image. default = 1 + wav_file.rate / 2
     """
     default_height = 862
+    
+    # print "wav file", wav_file
+    # print png_image
 
     D = librosa.amplitude_to_db(librosa.stft(wav_file.get_channel(0)), ref=np.max)
     D = D[:, :default_height]
@@ -113,7 +116,10 @@ def save_spectrogram(wav_file, png_image, size=None):
     ax.set_axis_off()
     figure.add_axes(ax)
     specshow(D, y_axis='linear', cmap='jet')
-    figure.savefig(png_image, dpi = 1)
+    try:
+        figure.savefig(png_image.encode("utf-8"), dpi = 1)
+    except:
+        pass
     plt.close(figure)
     gc.collect()
 

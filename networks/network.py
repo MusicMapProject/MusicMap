@@ -16,12 +16,15 @@ from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 
+#TODO change saving
+
 if __name__ == '__main__':
     import os, sys
 
     network_dir = os.path.dirname(os.path.join(os.getcwd(), __file__))
     sys.path.append(os.path.normpath(os.path.join(network_dir, '..')))
     from utils import visualization
+    from utils.preprocess_data import preprocess_dir
 else:
     from ..utils import visualization
 
@@ -91,11 +94,14 @@ class Network:
             test_loader = torch.utils.data.DataLoader(test_set, batch_size=200,
                                                        shuffle=False, num_workers=16)
 
-            predictions = np.asarray([])
+            predictions = None
             for inputs in test_loader:
                 inputs = Variable(inputs.cuda())
                 outputs = self.net(inputs)
-                predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
+                if predictions:
+                    predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
+                else:
+                    predictions = outputs.data.cpu().numpy()
 
             return predictions, test_set.get_songnames()
 
@@ -121,7 +127,7 @@ class Network:
                                                    shuffle=False, num_workers=16)
 
         # net = Net()
-        self.net = torch.nn.DataParallel(Net(), device_ids=[0, 1, 2])
+        self.net = torch.nn.DataParallel(Net(), device_ids=[0, 1, 2, 3])
         self.net.cuda()
 
         criterion = nn.MSELoss()
@@ -184,7 +190,11 @@ class Network:
 
 if __name__ == "__main__":
     # print torch.cuda.is_available()
-
-    # optimizer = optim.Adadelta(net.parameters(), lr=0.01)
     net = Network()
     net.train(nb_epochs=10000000, verbose_step=50)
+    # net.load("../models/test_model_epoch_220")
+    # preprocess_dir("../data/our_audio/")
+    # predictions, names = net.predict("../data/preprocess_data_our_audio/spectrs/")
+    # visualization.show_on_map(
+                        # predictions[0:200:4,0], predictions[0:200:4,1], names, "../train_pic/our_audio"
+                    # )

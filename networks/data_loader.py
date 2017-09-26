@@ -44,11 +44,11 @@ class SpectrogramDataset(Dataset):
     def __len__(self):
         return len(self.X_train)
 
-    def get_songnames(self, idxs):
+    def get_songnames(self, idxs=None):
         if idxs:
             return self.X_train.values[idxs]
         else:
-            return self.X_train.values
+            return self.X_train
         
 
 
