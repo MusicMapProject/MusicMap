@@ -16,7 +16,6 @@ from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 logging.basicConfig(filename='./train.log', filemode='w', level=logging.INFO)
 
 transform = transforms.Compose(
@@ -62,7 +61,7 @@ class Net(nn.Module):
         return x
 
 
-def train(nb_epochs=6, verbose_step=200):
+def train(nb_epochs=6, verbose_step=200, save_step=20):
     for epoch in range(nb_epochs):
 
         # train step
@@ -80,7 +79,7 @@ def train(nb_epochs=6, verbose_step=200):
 
             if (i + 1) % verbose_step == 0:
                 logging.info(
-                    "train; epoch = {:d}; batch = {:d}; loss = {:.3f}".format(
+                    "train; epoch = {:d}; batch_num = {:d}; loss = {:.3f}".format(
                         epoch + 1, i + 1, current_loss / verbose_step
                     ))
                 current_loss = 0.0
@@ -93,7 +92,11 @@ def train(nb_epochs=6, verbose_step=200):
             mse_score += criterion(outputs, labels).data
             nb_batches += 1
         mse_score /= float(nb_batches)
-
+        
+        #save step
+        if epoch % save_step == 0:
+            torch.save(net, "../models/test_model_epoch_" + str(epoch))
+        
         logging.info("valid; epoch = {:d}; loss = {:.3f}".format(epoch + 1, mse_score[0]))
 
         print "\repochs passed: {}".format(epoch+1)
@@ -102,6 +105,7 @@ def train(nb_epochs=6, verbose_step=200):
 
 
 if __name__ == "__main__":
+    # print torch.cuda.is_available()
     ssd_path = "/mnt/ssd/"
 
     train_set = SpectrogramDataset(
@@ -116,45 +120,18 @@ if __name__ == "__main__":
         transform=transform
     )
 
-    train_loader = torch.utils.data.DataLoader(train_set, batch_size=70,
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=200,
                                                shuffle=True, num_workers=16)
 
-    valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=50,
+    valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=200,
                                                shuffle=False, num_workers=16)
 
-    net = Net()
+    # net = Net()
+    net= torch.nn.DataParallel(Net(), device_ids=[0,1])
     net.cuda()
+    
     criterion = nn.MSELoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.8)
+    # optimizer = optim.Adadelta(net.parameters(), lr=0.01)
 
-    torch.save(net, "../models/test_model")
-    train(nb_epochs=50, verbose_step=130)
-
-########################################################################
-# Okay, so what next?
-#
-# How do we run these neural networks on the GPU?
-#
-# Training on GPU
-# ----------------
-# Just like how you transfer a Tensor on to the GPU, you transfer the neural
-# net onto the GPU.
-# This will recursively go over all modules and convert their parameters and
-# buffers to CUDA tensors:
-#
-# . code:: python
-#
-#     net.cuda()
-#
-#
-# Remember that you will have to send the inputs and targets at every step
-# to the GPU too:
-#
-# ::
-#
-#         inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
-#
-# Why dont I notice MASSIVE speedup compared to CPU? Because your network
-# is realllly small.
-#
-
+    train(nb_epochs=10000000, verbose_step=50)
