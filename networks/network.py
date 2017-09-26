@@ -16,6 +16,15 @@ from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 
+if __name__ == '__main__':
+    import os, sys
+    # get an absolute path to the directory that contains mypackage
+    network_dir = os.path.dirname(os.path.join(os.getcwd(), __file__))
+    sys.path.append(os.path.normpath(os.path.join(network_dir, '..')))
+    from utils import visualization
+else:
+    from ..utils import visualization
+
 logging.basicConfig(filename='./train.log', filemode='w', level=logging.INFO)
 
 transform = transforms.Compose(
@@ -129,7 +138,7 @@ if __name__ == "__main__":
     # net = Net()
     net= torch.nn.DataParallel(Net(), device_ids=[0,1])
     net.cuda()
-    
+
     criterion = nn.MSELoss()
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.8)
     # optimizer = optim.Adadelta(net.parameters(), lr=0.01)

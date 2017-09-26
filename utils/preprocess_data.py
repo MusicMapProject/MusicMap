@@ -6,6 +6,8 @@ from tqdm import tqdm
 from wav_file_wrapper import *
 from mp3_to_wav import mp3_to_wav
 from multiprocessing import Pool
+import pandas as pd
+import random as r
 import warnings
 import numpy
 
@@ -148,6 +150,13 @@ def train_val_split(csv_file):
 
     tmp_df = pd.DataFrame(data=validate_data, columns=["song_filename", "valence", "arousal"])
     tmp_df.to_csv(filename + "_val" + ext, index=False)
+
+def preprocess_dir(dir_path, nb_secs=10):
+    dir_name, path = dir_path.split("/")[-1],  "/".join(dir_path.split("/")[:-1])
+    parts_dir = path + "/" + dir_name +"_parts"
+    spectrs_dir =  path + "/" + dir_name + "_spectrs"
+    process_all_files(split_one_audio, dir_path, parts_dir)
+    process_all_files(create_one_spectrogram, parts_dir, spectrs_dir)
 
 
 if __name__ == "__main__":
