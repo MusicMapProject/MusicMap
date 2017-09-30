@@ -75,6 +75,7 @@ class Net(nn.Module):
 ssd_path = "/mnt/ssd/musicmap_data/"
 project_dir = os.environ.get("HOME") + "/workdir/MusicMap/"
 
+
 class Network:
     def __init__(self):
         self.net = None
@@ -122,24 +123,14 @@ class Network:
         saved_models = model_path + "saved_models/"
         train_pics = model_path + "train_pic/"
         
-        try:
+        if not os.path.isdir(model_path):
             os.mkdir(model_path)
-        except Exception as e:
-            print e
-            pass
-        
-        try:
+
+        if not os.path.isdir(saved_models):
             os.mkdir(saved_models)
-        except Exception as e:
-            print e
-            pass
-        
-        try:
+
+        if not os.path.isdir(train_pics):
             os.mkdir(train_pics)
-        except Exception as e:
-            print e
-            pass
-        
         
         logging.basicConfig(filename=model_path + "train.log", filemode='w', level=logging.INFO)
 
