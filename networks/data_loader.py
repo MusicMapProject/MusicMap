@@ -46,7 +46,7 @@ class SpectrogramDataset(Dataset):
 
     def get_songnames(self, idxs=None):
         if idxs:
-            return self.X_train.values[idxs]
+            return self.X_train[idxs]
         else:
             return self.X_train
         
