@@ -1,0 +1,842 @@
+INFO:root:train; epoch = 1; batch_num = 50; loss = 18.128
+INFO:root:valid; epoch = 1; loss = 12.898
+INFO:root:train; epoch = 2; batch_num = 50; loss = 4.907
+INFO:root:valid; epoch = 2; loss = 1.261
+INFO:root:train; epoch = 3; batch_num = 50; loss = 1.180
+INFO:root:valid; epoch = 3; loss = 1.233
+INFO:root:train; epoch = 4; batch_num = 50; loss = 1.158
+INFO:root:valid; epoch = 4; loss = 1.223
+INFO:root:train; epoch = 5; batch_num = 50; loss = 1.143
+INFO:root:valid; epoch = 5; loss = 1.213
+INFO:root:train; epoch = 6; batch_num = 50; loss = 1.135
+INFO:root:valid; epoch = 6; loss = 1.210
+INFO:root:train; epoch = 7; batch_num = 50; loss = 1.124
+INFO:root:valid; epoch = 7; loss = 1.194
+INFO:root:train; epoch = 8; batch_num = 50; loss = 1.116
+INFO:root:valid; epoch = 8; loss = 1.188
+INFO:root:train; epoch = 9; batch_num = 50; loss = 1.117
+INFO:root:valid; epoch = 9; loss = 1.181
+INFO:root:train; epoch = 10; batch_num = 50; loss = 1.110
+INFO:root:valid; epoch = 10; loss = 1.175
+INFO:root:train; epoch = 11; batch_num = 50; loss = 1.098
+INFO:root:valid; epoch = 11; loss = 1.170
+INFO:root:train; epoch = 12; batch_num = 50; loss = 1.092
+INFO:root:valid; epoch = 12; loss = 1.165
+INFO:root:train; epoch = 13; batch_num = 50; loss = 1.087
+INFO:root:valid; epoch = 13; loss = 1.163
+INFO:root:train; epoch = 14; batch_num = 50; loss = 1.078
+INFO:root:valid; epoch = 14; loss = 1.154
+INFO:root:train; epoch = 15; batch_num = 50; loss = 1.081
+INFO:root:valid; epoch = 15; loss = 1.152
+INFO:root:train; epoch = 16; batch_num = 50; loss = 1.076
+INFO:root:valid; epoch = 16; loss = 1.145
+INFO:root:train; epoch = 17; batch_num = 50; loss = 1.066
+INFO:root:valid; epoch = 17; loss = 1.145
+INFO:root:train; epoch = 18; batch_num = 50; loss = 1.067
+INFO:root:valid; epoch = 18; loss = 1.137
+INFO:root:train; epoch = 19; batch_num = 50; loss = 1.061
+INFO:root:valid; epoch = 19; loss = 1.145
+INFO:root:train; epoch = 20; batch_num = 50; loss = 1.056
+INFO:root:valid; epoch = 20; loss = 1.132
+INFO:root:train; epoch = 21; batch_num = 50; loss = 1.060
+INFO:root:valid; epoch = 21; loss = 1.132
+INFO:root:train; epoch = 22; batch_num = 50; loss = 1.057
+INFO:root:valid; epoch = 22; loss = 1.136
+INFO:root:train; epoch = 23; batch_num = 50; loss = 1.063
+INFO:root:valid; epoch = 23; loss = 1.129
+INFO:root:train; epoch = 24; batch_num = 50; loss = 1.051
+INFO:root:valid; epoch = 24; loss = 1.131
+INFO:root:train; epoch = 25; batch_num = 50; loss = 1.051
+INFO:root:valid; epoch = 25; loss = 1.124
+INFO:root:train; epoch = 26; batch_num = 50; loss = 1.043
+INFO:root:valid; epoch = 26; loss = 1.123
+INFO:root:train; epoch = 27; batch_num = 50; loss = 1.038
+INFO:root:valid; epoch = 27; loss = 1.116
+INFO:root:train; epoch = 28; batch_num = 50; loss = 1.045
+INFO:root:valid; epoch = 28; loss = 1.114
+INFO:root:train; epoch = 29; batch_num = 50; loss = 1.038
+INFO:root:valid; epoch = 29; loss = 1.118
+INFO:root:train; epoch = 30; batch_num = 50; loss = 1.044
+INFO:root:valid; epoch = 30; loss = 1.133
+INFO:root:train; epoch = 31; batch_num = 50; loss = 1.033
+INFO:root:valid; epoch = 31; loss = 1.108
+INFO:root:train; epoch = 32; batch_num = 50; loss = 1.032
+INFO:root:valid; epoch = 32; loss = 1.116
+INFO:root:train; epoch = 33; batch_num = 50; loss = 1.030
+INFO:root:valid; epoch = 33; loss = 1.108
+INFO:root:train; epoch = 34; batch_num = 50; loss = 1.030
+INFO:root:valid; epoch = 34; loss = 1.111
+INFO:root:train; epoch = 35; batch_num = 50; loss = 1.031
+INFO:root:valid; epoch = 35; loss = 1.117
+INFO:root:train; epoch = 36; batch_num = 50; loss = 1.028
+INFO:root:valid; epoch = 36; loss = 1.105
+INFO:root:train; epoch = 37; batch_num = 50; loss = 1.026
+INFO:root:valid; epoch = 37; loss = 1.104
+INFO:root:train; epoch = 38; batch_num = 50; loss = 1.020
+INFO:root:valid; epoch = 38; loss = 1.115
+INFO:root:train; epoch = 39; batch_num = 50; loss = 1.020
+INFO:root:valid; epoch = 39; loss = 1.125
+INFO:root:train; epoch = 40; batch_num = 50; loss = 1.018
+INFO:root:valid; epoch = 40; loss = 1.101
+INFO:root:train; epoch = 41; batch_num = 50; loss = 1.027
+INFO:root:valid; epoch = 41; loss = 1.097
+INFO:root:train; epoch = 42; batch_num = 50; loss = 1.022
+INFO:root:valid; epoch = 42; loss = 1.101
+INFO:root:train; epoch = 43; batch_num = 50; loss = 1.014
+INFO:root:valid; epoch = 43; loss = 1.113
+INFO:root:train; epoch = 44; batch_num = 50; loss = 1.019
+INFO:root:valid; epoch = 44; loss = 1.124
+INFO:root:train; epoch = 45; batch_num = 50; loss = 1.015
+INFO:root:valid; epoch = 45; loss = 1.108
+INFO:root:train; epoch = 46; batch_num = 50; loss = 1.016
+INFO:root:valid; epoch = 46; loss = 1.110
+INFO:root:train; epoch = 47; batch_num = 50; loss = 1.011
+INFO:root:valid; epoch = 47; loss = 1.094
+INFO:root:train; epoch = 48; batch_num = 50; loss = 1.017
+INFO:root:valid; epoch = 48; loss = 1.143
+INFO:root:train; epoch = 49; batch_num = 50; loss = 1.024
+INFO:root:valid; epoch = 49; loss = 1.094
+INFO:root:train; epoch = 50; batch_num = 50; loss = 1.010
+INFO:root:valid; epoch = 50; loss = 1.104
+INFO:root:train; epoch = 51; batch_num = 50; loss = 1.008
+INFO:root:valid; epoch = 51; loss = 1.106
+INFO:root:train; epoch = 52; batch_num = 50; loss = 1.007
+INFO:root:valid; epoch = 52; loss = 1.087
+INFO:root:train; epoch = 53; batch_num = 50; loss = 1.012
+INFO:root:valid; epoch = 53; loss = 1.105
+INFO:root:train; epoch = 54; batch_num = 50; loss = 1.006
+INFO:root:valid; epoch = 54; loss = 1.085
+INFO:root:train; epoch = 55; batch_num = 50; loss = 1.005
+INFO:root:valid; epoch = 55; loss = 1.091
+INFO:root:train; epoch = 56; batch_num = 50; loss = 1.006
+INFO:root:valid; epoch = 56; loss = 1.084
+INFO:root:train; epoch = 57; batch_num = 50; loss = 1.013
+INFO:root:valid; epoch = 57; loss = 1.157
+INFO:root:train; epoch = 58; batch_num = 50; loss = 1.005
+INFO:root:valid; epoch = 58; loss = 1.081
+INFO:root:train; epoch = 59; batch_num = 50; loss = 1.005
+INFO:root:valid; epoch = 59; loss = 1.083
+INFO:root:train; epoch = 60; batch_num = 50; loss = 1.004
+INFO:root:valid; epoch = 60; loss = 1.081
+INFO:root:train; epoch = 61; batch_num = 50; loss = 0.998
+INFO:root:valid; epoch = 61; loss = 1.082
+INFO:root:train; epoch = 62; batch_num = 50; loss = 1.001
+INFO:root:valid; epoch = 62; loss = 1.078
+INFO:root:train; epoch = 63; batch_num = 50; loss = 0.999
+INFO:root:valid; epoch = 63; loss = 1.086
+INFO:root:train; epoch = 64; batch_num = 50; loss = 0.993
+INFO:root:valid; epoch = 64; loss = 1.080
+INFO:root:train; epoch = 65; batch_num = 50; loss = 0.994
+INFO:root:valid; epoch = 65; loss = 1.086
+INFO:root:train; epoch = 66; batch_num = 50; loss = 0.998
+INFO:root:valid; epoch = 66; loss = 1.082
+INFO:root:train; epoch = 67; batch_num = 50; loss = 0.998
+INFO:root:valid; epoch = 67; loss = 1.073
+INFO:root:train; epoch = 68; batch_num = 50; loss = 0.997
+INFO:root:valid; epoch = 68; loss = 1.075
+INFO:root:train; epoch = 69; batch_num = 50; loss = 0.990
+INFO:root:valid; epoch = 69; loss = 1.089
+INFO:root:train; epoch = 70; batch_num = 50; loss = 0.989
+INFO:root:valid; epoch = 70; loss = 1.080
+INFO:root:train; epoch = 71; batch_num = 50; loss = 0.995
+INFO:root:valid; epoch = 71; loss = 1.070
+INFO:root:train; epoch = 72; batch_num = 50; loss = 0.985
+INFO:root:valid; epoch = 72; loss = 1.071
+INFO:root:train; epoch = 73; batch_num = 50; loss = 0.989
+INFO:root:valid; epoch = 73; loss = 1.069
+INFO:root:train; epoch = 74; batch_num = 50; loss = 0.986
+INFO:root:valid; epoch = 74; loss = 1.068
+INFO:root:train; epoch = 75; batch_num = 50; loss = 0.980
+INFO:root:valid; epoch = 75; loss = 1.067
+INFO:root:train; epoch = 76; batch_num = 50; loss = 0.976
+INFO:root:valid; epoch = 76; loss = 1.066
+INFO:root:train; epoch = 77; batch_num = 50; loss = 0.978
+INFO:root:valid; epoch = 77; loss = 1.066
+INFO:root:train; epoch = 78; batch_num = 50; loss = 0.990
+INFO:root:valid; epoch = 78; loss = 1.064
+INFO:root:train; epoch = 79; batch_num = 50; loss = 0.979
+INFO:root:valid; epoch = 79; loss = 1.066
+INFO:root:train; epoch = 80; batch_num = 50; loss = 0.985
+INFO:root:valid; epoch = 80; loss = 1.061
+INFO:root:train; epoch = 81; batch_num = 50; loss = 0.978
+INFO:root:valid; epoch = 81; loss = 1.059
+INFO:root:train; epoch = 82; batch_num = 50; loss = 0.972
+INFO:root:valid; epoch = 82; loss = 1.086
+INFO:root:train; epoch = 83; batch_num = 50; loss = 0.981
+INFO:root:valid; epoch = 83; loss = 1.064
+INFO:root:train; epoch = 84; batch_num = 50; loss = 0.977
+INFO:root:valid; epoch = 84; loss = 1.103
+INFO:root:train; epoch = 85; batch_num = 50; loss = 0.984
+INFO:root:valid; epoch = 85; loss = 1.070
+INFO:root:train; epoch = 86; batch_num = 50; loss = 0.967
+INFO:root:valid; epoch = 86; loss = 1.061
+INFO:root:train; epoch = 87; batch_num = 50; loss = 0.969
+INFO:root:valid; epoch = 87; loss = 1.079
+INFO:root:train; epoch = 88; batch_num = 50; loss = 0.965
+INFO:root:valid; epoch = 88; loss = 1.051
+INFO:root:train; epoch = 89; batch_num = 50; loss = 0.972
+INFO:root:valid; epoch = 89; loss = 1.059
+INFO:root:train; epoch = 90; batch_num = 50; loss = 0.975
+INFO:root:valid; epoch = 90; loss = 1.054
+INFO:root:train; epoch = 91; batch_num = 50; loss = 0.981
+INFO:root:valid; epoch = 91; loss = 1.056
+INFO:root:train; epoch = 92; batch_num = 50; loss = 0.960
+INFO:root:valid; epoch = 92; loss = 1.048
+INFO:root:train; epoch = 93; batch_num = 50; loss = 0.971
+INFO:root:valid; epoch = 93; loss = 1.056
+INFO:root:train; epoch = 94; batch_num = 50; loss = 0.972
+INFO:root:valid; epoch = 94; loss = 1.051
+INFO:root:train; epoch = 95; batch_num = 50; loss = 0.963
+INFO:root:valid; epoch = 95; loss = 1.043
+INFO:root:train; epoch = 96; batch_num = 50; loss = 0.956
+INFO:root:valid; epoch = 96; loss = 1.075
+INFO:root:train; epoch = 97; batch_num = 50; loss = 0.957
+INFO:root:valid; epoch = 97; loss = 1.041
+INFO:root:train; epoch = 98; batch_num = 50; loss = 0.957
+INFO:root:valid; epoch = 98; loss = 1.042
+INFO:root:train; epoch = 99; batch_num = 50; loss = 0.969
+INFO:root:valid; epoch = 99; loss = 1.040
+INFO:root:train; epoch = 100; batch_num = 50; loss = 0.966
+INFO:root:valid; epoch = 100; loss = 1.055
+INFO:root:train; epoch = 101; batch_num = 50; loss = 0.968
+INFO:root:valid; epoch = 101; loss = 1.038
+INFO:root:train; epoch = 102; batch_num = 50; loss = 0.956
+INFO:root:valid; epoch = 102; loss = 1.059
+INFO:root:train; epoch = 103; batch_num = 50; loss = 0.960
+INFO:root:valid; epoch = 103; loss = 1.038
+INFO:root:train; epoch = 104; batch_num = 50; loss = 0.953
+INFO:root:valid; epoch = 104; loss = 1.034
+INFO:root:train; epoch = 105; batch_num = 50; loss = 0.960
+INFO:root:valid; epoch = 105; loss = 1.101
+INFO:root:train; epoch = 106; batch_num = 50; loss = 0.971
+INFO:root:valid; epoch = 106; loss = 1.040
+INFO:root:train; epoch = 107; batch_num = 50; loss = 0.951
+INFO:root:valid; epoch = 107; loss = 1.046
+INFO:root:train; epoch = 108; batch_num = 50; loss = 0.958
+INFO:root:valid; epoch = 108; loss = 1.072
+INFO:root:train; epoch = 109; batch_num = 50; loss = 0.950
+INFO:root:valid; epoch = 109; loss = 1.034
+INFO:root:train; epoch = 110; batch_num = 50; loss = 0.958
+INFO:root:valid; epoch = 110; loss = 1.044
+INFO:root:train; epoch = 111; batch_num = 50; loss = 0.947
+INFO:root:valid; epoch = 111; loss = 1.040
+INFO:root:train; epoch = 112; batch_num = 50; loss = 0.937
+INFO:root:valid; epoch = 112; loss = 1.031
+INFO:root:train; epoch = 113; batch_num = 50; loss = 0.946
+INFO:root:valid; epoch = 113; loss = 1.035
+INFO:root:train; epoch = 114; batch_num = 50; loss = 0.938
+INFO:root:valid; epoch = 114; loss = 1.022
+INFO:root:train; epoch = 115; batch_num = 50; loss = 0.940
+INFO:root:valid; epoch = 115; loss = 1.038
+INFO:root:train; epoch = 116; batch_num = 50; loss = 0.943
+INFO:root:valid; epoch = 116; loss = 1.054
+INFO:root:train; epoch = 117; batch_num = 50; loss = 0.945
+INFO:root:valid; epoch = 117; loss = 1.023
+INFO:root:train; epoch = 118; batch_num = 50; loss = 0.937
+INFO:root:valid; epoch = 118; loss = 1.021
+INFO:root:train; epoch = 119; batch_num = 50; loss = 0.953
+INFO:root:valid; epoch = 119; loss = 1.023
+INFO:root:train; epoch = 120; batch_num = 50; loss = 0.941
+INFO:root:valid; epoch = 120; loss = 1.035
+INFO:root:train; epoch = 121; batch_num = 50; loss = 0.939
+INFO:root:valid; epoch = 121; loss = 1.033
+INFO:root:train; epoch = 122; batch_num = 50; loss = 0.940
+INFO:root:valid; epoch = 122; loss = 1.016
+INFO:root:train; epoch = 123; batch_num = 50; loss = 0.932
+INFO:root:valid; epoch = 123; loss = 1.034
+INFO:root:train; epoch = 124; batch_num = 50; loss = 0.926
+INFO:root:valid; epoch = 124; loss = 1.016
+INFO:root:train; epoch = 125; batch_num = 50; loss = 0.945
+INFO:root:valid; epoch = 125; loss = 1.085
+INFO:root:train; epoch = 126; batch_num = 50; loss = 0.940
+INFO:root:valid; epoch = 126; loss = 1.074
+INFO:root:train; epoch = 127; batch_num = 50; loss = 0.936
+INFO:root:valid; epoch = 127; loss = 1.019
+INFO:root:train; epoch = 128; batch_num = 50; loss = 0.929
+INFO:root:valid; epoch = 128; loss = 1.015
+INFO:root:train; epoch = 129; batch_num = 50; loss = 0.930
+INFO:root:valid; epoch = 129; loss = 1.012
+INFO:root:train; epoch = 130; batch_num = 50; loss = 0.925
+INFO:root:valid; epoch = 130; loss = 1.026
+INFO:root:train; epoch = 131; batch_num = 50; loss = 0.932
+INFO:root:valid; epoch = 131; loss = 1.010
+INFO:root:train; epoch = 132; batch_num = 50; loss = 0.920
+INFO:root:valid; epoch = 132; loss = 1.007
+INFO:root:train; epoch = 133; batch_num = 50; loss = 0.927
+INFO:root:valid; epoch = 133; loss = 1.012
+INFO:root:train; epoch = 134; batch_num = 50; loss = 0.921
+INFO:root:valid; epoch = 134; loss = 1.069
+INFO:root:train; epoch = 135; batch_num = 50; loss = 0.926
+INFO:root:valid; epoch = 135; loss = 1.013
+INFO:root:train; epoch = 136; batch_num = 50; loss = 0.919
+INFO:root:valid; epoch = 136; loss = 1.020
+INFO:root:train; epoch = 137; batch_num = 50; loss = 0.913
+INFO:root:valid; epoch = 137; loss = 1.012
+INFO:root:train; epoch = 138; batch_num = 50; loss = 0.914
+INFO:root:valid; epoch = 138; loss = 1.003
+INFO:root:train; epoch = 139; batch_num = 50; loss = 0.914
+INFO:root:valid; epoch = 139; loss = 0.999
+INFO:root:train; epoch = 140; batch_num = 50; loss = 0.920
+INFO:root:valid; epoch = 140; loss = 1.047
+INFO:root:train; epoch = 141; batch_num = 50; loss = 0.916
+INFO:root:valid; epoch = 141; loss = 0.998
+INFO:root:train; epoch = 142; batch_num = 50; loss = 0.913
+INFO:root:valid; epoch = 142; loss = 1.001
+INFO:root:train; epoch = 143; batch_num = 50; loss = 0.911
+INFO:root:valid; epoch = 143; loss = 0.999
+INFO:root:train; epoch = 144; batch_num = 50; loss = 0.905
+INFO:root:valid; epoch = 144; loss = 1.002
+INFO:root:train; epoch = 145; batch_num = 50; loss = 0.906
+INFO:root:valid; epoch = 145; loss = 1.056
+INFO:root:train; epoch = 146; batch_num = 50; loss = 0.916
+INFO:root:valid; epoch = 146; loss = 0.993
+INFO:root:train; epoch = 147; batch_num = 50; loss = 0.910
+INFO:root:valid; epoch = 147; loss = 0.999
+INFO:root:train; epoch = 148; batch_num = 50; loss = 0.907
+INFO:root:valid; epoch = 148; loss = 0.993
+INFO:root:train; epoch = 149; batch_num = 50; loss = 0.902
+INFO:root:valid; epoch = 149; loss = 1.006
+INFO:root:train; epoch = 150; batch_num = 50; loss = 0.906
+INFO:root:valid; epoch = 150; loss = 0.996
+INFO:root:train; epoch = 151; batch_num = 50; loss = 0.904
+INFO:root:valid; epoch = 151; loss = 0.998
+INFO:root:train; epoch = 152; batch_num = 50; loss = 0.908
+INFO:root:valid; epoch = 152; loss = 1.006
+INFO:root:train; epoch = 153; batch_num = 50; loss = 0.901
+INFO:root:valid; epoch = 153; loss = 1.046
+INFO:root:train; epoch = 154; batch_num = 50; loss = 0.903
+INFO:root:valid; epoch = 154; loss = 1.013
+INFO:root:train; epoch = 155; batch_num = 50; loss = 0.904
+INFO:root:valid; epoch = 155; loss = 0.994
+INFO:root:train; epoch = 156; batch_num = 50; loss = 0.907
+INFO:root:valid; epoch = 156; loss = 0.987
+INFO:root:train; epoch = 157; batch_num = 50; loss = 0.901
+INFO:root:valid; epoch = 157; loss = 0.987
+INFO:root:train; epoch = 158; batch_num = 50; loss = 0.905
+INFO:root:valid; epoch = 158; loss = 1.025
+INFO:root:train; epoch = 159; batch_num = 50; loss = 0.905
+INFO:root:valid; epoch = 159; loss = 1.020
+INFO:root:train; epoch = 160; batch_num = 50; loss = 0.894
+INFO:root:valid; epoch = 160; loss = 1.007
+INFO:root:train; epoch = 161; batch_num = 50; loss = 0.894
+INFO:root:valid; epoch = 161; loss = 1.024
+INFO:root:train; epoch = 162; batch_num = 50; loss = 0.896
+INFO:root:valid; epoch = 162; loss = 0.987
+INFO:root:train; epoch = 163; batch_num = 50; loss = 0.902
+INFO:root:valid; epoch = 163; loss = 0.987
+INFO:root:train; epoch = 164; batch_num = 50; loss = 0.889
+INFO:root:valid; epoch = 164; loss = 0.995
+INFO:root:train; epoch = 165; batch_num = 50; loss = 0.900
+INFO:root:valid; epoch = 165; loss = 1.006
+INFO:root:train; epoch = 166; batch_num = 50; loss = 0.910
+INFO:root:valid; epoch = 166; loss = 1.056
+INFO:root:train; epoch = 167; batch_num = 50; loss = 0.896
+INFO:root:valid; epoch = 167; loss = 0.980
+INFO:root:train; epoch = 168; batch_num = 50; loss = 0.884
+INFO:root:valid; epoch = 168; loss = 0.975
+INFO:root:train; epoch = 169; batch_num = 50; loss = 0.887
+INFO:root:valid; epoch = 169; loss = 0.979
+INFO:root:train; epoch = 170; batch_num = 50; loss = 0.890
+INFO:root:valid; epoch = 170; loss = 0.975
+INFO:root:train; epoch = 171; batch_num = 50; loss = 0.883
+INFO:root:valid; epoch = 171; loss = 0.978
+INFO:root:train; epoch = 172; batch_num = 50; loss = 0.898
+INFO:root:valid; epoch = 172; loss = 0.981
+INFO:root:train; epoch = 173; batch_num = 50; loss = 0.885
+INFO:root:valid; epoch = 173; loss = 0.972
+INFO:root:train; epoch = 174; batch_num = 50; loss = 0.894
+INFO:root:valid; epoch = 174; loss = 0.991
+INFO:root:train; epoch = 175; batch_num = 50; loss = 0.892
+INFO:root:valid; epoch = 175; loss = 0.983
+INFO:root:train; epoch = 176; batch_num = 50; loss = 0.885
+INFO:root:valid; epoch = 176; loss = 0.997
+INFO:root:train; epoch = 177; batch_num = 50; loss = 0.882
+INFO:root:valid; epoch = 177; loss = 0.977
+INFO:root:train; epoch = 178; batch_num = 50; loss = 0.890
+INFO:root:valid; epoch = 178; loss = 1.033
+INFO:root:train; epoch = 179; batch_num = 50; loss = 0.887
+INFO:root:valid; epoch = 179; loss = 0.981
+INFO:root:train; epoch = 180; batch_num = 50; loss = 0.879
+INFO:root:valid; epoch = 180; loss = 0.981
+INFO:root:train; epoch = 181; batch_num = 50; loss = 0.874
+INFO:root:valid; epoch = 181; loss = 0.970
+INFO:root:train; epoch = 182; batch_num = 50; loss = 0.878
+INFO:root:valid; epoch = 182; loss = 0.973
+INFO:root:train; epoch = 183; batch_num = 50; loss = 0.866
+INFO:root:valid; epoch = 183; loss = 0.973
+INFO:root:train; epoch = 184; batch_num = 50; loss = 0.881
+INFO:root:valid; epoch = 184; loss = 1.008
+INFO:root:train; epoch = 185; batch_num = 50; loss = 0.872
+INFO:root:valid; epoch = 185; loss = 0.976
+INFO:root:train; epoch = 186; batch_num = 50; loss = 0.870
+INFO:root:valid; epoch = 186; loss = 0.971
+INFO:root:train; epoch = 187; batch_num = 50; loss = 0.868
+INFO:root:valid; epoch = 187; loss = 0.972
+INFO:root:train; epoch = 188; batch_num = 50; loss = 0.863
+INFO:root:valid; epoch = 188; loss = 0.962
+INFO:root:train; epoch = 189; batch_num = 50; loss = 0.861
+INFO:root:valid; epoch = 189; loss = 0.968
+INFO:root:train; epoch = 190; batch_num = 50; loss = 0.867
+INFO:root:valid; epoch = 190; loss = 0.959
+INFO:root:train; epoch = 191; batch_num = 50; loss = 0.876
+INFO:root:valid; epoch = 191; loss = 0.971
+INFO:root:train; epoch = 192; batch_num = 50; loss = 0.856
+INFO:root:valid; epoch = 192; loss = 0.954
+INFO:root:train; epoch = 193; batch_num = 50; loss = 0.861
+INFO:root:valid; epoch = 193; loss = 0.955
+INFO:root:train; epoch = 194; batch_num = 50; loss = 0.871
+INFO:root:valid; epoch = 194; loss = 0.982
+INFO:root:train; epoch = 195; batch_num = 50; loss = 0.856
+INFO:root:valid; epoch = 195; loss = 0.953
+INFO:root:train; epoch = 196; batch_num = 50; loss = 0.863
+INFO:root:valid; epoch = 196; loss = 0.965
+INFO:root:train; epoch = 197; batch_num = 50; loss = 0.861
+INFO:root:valid; epoch = 197; loss = 0.967
+INFO:root:train; epoch = 198; batch_num = 50; loss = 0.858
+INFO:root:valid; epoch = 198; loss = 0.965
+INFO:root:train; epoch = 199; batch_num = 50; loss = 0.847
+INFO:root:valid; epoch = 199; loss = 1.012
+INFO:root:train; epoch = 200; batch_num = 50; loss = 0.874
+INFO:root:valid; epoch = 200; loss = 0.965
+INFO:root:train; epoch = 201; batch_num = 50; loss = 0.848
+INFO:root:valid; epoch = 201; loss = 0.968
+INFO:root:train; epoch = 202; batch_num = 50; loss = 0.843
+INFO:root:valid; epoch = 202; loss = 0.959
+INFO:root:train; epoch = 203; batch_num = 50; loss = 0.845
+INFO:root:valid; epoch = 203; loss = 0.964
+INFO:root:train; epoch = 204; batch_num = 50; loss = 0.840
+INFO:root:valid; epoch = 204; loss = 0.945
+INFO:root:train; epoch = 205; batch_num = 50; loss = 0.841
+INFO:root:valid; epoch = 205; loss = 0.949
+INFO:root:train; epoch = 206; batch_num = 50; loss = 0.839
+INFO:root:valid; epoch = 206; loss = 0.949
+INFO:root:train; epoch = 207; batch_num = 50; loss = 0.839
+INFO:root:valid; epoch = 207; loss = 0.964
+INFO:root:train; epoch = 208; batch_num = 50; loss = 0.835
+INFO:root:valid; epoch = 208; loss = 0.946
+INFO:root:train; epoch = 209; batch_num = 50; loss = 0.844
+INFO:root:valid; epoch = 209; loss = 0.943
+INFO:root:train; epoch = 210; batch_num = 50; loss = 0.840
+INFO:root:valid; epoch = 210; loss = 0.975
+INFO:root:train; epoch = 211; batch_num = 50; loss = 0.836
+INFO:root:valid; epoch = 211; loss = 0.946
+INFO:root:train; epoch = 212; batch_num = 50; loss = 0.826
+INFO:root:valid; epoch = 212; loss = 0.965
+INFO:root:train; epoch = 213; batch_num = 50; loss = 0.835
+INFO:root:valid; epoch = 213; loss = 0.968
+INFO:root:train; epoch = 214; batch_num = 50; loss = 0.826
+INFO:root:valid; epoch = 214; loss = 0.947
+INFO:root:train; epoch = 215; batch_num = 50; loss = 0.819
+INFO:root:valid; epoch = 215; loss = 0.973
+INFO:root:train; epoch = 216; batch_num = 50; loss = 0.816
+INFO:root:valid; epoch = 216; loss = 0.937
+INFO:root:train; epoch = 217; batch_num = 50; loss = 0.809
+INFO:root:valid; epoch = 217; loss = 0.935
+INFO:root:train; epoch = 218; batch_num = 50; loss = 0.811
+INFO:root:valid; epoch = 218; loss = 0.997
+INFO:root:train; epoch = 219; batch_num = 50; loss = 0.825
+INFO:root:valid; epoch = 219; loss = 0.926
+INFO:root:train; epoch = 220; batch_num = 50; loss = 0.814
+INFO:root:valid; epoch = 220; loss = 0.924
+INFO:root:train; epoch = 221; batch_num = 50; loss = 0.815
+INFO:root:valid; epoch = 221; loss = 0.932
+INFO:root:train; epoch = 222; batch_num = 50; loss = 0.814
+INFO:root:valid; epoch = 222; loss = 0.937
+INFO:root:train; epoch = 223; batch_num = 50; loss = 0.819
+INFO:root:valid; epoch = 223; loss = 0.927
+INFO:root:train; epoch = 224; batch_num = 50; loss = 0.806
+INFO:root:valid; epoch = 224; loss = 0.963
+INFO:root:train; epoch = 225; batch_num = 50; loss = 0.800
+INFO:root:valid; epoch = 225; loss = 0.936
+INFO:root:train; epoch = 226; batch_num = 50; loss = 0.798
+INFO:root:valid; epoch = 226; loss = 0.922
+INFO:root:train; epoch = 227; batch_num = 50; loss = 0.787
+INFO:root:valid; epoch = 227; loss = 0.929
+INFO:root:train; epoch = 228; batch_num = 50; loss = 0.796
+INFO:root:valid; epoch = 228; loss = 0.945
+INFO:root:train; epoch = 229; batch_num = 50; loss = 0.793
+INFO:root:valid; epoch = 229; loss = 0.927
+INFO:root:train; epoch = 230; batch_num = 50; loss = 0.789
+INFO:root:valid; epoch = 230; loss = 0.930
+INFO:root:train; epoch = 231; batch_num = 50; loss = 0.787
+INFO:root:valid; epoch = 231; loss = 0.911
+INFO:root:train; epoch = 232; batch_num = 50; loss = 0.786
+INFO:root:valid; epoch = 232; loss = 0.919
+INFO:root:train; epoch = 233; batch_num = 50; loss = 0.784
+INFO:root:valid; epoch = 233; loss = 0.925
+INFO:root:train; epoch = 234; batch_num = 50; loss = 0.783
+INFO:root:valid; epoch = 234; loss = 0.906
+INFO:root:train; epoch = 235; batch_num = 50; loss = 0.775
+INFO:root:valid; epoch = 235; loss = 0.962
+INFO:root:train; epoch = 236; batch_num = 50; loss = 0.771
+INFO:root:valid; epoch = 236; loss = 0.907
+INFO:root:train; epoch = 237; batch_num = 50; loss = 0.779
+INFO:root:valid; epoch = 237; loss = 1.026
+INFO:root:train; epoch = 238; batch_num = 50; loss = 0.763
+INFO:root:valid; epoch = 238; loss = 0.909
+INFO:root:train; epoch = 239; batch_num = 50; loss = 0.758
+INFO:root:valid; epoch = 239; loss = 0.906
+INFO:root:train; epoch = 240; batch_num = 50; loss = 0.752
+INFO:root:valid; epoch = 240; loss = 0.946
+INFO:root:train; epoch = 241; batch_num = 50; loss = 0.779
+INFO:root:valid; epoch = 241; loss = 0.991
+INFO:root:train; epoch = 242; batch_num = 50; loss = 0.756
+INFO:root:valid; epoch = 242; loss = 0.912
+INFO:root:train; epoch = 243; batch_num = 50; loss = 0.743
+INFO:root:valid; epoch = 243; loss = 0.906
+INFO:root:train; epoch = 244; batch_num = 50; loss = 0.767
+INFO:root:valid; epoch = 244; loss = 0.937
+INFO:root:train; epoch = 245; batch_num = 50; loss = 0.750
+INFO:root:valid; epoch = 245; loss = 0.908
+INFO:root:train; epoch = 246; batch_num = 50; loss = 0.742
+INFO:root:valid; epoch = 246; loss = 0.943
+INFO:root:train; epoch = 247; batch_num = 50; loss = 0.736
+INFO:root:valid; epoch = 247; loss = 0.911
+INFO:root:train; epoch = 248; batch_num = 50; loss = 0.739
+INFO:root:valid; epoch = 248; loss = 0.894
+INFO:root:train; epoch = 249; batch_num = 50; loss = 0.741
+INFO:root:valid; epoch = 249; loss = 0.922
+INFO:root:train; epoch = 250; batch_num = 50; loss = 0.729
+INFO:root:valid; epoch = 250; loss = 0.893
+INFO:root:train; epoch = 251; batch_num = 50; loss = 0.748
+INFO:root:valid; epoch = 251; loss = 0.904
+INFO:root:train; epoch = 252; batch_num = 50; loss = 0.720
+INFO:root:valid; epoch = 252; loss = 0.907
+INFO:root:train; epoch = 253; batch_num = 50; loss = 0.715
+INFO:root:valid; epoch = 253; loss = 0.930
+INFO:root:train; epoch = 254; batch_num = 50; loss = 0.708
+INFO:root:valid; epoch = 254; loss = 0.888
+INFO:root:train; epoch = 255; batch_num = 50; loss = 0.731
+INFO:root:valid; epoch = 255; loss = 0.912
+INFO:root:train; epoch = 256; batch_num = 50; loss = 0.720
+INFO:root:valid; epoch = 256; loss = 0.886
+INFO:root:train; epoch = 257; batch_num = 50; loss = 0.716
+INFO:root:valid; epoch = 257; loss = 0.884
+INFO:root:train; epoch = 258; batch_num = 50; loss = 0.696
+INFO:root:valid; epoch = 258; loss = 0.882
+INFO:root:train; epoch = 259; batch_num = 50; loss = 0.693
+INFO:root:valid; epoch = 259; loss = 0.952
+INFO:root:train; epoch = 260; batch_num = 50; loss = 0.706
+INFO:root:valid; epoch = 260; loss = 0.891
+INFO:root:train; epoch = 261; batch_num = 50; loss = 0.690
+INFO:root:valid; epoch = 261; loss = 0.877
+INFO:root:train; epoch = 262; batch_num = 50; loss = 0.678
+INFO:root:valid; epoch = 262; loss = 0.883
+INFO:root:train; epoch = 263; batch_num = 50; loss = 0.673
+INFO:root:valid; epoch = 263; loss = 0.874
+INFO:root:train; epoch = 264; batch_num = 50; loss = 0.685
+INFO:root:valid; epoch = 264; loss = 0.872
+INFO:root:train; epoch = 265; batch_num = 50; loss = 0.665
+INFO:root:valid; epoch = 265; loss = 0.886
+INFO:root:train; epoch = 266; batch_num = 50; loss = 0.659
+INFO:root:valid; epoch = 266; loss = 0.872
+INFO:root:train; epoch = 267; batch_num = 50; loss = 0.663
+INFO:root:valid; epoch = 267; loss = 0.893
+INFO:root:train; epoch = 268; batch_num = 50; loss = 0.663
+INFO:root:valid; epoch = 268; loss = 0.872
+INFO:root:train; epoch = 269; batch_num = 50; loss = 0.652
+INFO:root:valid; epoch = 269; loss = 0.881
+INFO:root:train; epoch = 270; batch_num = 50; loss = 0.647
+INFO:root:valid; epoch = 270; loss = 0.877
+INFO:root:train; epoch = 271; batch_num = 50; loss = 0.656
+INFO:root:valid; epoch = 271; loss = 0.876
+INFO:root:train; epoch = 272; batch_num = 50; loss = 0.644
+INFO:root:valid; epoch = 272; loss = 0.915
+INFO:root:train; epoch = 273; batch_num = 50; loss = 0.643
+INFO:root:valid; epoch = 273; loss = 0.876
+INFO:root:train; epoch = 274; batch_num = 50; loss = 0.646
+INFO:root:valid; epoch = 274; loss = 0.885
+INFO:root:train; epoch = 275; batch_num = 50; loss = 0.620
+INFO:root:valid; epoch = 275; loss = 0.916
+INFO:root:train; epoch = 276; batch_num = 50; loss = 0.623
+INFO:root:valid; epoch = 276; loss = 0.883
+INFO:root:train; epoch = 277; batch_num = 50; loss = 0.604
+INFO:root:valid; epoch = 277; loss = 0.887
+INFO:root:train; epoch = 278; batch_num = 50; loss = 0.612
+INFO:root:valid; epoch = 278; loss = 0.975
+INFO:root:train; epoch = 279; batch_num = 50; loss = 0.607
+INFO:root:valid; epoch = 279; loss = 0.863
+INFO:root:train; epoch = 280; batch_num = 50; loss = 0.596
+INFO:root:valid; epoch = 280; loss = 0.879
+INFO:root:train; epoch = 281; batch_num = 50; loss = 0.598
+INFO:root:valid; epoch = 281; loss = 0.883
+INFO:root:train; epoch = 282; batch_num = 50; loss = 0.600
+INFO:root:valid; epoch = 282; loss = 0.878
+INFO:root:train; epoch = 283; batch_num = 50; loss = 0.580
+INFO:root:valid; epoch = 283; loss = 0.865
+INFO:root:train; epoch = 284; batch_num = 50; loss = 0.584
+INFO:root:valid; epoch = 284; loss = 0.878
+INFO:root:train; epoch = 285; batch_num = 50; loss = 0.578
+INFO:root:valid; epoch = 285; loss = 0.887
+INFO:root:train; epoch = 286; batch_num = 50; loss = 0.586
+INFO:root:valid; epoch = 286; loss = 0.904
+INFO:root:train; epoch = 287; batch_num = 50; loss = 0.581
+INFO:root:valid; epoch = 287; loss = 0.933
+INFO:root:train; epoch = 288; batch_num = 50; loss = 0.585
+INFO:root:valid; epoch = 288; loss = 0.866
+INFO:root:train; epoch = 289; batch_num = 50; loss = 0.551
+INFO:root:valid; epoch = 289; loss = 0.925
+INFO:root:train; epoch = 290; batch_num = 50; loss = 0.558
+INFO:root:valid; epoch = 290; loss = 0.871
+INFO:root:train; epoch = 291; batch_num = 50; loss = 0.558
+INFO:root:valid; epoch = 291; loss = 0.901
+INFO:root:train; epoch = 292; batch_num = 50; loss = 0.549
+INFO:root:valid; epoch = 292; loss = 0.900
+INFO:root:train; epoch = 293; batch_num = 50; loss = 0.548
+INFO:root:valid; epoch = 293; loss = 0.891
+INFO:root:train; epoch = 294; batch_num = 50; loss = 0.553
+INFO:root:valid; epoch = 294; loss = 1.018
+INFO:root:train; epoch = 295; batch_num = 50; loss = 0.547
+INFO:root:valid; epoch = 295; loss = 0.872
+INFO:root:train; epoch = 296; batch_num = 50; loss = 0.533
+INFO:root:valid; epoch = 296; loss = 0.879
+INFO:root:train; epoch = 297; batch_num = 50; loss = 0.541
+INFO:root:valid; epoch = 297; loss = 0.938
+INFO:root:train; epoch = 298; batch_num = 50; loss = 0.537
+INFO:root:valid; epoch = 298; loss = 0.871
+INFO:root:train; epoch = 299; batch_num = 50; loss = 0.517
+INFO:root:valid; epoch = 299; loss = 0.877
+INFO:root:train; epoch = 300; batch_num = 50; loss = 0.518
+INFO:root:valid; epoch = 300; loss = 0.888
+INFO:root:train; epoch = 301; batch_num = 50; loss = 0.521
+INFO:root:valid; epoch = 301; loss = 0.941
+INFO:root:train; epoch = 302; batch_num = 50; loss = 0.515
+INFO:root:valid; epoch = 302; loss = 0.875
+INFO:root:train; epoch = 303; batch_num = 50; loss = 0.508
+INFO:root:valid; epoch = 303; loss = 0.893
+INFO:root:train; epoch = 304; batch_num = 50; loss = 0.505
+INFO:root:valid; epoch = 304; loss = 0.882
+INFO:root:train; epoch = 305; batch_num = 50; loss = 0.500
+INFO:root:valid; epoch = 305; loss = 0.873
+INFO:root:train; epoch = 306; batch_num = 50; loss = 0.496
+INFO:root:valid; epoch = 306; loss = 0.876
+INFO:root:train; epoch = 307; batch_num = 50; loss = 0.493
+INFO:root:valid; epoch = 307; loss = 0.876
+INFO:root:train; epoch = 308; batch_num = 50; loss = 0.489
+INFO:root:valid; epoch = 308; loss = 0.905
+INFO:root:train; epoch = 309; batch_num = 50; loss = 0.488
+INFO:root:valid; epoch = 309; loss = 0.891
+INFO:root:train; epoch = 310; batch_num = 50; loss = 0.478
+INFO:root:valid; epoch = 310; loss = 0.901
+INFO:root:train; epoch = 311; batch_num = 50; loss = 0.483
+INFO:root:valid; epoch = 311; loss = 0.875
+INFO:root:train; epoch = 312; batch_num = 50; loss = 0.482
+INFO:root:valid; epoch = 312; loss = 0.868
+INFO:root:train; epoch = 313; batch_num = 50; loss = 0.473
+INFO:root:valid; epoch = 313; loss = 0.871
+INFO:root:train; epoch = 314; batch_num = 50; loss = 0.475
+INFO:root:valid; epoch = 314; loss = 0.884
+INFO:root:train; epoch = 315; batch_num = 50; loss = 0.483
+INFO:root:valid; epoch = 315; loss = 0.876
+INFO:root:train; epoch = 316; batch_num = 50; loss = 0.471
+INFO:root:valid; epoch = 316; loss = 0.906
+INFO:root:train; epoch = 317; batch_num = 50; loss = 0.466
+INFO:root:valid; epoch = 317; loss = 0.892
+INFO:root:train; epoch = 318; batch_num = 50; loss = 0.459
+INFO:root:valid; epoch = 318; loss = 0.897
+INFO:root:train; epoch = 319; batch_num = 50; loss = 0.461
+INFO:root:valid; epoch = 319; loss = 0.885
+INFO:root:train; epoch = 320; batch_num = 50; loss = 0.460
+INFO:root:valid; epoch = 320; loss = 0.878
+INFO:root:train; epoch = 321; batch_num = 50; loss = 0.459
+INFO:root:valid; epoch = 321; loss = 0.903
+INFO:root:train; epoch = 322; batch_num = 50; loss = 0.454
+INFO:root:valid; epoch = 322; loss = 0.901
+INFO:root:train; epoch = 323; batch_num = 50; loss = 0.448
+INFO:root:valid; epoch = 323; loss = 0.878
+INFO:root:train; epoch = 324; batch_num = 50; loss = 0.445
+INFO:root:valid; epoch = 324; loss = 0.894
+INFO:root:train; epoch = 325; batch_num = 50; loss = 0.446
+INFO:root:valid; epoch = 325; loss = 0.886
+INFO:root:train; epoch = 326; batch_num = 50; loss = 0.448
+INFO:root:valid; epoch = 326; loss = 0.883
+INFO:root:train; epoch = 327; batch_num = 50; loss = 0.448
+INFO:root:valid; epoch = 327; loss = 0.894
+INFO:root:train; epoch = 328; batch_num = 50; loss = 0.436
+INFO:root:valid; epoch = 328; loss = 0.891
+INFO:root:train; epoch = 329; batch_num = 50; loss = 0.440
+INFO:root:valid; epoch = 329; loss = 0.893
+INFO:root:train; epoch = 330; batch_num = 50; loss = 0.435
+INFO:root:valid; epoch = 330; loss = 0.915
+INFO:root:train; epoch = 331; batch_num = 50; loss = 0.456
+INFO:root:valid; epoch = 331; loss = 0.910
+INFO:root:train; epoch = 332; batch_num = 50; loss = 0.448
+INFO:root:valid; epoch = 332; loss = 0.894
+INFO:root:train; epoch = 333; batch_num = 50; loss = 0.431
+INFO:root:valid; epoch = 333; loss = 0.889
+INFO:root:train; epoch = 334; batch_num = 50; loss = 0.426
+INFO:root:valid; epoch = 334; loss = 0.892
+INFO:root:train; epoch = 335; batch_num = 50; loss = 0.421
+INFO:root:valid; epoch = 335; loss = 0.939
+INFO:root:train; epoch = 336; batch_num = 50; loss = 0.423
+INFO:root:valid; epoch = 336; loss = 0.896
+INFO:root:train; epoch = 337; batch_num = 50; loss = 0.420
+INFO:root:valid; epoch = 337; loss = 0.896
+INFO:root:train; epoch = 338; batch_num = 50; loss = 0.423
+INFO:root:valid; epoch = 338; loss = 0.898
+INFO:root:train; epoch = 339; batch_num = 50; loss = 0.415
+INFO:root:valid; epoch = 339; loss = 0.901
+INFO:root:train; epoch = 340; batch_num = 50; loss = 0.413
+INFO:root:valid; epoch = 340; loss = 0.905
+INFO:root:train; epoch = 341; batch_num = 50; loss = 0.420
+INFO:root:valid; epoch = 341; loss = 0.898
+INFO:root:train; epoch = 342; batch_num = 50; loss = 0.411
+INFO:root:valid; epoch = 342; loss = 0.897
+INFO:root:train; epoch = 343; batch_num = 50; loss = 0.419
+INFO:root:valid; epoch = 343; loss = 0.897
+INFO:root:train; epoch = 344; batch_num = 50; loss = 0.411
+INFO:root:valid; epoch = 344; loss = 0.902
+INFO:root:train; epoch = 345; batch_num = 50; loss = 0.410
+INFO:root:valid; epoch = 345; loss = 0.893
+INFO:root:train; epoch = 346; batch_num = 50; loss = 0.414
+INFO:root:valid; epoch = 346; loss = 0.898
+INFO:root:train; epoch = 347; batch_num = 50; loss = 0.405
+INFO:root:valid; epoch = 347; loss = 0.930
+INFO:root:train; epoch = 348; batch_num = 50; loss = 0.408
+INFO:root:valid; epoch = 348; loss = 0.903
+INFO:root:train; epoch = 349; batch_num = 50; loss = 0.407
+INFO:root:valid; epoch = 349; loss = 0.903
+INFO:root:train; epoch = 350; batch_num = 50; loss = 0.402
+INFO:root:valid; epoch = 350; loss = 0.912
+INFO:root:train; epoch = 351; batch_num = 50; loss = 0.406
+INFO:root:valid; epoch = 351; loss = 0.919
+INFO:root:train; epoch = 352; batch_num = 50; loss = 0.404
+INFO:root:valid; epoch = 352; loss = 0.902
+INFO:root:train; epoch = 353; batch_num = 50; loss = 0.400
+INFO:root:valid; epoch = 353; loss = 0.917
+INFO:root:train; epoch = 354; batch_num = 50; loss = 0.399
+INFO:root:valid; epoch = 354; loss = 0.910
+INFO:root:train; epoch = 355; batch_num = 50; loss = 0.402
+INFO:root:valid; epoch = 355; loss = 0.913
+INFO:root:train; epoch = 356; batch_num = 50; loss = 0.402
+INFO:root:valid; epoch = 356; loss = 0.908
+INFO:root:train; epoch = 357; batch_num = 50; loss = 0.397
+INFO:root:valid; epoch = 357; loss = 0.932
+INFO:root:train; epoch = 358; batch_num = 50; loss = 0.398
+INFO:root:valid; epoch = 358; loss = 0.907
+INFO:root:train; epoch = 359; batch_num = 50; loss = 0.399
+INFO:root:valid; epoch = 359; loss = 0.906
+INFO:root:train; epoch = 360; batch_num = 50; loss = 0.392
+INFO:root:valid; epoch = 360; loss = 0.916
+INFO:root:train; epoch = 361; batch_num = 50; loss = 0.398
+INFO:root:valid; epoch = 361; loss = 0.953
+INFO:root:train; epoch = 362; batch_num = 50; loss = 0.394
+INFO:root:valid; epoch = 362; loss = 0.955
+INFO:root:train; epoch = 363; batch_num = 50; loss = 0.400
+INFO:root:valid; epoch = 363; loss = 0.910
+INFO:root:train; epoch = 364; batch_num = 50; loss = 0.395
+INFO:root:valid; epoch = 364; loss = 0.937
+INFO:root:train; epoch = 365; batch_num = 50; loss = 0.387
+INFO:root:valid; epoch = 365; loss = 0.919
+INFO:root:train; epoch = 366; batch_num = 50; loss = 0.390
+INFO:root:valid; epoch = 366; loss = 0.925
+INFO:root:train; epoch = 367; batch_num = 50; loss = 0.386
+INFO:root:valid; epoch = 367; loss = 0.919
+INFO:root:train; epoch = 368; batch_num = 50; loss = 0.385
+INFO:root:valid; epoch = 368; loss = 0.915
+INFO:root:train; epoch = 369; batch_num = 50; loss = 0.387
+INFO:root:valid; epoch = 369; loss = 0.934
+INFO:root:train; epoch = 370; batch_num = 50; loss = 0.386
+INFO:root:valid; epoch = 370; loss = 0.909
+INFO:root:train; epoch = 371; batch_num = 50; loss = 0.382
+INFO:root:valid; epoch = 371; loss = 0.926
+INFO:root:train; epoch = 372; batch_num = 50; loss = 0.383
+INFO:root:valid; epoch = 372; loss = 0.924
+INFO:root:train; epoch = 373; batch_num = 50; loss = 0.381
+INFO:root:valid; epoch = 373; loss = 0.915
+INFO:root:train; epoch = 374; batch_num = 50; loss = 0.380
+INFO:root:valid; epoch = 374; loss = 0.919
+INFO:root:train; epoch = 375; batch_num = 50; loss = 0.390
+INFO:root:valid; epoch = 375; loss = 0.931
+INFO:root:train; epoch = 376; batch_num = 50; loss = 0.381
+INFO:root:valid; epoch = 376; loss = 0.918
+INFO:root:train; epoch = 377; batch_num = 50; loss = 0.377
+INFO:root:valid; epoch = 377; loss = 0.929
+INFO:root:train; epoch = 378; batch_num = 50; loss = 0.374
+INFO:root:valid; epoch = 378; loss = 0.931
+INFO:root:train; epoch = 379; batch_num = 50; loss = 0.381
+INFO:root:valid; epoch = 379; loss = 0.916
+INFO:root:train; epoch = 380; batch_num = 50; loss = 0.377
+INFO:root:valid; epoch = 380; loss = 0.925
+INFO:root:train; epoch = 381; batch_num = 50; loss = 0.374
+INFO:root:valid; epoch = 381; loss = 0.928
+INFO:root:train; epoch = 382; batch_num = 50; loss = 0.378
+INFO:root:valid; epoch = 382; loss = 1.000
+INFO:root:train; epoch = 383; batch_num = 50; loss = 0.376
+INFO:root:valid; epoch = 383; loss = 0.928
+INFO:root:train; epoch = 384; batch_num = 50; loss = 0.378
+INFO:root:valid; epoch = 384; loss = 0.925
+INFO:root:train; epoch = 385; batch_num = 50; loss = 0.371
+INFO:root:valid; epoch = 385; loss = 0.923
+INFO:root:train; epoch = 386; batch_num = 50; loss = 0.374
+INFO:root:valid; epoch = 386; loss = 0.939
+INFO:root:train; epoch = 387; batch_num = 50; loss = 0.370
+INFO:root:valid; epoch = 387; loss = 0.934
+INFO:root:train; epoch = 388; batch_num = 50; loss = 0.367
+INFO:root:valid; epoch = 388; loss = 0.927
+INFO:root:train; epoch = 389; batch_num = 50; loss = 0.370
+INFO:root:valid; epoch = 389; loss = 0.930
+INFO:root:train; epoch = 390; batch_num = 50; loss = 0.368
+INFO:root:valid; epoch = 390; loss = 0.942
+INFO:root:train; epoch = 391; batch_num = 50; loss = 0.371
+INFO:root:valid; epoch = 391; loss = 0.933
+INFO:root:train; epoch = 392; batch_num = 50; loss = 0.369
+INFO:root:valid; epoch = 392; loss = 0.936
+INFO:root:train; epoch = 393; batch_num = 50; loss = 0.369
+INFO:root:valid; epoch = 393; loss = 0.940
+INFO:root:train; epoch = 394; batch_num = 50; loss = 0.369
+INFO:root:valid; epoch = 394; loss = 0.938
+INFO:root:train; epoch = 395; batch_num = 50; loss = 0.361
+INFO:root:valid; epoch = 395; loss = 0.933
+INFO:root:train; epoch = 396; batch_num = 50; loss = 0.364
+INFO:root:valid; epoch = 396; loss = 0.943
+INFO:root:train; epoch = 397; batch_num = 50; loss = 0.363
+INFO:root:valid; epoch = 397; loss = 0.939
+INFO:root:train; epoch = 398; batch_num = 50; loss = 0.361
+INFO:root:valid; epoch = 398; loss = 0.939
+INFO:root:train; epoch = 399; batch_num = 50; loss = 0.363
+INFO:root:valid; epoch = 399; loss = 0.948
+INFO:root:train; epoch = 400; batch_num = 50; loss = 0.367
+INFO:root:valid; epoch = 400; loss = 0.950
+INFO:root:train; epoch = 401; batch_num = 50; loss = 0.368
+INFO:root:valid; epoch = 401; loss = 0.938
+INFO:root:train; epoch = 402; batch_num = 50; loss = 0.360
+INFO:root:valid; epoch = 402; loss = 0.943
+INFO:root:train; epoch = 403; batch_num = 50; loss = 0.359
+INFO:root:valid; epoch = 403; loss = 0.938
+INFO:root:train; epoch = 404; batch_num = 50; loss = 0.363
+INFO:root:valid; epoch = 404; loss = 0.936
+INFO:root:train; epoch = 405; batch_num = 50; loss = 0.361
+INFO:root:valid; epoch = 405; loss = 0.946
+INFO:root:train; epoch = 406; batch_num = 50; loss = 0.362
+INFO:root:valid; epoch = 406; loss = 0.941
+INFO:root:train; epoch = 407; batch_num = 50; loss = 0.360
+INFO:root:valid; epoch = 407; loss = 0.945
+INFO:root:train; epoch = 408; batch_num = 50; loss = 0.358
+INFO:root:valid; epoch = 408; loss = 0.966
+INFO:root:train; epoch = 409; batch_num = 50; loss = 0.357
+INFO:root:valid; epoch = 409; loss = 0.961
+INFO:root:train; epoch = 410; batch_num = 50; loss = 0.356
+INFO:root:valid; epoch = 410; loss = 0.980
+INFO:root:train; epoch = 411; batch_num = 50; loss = 0.363
+INFO:root:valid; epoch = 411; loss = 0.941
+INFO:root:train; epoch = 412; batch_num = 50; loss = 0.356
+INFO:root:valid; epoch = 412; loss = 0.942
+INFO:root:train; epoch = 413; batch_num = 50; loss = 0.350
+INFO:root:valid; epoch = 413; loss = 0.939
+INFO:root:train; epoch = 414; batch_num = 50; loss = 0.354
+INFO:root:valid; epoch = 414; loss = 0.937
+INFO:root:train; epoch = 415; batch_num = 50; loss = 0.353
+INFO:root:valid; epoch = 415; loss = 0.942
+INFO:root:train; epoch = 416; batch_num = 50; loss = 0.358
+INFO:root:valid; epoch = 416; loss = 1.003
+INFO:root:train; epoch = 417; batch_num = 50; loss = 0.355
+INFO:root:valid; epoch = 417; loss = 0.951
+INFO:root:train; epoch = 418; batch_num = 50; loss = 0.353
+INFO:root:valid; epoch = 418; loss = 0.957
+INFO:root:train; epoch = 419; batch_num = 50; loss = 0.351
+INFO:root:valid; epoch = 419; loss = 0.956
+INFO:root:train; epoch = 420; batch_num = 50; loss = 0.349
+INFO:root:valid; epoch = 420; loss = 0.952
+INFO:root:train; epoch = 421; batch_num = 50; loss = 0.350
+INFO:root:valid; epoch = 421; loss = 0.952
