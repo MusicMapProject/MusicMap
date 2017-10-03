@@ -97,8 +97,8 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
 def create_labels_for_dataset(labels_file, new_labels_file, tracks_dir):
     """
     """
-    tmp_df = np.asarray(pd.read_csv(labels_file))
-    song_va = {i[1]: [i[2], i[3]] for i in tmp_df}
+    tmp_df = np.asarray(pd.read_csv(labels_file, index_col=0))
+    song_va = {i[0]: [i[1], i[2]] for i in tmp_df}
 
     tracks_filename = os.listdir(tracks_dir)
     songs_parts = {}
@@ -110,21 +110,13 @@ def create_labels_for_dataset(labels_file, new_labels_file, tracks_dir):
             songs_parts[song_id] = []
         songs_parts[song_id].append(track)
 
-    # print song_va
-    #     print len(song_va)
-    #     print songs_parts
-    #     print len(songs_parts)
-
     new_labels = []
     for song in songs_parts.keys():
         if song in song_va:
             for part in songs_parts[song]:
                 new_labels.append([part, song_va[song][0], song_va[song][1]])
 
-                #     print new_labels[:10]
     new_labels = np.asarray(new_labels)
-    #     print new_labels[:10]
-    #     print new_labels.shape
 
     tmp_df = pd.DataFrame(data=new_labels, columns=["song_id", "valence", "arousal"])
     tmp_df.to_csv(new_labels_file, index=False)
@@ -150,13 +142,14 @@ def train_val_split(csv_file):
 
 
 def preprocess_dir(dir_path, nb_secs=10):
-    dir_name, path = dir_path.split("/")[-1],  "/".join(dir_path.split("/")[:-1])
+    dir_name, path = dir_path.split("/")[-1], "/".join(dir_path.split("/")[:-1])
     preprocess_data_dir = path + "/preprocess_data_" + dir_name
     os.mkdir(preprocess_data_dir)
     parts_dir = preprocess_data_dir + "/audio_parts/"
     spectrs_dir =  preprocess_data_dir + "/spectrs/"
-    process_all_files(split_one_audio, dir_path, parts_dir)
+    process_all_files(split_one_audio, dir_path, parts_dir, nb_secs)
     process_all_files(create_one_spectrogram, parts_dir, spectrs_dir)
+
 
 def audio2dataset(dir_path, nb_secs):
     preprocess_dir(dir_path, nb_secs)
@@ -165,7 +158,12 @@ if __name__ == "__main__":
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")
-    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_15sec/", 15)
-    process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec_new/")
+    # create_labels_for_dataset("../data/40sec/balanced_audio_target.csv",
+    #                           "../data/40sec/balanced_spectrs_40sec_labels.csv",
+    #                           "../data/40sec/spectrs_40sec/")
+    # train_val_split("../data/40sec/balanced_spectrs_40sec_labels.csv")
+    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_40sec/", 40)
+    # process_all_files(create_one_spectrogram, "../data/audio_parts_40sec/", "../data/spectrs_40sec/")
     # wav_file = WavFile.read("../data/audio_parts_10sec/5S_1.wav")
     # save_spectrogram(wav_file, "trololo.png", size=(256, 215))
+    preprocess_dir("../data/our_audio/")

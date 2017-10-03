@@ -11,6 +11,7 @@ import torchvision.transforms as transforms
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from torch.autograd import Variable
 import torch.nn as nn
@@ -77,7 +78,7 @@ class Network:
     def load(self, model_filename):
         self.net = torch.load(model_filename)
 
-    def predict(self, img_dir):
+    def predict(self, img_dir, dst_path):
         if not self.net:
             raise Exception("Load or train model before predict, bro")
         else:
@@ -97,7 +98,13 @@ class Network:
                 outputs = self.net(inputs)
                 predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
 
-            return predictions, test_set.get_songnames()
+            songnames = test_set.get_songnames()
+
+            tmp_df = pd.DataFrame(data=np.concatenate([predictions, test_set.get_songnames()], axis=1),
+                                  columns=["prediction", "valence", "arousal"])
+            tmp_df.to_csv(dst_path, index=False)
+
+            return predictions,
 
 
     def train(self, nb_epochs=6, verbose_step=200, save_step=20, visualize_step=5):
