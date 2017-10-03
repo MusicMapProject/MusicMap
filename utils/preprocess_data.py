@@ -35,9 +35,11 @@ def split_one_audio((f, dir_src, dir_dst, nb_secs)):
     try:
         filename, extension = os.path.splitext(f)
         mp3_to_wav(dir_src + filename + extension)
-    except:
+    except Exception as e:
+        print e
         return
     new_extension = '.wav'
+    print nb_secs
     # print "create " + dir_src + filename + new_extension
     split(dir_src + filename + new_extension, nb_secs, dir_dst)
     os.remove(dir_src + filename + new_extension)
@@ -73,7 +75,7 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
         os.makedirs(dir_dst)
 
     files_src = os.listdir(dir_src)
-    print "WAV files cnt: ", len(files_src)
+    # print "WAV files cnt: ", len(files_src)
 
     #for split
     #8 processes - 4 min
@@ -101,8 +103,8 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
 def create_labels_for_dataset(labels_file, new_labels_file, tracks_dir):
     """
     """
-    tmp_df = np.asarray(pd.read_csv(labels_file))
-    song_va = {i[1]: [i[2], i[3]] for i in tmp_df}
+    tmp_df = np.asarray(pd.read_csv(labels_file, index_col=0))
+    song_va = {i[0]: [i[1], i[2]] for i in tmp_df}
 
     tracks_filename = os.listdir(tracks_dir)
     songs_parts = {}
