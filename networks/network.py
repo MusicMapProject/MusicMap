@@ -16,6 +16,9 @@ import pandas as pd
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
+import os
+
+#TODO change saving
 
 if __name__ == '__main__':
     import os, sys
@@ -23,15 +26,15 @@ if __name__ == '__main__':
     network_dir = os.path.dirname(os.path.join(os.getcwd(), __file__))
     sys.path.append(os.path.normpath(os.path.join(network_dir, '..')))
     from utils import visualization
+    from utils.preprocess_data import preprocess_dir
 else:
-    from ..utils import visualization
-
-logging.basicConfig(filename='./train.log', filemode='w', level=logging.INFO)
+    from utils import visualization
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
+# logging.basicConfig(filename='./train.log', filemode='w', level=logging.INFO)
 
 def imshow(img):
     img = img / 2 + 0.5     # unnormalize
@@ -70,10 +73,14 @@ class Net(nn.Module):
         x = self.fc4(x)
         return x
 
+ssd_path = "/mnt/ssd/musicmap_data/"
+project_dir = os.environ.get("HOME") + "/workdir/MusicMap/"
+
 class Network:
     def __init__(self):
         self.net = None
-        self.ssd_path = "/mnt/ssd/"
+        self.models_dir = project_dir + "models/"
+        print self.models_dir
 
     def load(self, model_filename):
         self.net = torch.load(model_filename)
@@ -92,11 +99,14 @@ class Network:
             test_loader = torch.utils.data.DataLoader(test_set, batch_size=200,
                                                        shuffle=False, num_workers=16)
 
-            predictions = np.asarray([])
+            predictions = None
             for inputs in test_loader:
                 inputs = Variable(inputs.cuda())
                 outputs = self.net(inputs)
-                predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
+                if predictions:
+                    predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
+                else:
+                    predictions = outputs.data.cpu().numpy()
 
             songnames = test_set.get_songnames()
 
@@ -107,17 +117,48 @@ class Network:
             return predictions,
 
 
-    def train(self, nb_epochs=6, verbose_step=200, save_step=20, visualize_step=5):
+    def train(self, 
+              train_csv="10sec/spectrs_10sec_labels_train.csv",
+              validate_csv="10sec/spectrs_10sec_labels_val.csv",
+              spectrs_dir="10sec/spectrs_10sec_new/",
+              nb_epochs=6, verbose_step=200, save_step=100, visualize_step=20,
+              model_name="10sec"):
+        print "START TRAIN"
+        
+        model_path = self.models_dir + model_name +'/'
+        saved_models = model_path + "saved_models/"
+        train_pics = model_path + "train_pic/"
+        
+        try:
+            os.mkdir(model_path)
+        except Exception as e:
+            print e
+            pass
+        
+        try:
+            os.mkdir(saved_models)
+        except Exception as e:
+            print e
+            pass
+        
+        try:
+            os.mkdir(train_pics)
+        except Exception as e:
+            print e
+            pass
+        
+        
+        logging.basicConfig(filename=model_path + "train.log", filemode='w', level=logging.INFO)
 
         train_set = SpectrogramDataset(
-            csv_path=self.ssd_path + "musicmap_data/spectrs_10sec_labels_train.csv",
-            img_path=self.ssd_path + "musicmap_data/spectrs_10sec_new/",
+            csv_path=ssd_path + train_csv,
+            img_path=ssd_path + spectrs_dir,
             transform=transform
         )
 
         valid_set = SpectrogramDataset(
-            csv_path=self.ssd_path + "musicmap_data/spectrs_10sec_labels_val.csv",
-            img_path=self.ssd_path + "musicmap_data/spectrs_10sec_new/",
+            csv_path=ssd_path + validate_csv,
+            img_path=ssd_path + spectrs_dir,
             transform=transform
         )
 
@@ -128,17 +169,16 @@ class Network:
                                                    shuffle=False, num_workers=16)
 
         # net = Net()
-        self.net = torch.nn.DataParallel(Net(), device_ids=[0, 1, 2])
+        self.net = torch.nn.DataParallel(Net(), device_ids=[0, 1, 2, 3])
         self.net.cuda()
 
         criterion = nn.MSELoss()
         optimizer = optim.SGD(self.net.parameters(), lr=0.001, momentum=0.9)
 
         for epoch in range(nb_epochs):
-
             # train step
             current_loss = 0.0
-            for i, (inputs, labels) in tqdm(enumerate(train_loader, 0)):
+            for i, (inputs, labels) in enumerate(train_loader, 0):
                 inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
                 optimizer.zero_grad()
                 outputs = self.net(inputs)
@@ -167,7 +207,8 @@ class Network:
 
             #save step
             if epoch % save_step == 0:
-                torch.save(self.net, "../models/test_model_epoch_" + str(epoch))
+                torch.save(self.net, 
+                           saved_models + str(epoch))
 
             if epoch % visualize_step == 0:
                 for (inputs, labels) in valid_loader:
@@ -178,7 +219,8 @@ class Network:
                     print outputs[:10]
                     print "labels", labels[:10]
                     visualization.show_on_map(
-                        outputs[0:200:4,0], outputs[0:200:4,1], names, "../train_pic/" + str(epoch)
+                        outputs[0:200:4,0], outputs[0:200:4,1], names, 
+                        train_pics + str(epoch)
                     )
                     break
 
@@ -190,8 +232,13 @@ class Network:
 
 
 if __name__ == "__main__":
+    # pass
     # print torch.cuda.is_available()
-
-    # optimizer = optim.Adadelta(net.parameters(), lr=0.01)
     net = Network()
-    net.train(nb_epochs=10000000, verbose_step=50)
+    # net.train(nb_epochs=10000000, verbose_step=50)
+    net.load("../models/balanced_40sec/saved_models/9500")
+    preprocess_dir("../data/our_audio/", nb_secs=40)
+    predictions, names = net.predict("../data/preprocess_data_our_audio/spectrs/")
+    visualization.show_on_map(
+                        predictions[:,0], predictions[:,1], names, "../train_pic/our_audio"
+                    )
