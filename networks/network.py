@@ -110,11 +110,11 @@ class Network:
 
             songnames = test_set.get_songnames()
 
-            tmp_df = pd.DataFrame(data=np.concatenate([predictions, test_set.get_songnames()], axis=1),
-                                  columns=["prediction", "valence", "arousal"])
+            tmp_df = pd.DataFrame(data=np.concatenate([predictions, songnames], axis=1),
+                                  columns=["prediction", "songnames"])
             tmp_df.to_csv(dst_path, index=False)
 
-            return predictions,
+            return predictions, songnames
 
 
     def train(self, 
