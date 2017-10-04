@@ -102,30 +102,22 @@ def bootstrap_track(wav_file, nb_secs, size=10):
     :param size: times to bootstrap
     :return: list of pairs (offset, subsample)
     """
-    # ticks = wav_file.convert_seconds_to_ticks(nb_secs)
-    # offsets = np.random.randint(wav_file.samples.shape[0] - ticks, size=size)
-    # return [(offset, wav_file.samples[offset:offset + ticks]) for offset in offsets]
+    transfer = len(wav_file) - nb_secs
+    mean, std = transfer / 2.0, transfer / 8.0
 
-    offsets = np.random.randint(len(wav_file) - nb_secs, size=size).tolist()
+    offsets = np.random.normal(loc=mean, scale=std, size=size).astype(int)
+    offsets = np.clip(offsets, 0, transfer).tolist()
     return [(offset, wav_file.get_sub_track(offset, offset + nb_secs)) for offset in offsets]
 
 
-def save_spectrogram(wav_file, png_image, size=None):
+def save_spectrogram(wav_file, png_image, size=(256, 256)):
     """
-    :param wav_file:  input  file *.wav
+    :param wav_file:  WavFile object
     :param png_image: output file *.png
     :param size: output size of image. default = 1 + wav_file.rate / 2
     """
-    default_height = 862
-    
-    # print "wav file", wav_file
-    # print png_image
-
     D = librosa.amplitude_to_db(librosa.stft(wav_file.get_channel(0)), ref=np.max)
-    D = D[:, :default_height]
-
-    if size is None:
-        size = D.shape
+    print D.shape
 
     figure = plt.figure(frameon=False, figsize=size, dpi=1)
     ax = plt.Axes(figure, [0., 0., 1., 1.])
