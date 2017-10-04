@@ -110,14 +110,16 @@ def bootstrap_track(wav_file, nb_secs, size=10):
     return [(offset, wav_file.get_sub_track(offset, offset + nb_secs)) for offset in offsets]
 
 
-def save_spectrogram(wav_file, png_image, size=(256, 256)):
+def save_spectrogram(wav_file, png_image, size=(256, 256), kind='common'):
     """
     :param wav_file:  WavFile object
     :param png_image: output file *.png
     :param size: output size of image. default = 1 + wav_file.rate / 2
+    :param kind: type of spectrogram: either 'common' or 'mel'
     """
-    D = librosa.amplitude_to_db(librosa.stft(wav_file.get_channel(0)), ref=np.max)
-    print D.shape
+    S = {'common': librosa.stft(wav_file.get_channel(0)),
+         'mel': librosa.feature.melspectrogram(y=wav_file.get_channel(0), sr=wav_file.rate)}[kind]
+    D = librosa.power_to_db(S, ref=np.max)
 
     figure = plt.figure(frameon=False, figsize=size, dpi=1)
     ax = plt.Axes(figure, [0., 0., 1., 1.])
