@@ -80,6 +80,7 @@ def split(file_name, nb_secs, dir_dst):
     """
     :param file_name: input file name
     :param nb_secs: number of seconds in each part
+    :param dir_dst: destination directory, where split files will be stored
     """
     filename, extension = os.path.splitext(file_name)
     wav_file = WavFile.read(file_name)
@@ -90,8 +91,23 @@ def split(file_name, nb_secs, dir_dst):
 
         wav_current = wav_file.get_sub_track(part, part + nb_secs)
         wav_current.write(
-            file_name="{}{}_{}{}".format(dir_dst, os.path.basename(filename), idx, extension)
+            file_name=os.path.join(dir_dst, "{}_{}{}".format(os.path.basename(filename), idx, extension))
         )
+
+
+def bootstrap_track(wav_file, nb_secs, size=10):
+    """
+    :param wav_file: WavFile object
+    :param nb_secs: length of sampled track
+    :param size: times to bootstrap
+    :return: list of pairs (offset, subsample)
+    """
+    # ticks = wav_file.convert_seconds_to_ticks(nb_secs)
+    # offsets = np.random.randint(wav_file.samples.shape[0] - ticks, size=size)
+    # return [(offset, wav_file.samples[offset:offset + ticks]) for offset in offsets]
+
+    offsets = np.random.randint(len(wav_file) - nb_secs, size=size).tolist()
+    return [(offset, wav_file.get_sub_track(offset, offset + nb_secs)) for offset in offsets]
 
 
 def save_spectrogram(wav_file, png_image, size=None):
@@ -117,7 +133,7 @@ def save_spectrogram(wav_file, png_image, size=None):
     figure.add_axes(ax)
     specshow(D, y_axis='linear', cmap='jet')
     try:
-        figure.savefig(png_image.encode("utf-8"), dpi = 1)
+        figure.savefig(png_image.encode("utf-8"), dpi=1)
     except:
         pass
     plt.close(figure)
