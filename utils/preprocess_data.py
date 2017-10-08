@@ -39,7 +39,7 @@ def split_one_audio((f, dir_src, dir_dst, nb_secs)):
         print e
         return
     new_extension = '.wav'
-    print nb_secs
+    # print nb_secs
     # print "create " + dir_src + filename + new_extension
     split(dir_src + filename + new_extension, nb_secs, dir_dst)
     os.remove(dir_src + filename + new_extension)
@@ -205,7 +205,7 @@ if __name__ == "__main__":
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")
-    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_15sec/", 15)
-    # process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec_new/")
+    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_40sec/", 40)
+    # process_all_files(create_one_spectrogram, "../data/audio_parts_40sec/", "../data/spectrs_40sec_changed/")
     # wav_file = WavFile.read("../data/audio_parts_10sec/5S_1.wav")
     # save_spectrogram(wav_file, "trololo.png", size=(256, 215))
