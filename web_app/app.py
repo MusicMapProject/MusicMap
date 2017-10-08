@@ -123,4 +123,4 @@ app.layout = html.Div(children=
 
 
 if __name__ == '__main__':
-    app.server.run(debug=True, threaded=True)
+    app.server.run(host= '0.0.0.0', debug=True, threaded=True)
