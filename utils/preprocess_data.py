@@ -9,8 +9,9 @@ from multiprocessing import Pool
 import pandas as pd
 import random as r
 import warnings
-import numpy
-
+import numpy as np
+import itertools
+import operator
 
 def add_postfix(dir_name, postfix):
     """
@@ -152,6 +153,37 @@ def train_val_split(csv_file):
 
     tmp_df = pd.DataFrame(data=validate_data, columns=["song_filename", "valence", "arousal"])
     tmp_df.to_csv(filename + "_val" + ext, index=False)
+
+
+def bootstrap_spectrogram((music_name, music_dir, spectro_dir)):
+    name, ext = os.path.splitext(music_name)
+    name = name.replace(' ', '_')
+    
+    music_name = os.path.join(music_dir, music_name)
+    if ext == ".mp3":
+        music_name = mp3_to_wav(music_name)
+
+    wav_file = WavFile.read(music_name)
+    for offset, subsample in bootstrap_track(wav_file, nb_secs=40, size=10):
+        subsample_output = os.path.join(spectro_dir, '{}_{}'.format(name, offset))
+        save_spectrogram(subsample, subsample_output, size=(256, 215))
+
+    if ext == ".mp3":
+        os.remove(music_name)
+
+
+def group_by_predictions(preds, names):
+    names = map(lambda x: re.findall(r"^(.*?)_\d+\.png$", x)[0], names)
+    valence, arousal = preds[:, 0].tolist(), preds[:, 1].tolist()
+
+    preds_, names_ = [], []
+    for name, grouped in itertools.groupby(
+            sorted(zip(valence, arousal, names), key=operator.itemgetter(2)),
+            key=operator.itemgetter(2)):
+        preds_.append(np.mean(map(lambda x: (x[0], x[1]), grouped), axis=0))
+        names_.append(name)
+
+    return np.array(preds_), names_
 
 
 def preprocess_dir(dir_path, nb_secs=10):
