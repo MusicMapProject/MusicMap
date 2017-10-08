@@ -62,31 +62,54 @@ print df.head()
 
 layout = dict(
     images=[dict(
-        source="/static/va_scale.png",
-        # xref="x",
-        # yref="y",
         # sizing="stretch",
-        # layer= "above"
-        xref="paper", yref="paper",
-        # x=1, y=1.05,
-        # sizex=1000, sizey=1000,
-        # xanchor="right", yanchor="bottom"
+        opacity = 1,
+        layer = "below",
+        xref = "x",
+        yref = "y",
+        sizex = 8,
+        sizey = 8,
+        source = "http://static.tumblr.com/c7iuapz/0mEnlqrs8/a4e096545ff6937dbf066981adf56ffe.media.700x700.jpg",
+        y = 9,
+        x = 1,
+        sizing='contain'
       )],
-    autosize=True,
-    height=1000,
+    # autosize=True,
+    height=850,
+    width=850,
     font=dict(color='#CCCCCC'),
     titlefont=dict(color='#CCCCCC', size='14'),
-    margin=dict(
-        l=35,
-        r=35,
-        b=35,
-        t=45
-    ),
+    yaxis = {
+          "zeroline": False,
+          "title": "Valence",
+          "range": [
+            1,
+            9
+          ],
+          "ticklen": 1,
+          "showgrid": False
+        },
+    xaxis = {
+          "zeroline": False,
+          "title": "Arousal",
+          "range": [
+            1,
+            9
+          ],
+          "ticklen": 1,
+          "showgrid": False
+    },
+    # margin=dict(
+    #     l=135,
+    #     r=35,
+    #     b=35,
+    #     t=45
+    # ),
     hovermode="closest",
     # plot_bgcolor="#191A1A",
     # paper_bgcolor="#020202",
     legend=dict(font=dict(size=10), orientation='h'),
-    title='MusicMap'
+    # title='MusicMap'
     # mapbox=dict(
     #     accesstoken=mapbox_access_token,
     #     style="dark",
@@ -101,260 +124,135 @@ layout = dict(
 
 # In[]:
 # Create app layout
-app.layout = html.Div(
-    [
-        html.Div(
+app.layout = html.Div(children=
+    [html.Div(
             [
                 html.H1(
-                    'MusicMap Overview',
-                    className='eight columns',
-                ),
-                # html.Img(
-                #     src="https://s3-us-west-1.amazonaws.com/plotly-tutorials/logo/new-branding/dash-logo-by-plotly-stripe.png",
-                #     className='one columns',
-                #     style={
-                #         'height': '100',
-                #         'width': '225',
-                #         'float': 'right',
-                #         'position': 'relative',
-                #     },
-                # ),
+                    'MusicMap',
+                    ),
             ],
-            className='row'
-        ),
-        # html.Div(
-        #     [
-        #         html.H5(
-        #             '',
-        #             id='well_text',
-        #             className='two columns'
-        #         ),
-        #         html.H5(
-        #             '',
-        #             id='production_text',
-        #             className='eight columns',
-        #             style={'text-align': 'center'}
-        #         ),
-        #         html.H5(
-        #             '',
-        #             id='year_text',
-        #             className='two columns',
-        #             style={'text-align': 'right'}
-        #         ),
-        #     ],
-        #     className='row'
-        # ),
-        html.Div(
-            [
-                html.P('Filter by construction date (or select range in histogram):'),  # noqa: E501
-                dcc.RangeSlider(
-                    id='year_slider',
-                    min=1960,
-                    max=2017,
-                    value=[1990, 2010]
-                ),
-            ],
-            style={'margin-top': '20'}
-        ),
-        html.Div(
-            [
-                html.Div(
-                    [
-                        html.P('Filter by well status:'),
-                        dcc.RadioItems(
-                            id='well_status_selector',
-                            options=[
-                                {'label': 'All ', 'value': 'all'},
-                                {'label': 'Active only ', 'value': 'active'},
-                                {'label': 'Customize ', 'value': 'custom'}
-                            ],
-                            value='active',
-                            labelStyle={'display': 'inline-block'}
+        className = 'row'
+    ),
+
+    dcc.Graph(id='main_graph',
+              figure =dict(
+                        data = [dict(
+                            type='scatter',
+                            x=df['prediction_V'],
+                            y=df['prediction_A'],
+                            text=df['songnames'],
+                            mode='markers',
+                            marker=dict(
+                                size=20,
+                                opacity=0.8,
+                                color="#ffba00"
+                                )
+                            )],
+                        layout = layout
                         ),
-                        dcc.Dropdown(
-                            id='well_statuses',
-                            options=well_status_options,
-                            multi=True,
-                            value=[]
-                        ),
-                        dcc.Checklist(
-                            id='lock_selector',
-                            options=[
-                                {'label': 'Lock camera', 'value': 'locked'}
-                            ],
-                            values=[],
-                        )
-                    ],
-                    className='six columns'
-                ),
-                html.Div(
-                    [
-                        html.P('Filter by well type:'),
-                        dcc.RadioItems(
-                            id='well_type_selector',
-                            options=[
-                                {'label': 'All ', 'value': 'all'},
-                                {'label': 'Productive only ', 'value': 'productive'},  # noqa: E501
-                                {'label': 'Customize ', 'value': 'custom'}
-                            ],
-                            value='productive',
-                            labelStyle={'display': 'inline-block'}
-                        ),
-                        dcc.Dropdown(
-                            id='well_types',
-                            options=well_type_options,
-                            multi=True,
-                            value=list(WELL_TYPES.keys()),
-                        ),
-                    ],
-                    className='six columns'
-                ),
-            ],
-            className='row'
-        ),
-        html.Div(
-                # html.Div(
-                [
-                    dcc.Graph(id='main_graph')
-                ],
-                className='row',
-                style={'margin-top': '20'}
-                # ),
-                # html.Div(
-                #     [
-                #         dcc.Graph(id='individual_graph')
-                #     ],
-                #     className='four columns',
-                #     style={'margin-top': '20'}
-                # ),
-            # className='row'
-        )
-        # html.Div(
-        #     [
-        #         html.Div(
-        #             [
-        #                 dcc.Graph(id='count_graph')
-        #             ],
-        #             className='four columns',
-        #             style={'margin-top': '10'}
-        #         ),
-        #         html.Div(
-        #             [
-        #                 dcc.Graph(id='pie_graph')
-        #             ],
-        #             className='four columns',
-        #             style={'margin-top': '10'}
-        #         ),
-        #         html.Div(
-        #             [
-        #                 dcc.Graph(id='aggregate_graph')
-        #             ],
-        #             className='four columns',
-        #             style={'margin-top': '10'}
-        #         ),
-        #     ],
-        #     className='row'
-        # ),
+              className = 'two columns',
+              style = {'margin-top': '5'}
+              )
     ],
-    className='ten columns offset-by-one'
+    className='three columns offset-by-two'
 )
 
 
 # In[]:
 # Helper functions
-
-def filter_dataframe(df, well_statuses, well_types, year_slider):
-    dff = df[df['Well_Status'].isin(well_statuses)
-             & df['Well_Type'].isin(well_types)
-             & (df['Date_Well_Completed'] > dt.datetime(year_slider[0], 1, 1))
-             & (df['Date_Well_Completed'] < dt.datetime(year_slider[1], 1, 1))]
-    return dff
-
-
-def fetch_individual(api):
-    try:
-        points[api]
-    except:
-        return None, None, None, None
-
-    index = list(range(min(points[api].keys()), max(points[api].keys()) + 1))
-    gas = []
-    oil = []
-    water = []
-
-    for year in index:
-        try:
-            gas.append(points[api][year]['Gas Produced, MCF'])
-        except:
-            gas.append(0)
-        try:
-            oil.append(points[api][year]['Oil Produced, bbl'])
-        except:
-            oil.append(0)
-        try:
-            water.append(points[api][year]['Water Produced, bbl'])
-        except:
-            water.append(0)
-
-    return index, gas, oil, water
-
-
-def fetch_aggregate(selected, year_slider):
-
-    index = list(range(max(year_slider[0], 1985), 2016))
-    gas = []
-    oil = []
-    water = []
-
-    for year in index:
-        count_gas = 0
-        count_oil = 0
-        count_water = 0
-        for api in selected:
-            try:
-                count_gas += points[api][year]['Gas Produced, MCF']
-            except:
-                pass
-            try:
-                count_oil += points[api][year]['Oil Produced, bbl']
-            except:
-                pass
-            try:
-                count_water += points[api][year]['Water Produced, bbl']
-            except:
-                pass
-        gas.append(count_gas)
-        oil.append(count_oil)
-        water.append(count_water)
-
-    return index, gas, oil, water
-
+#
+# def filter_dataframe(df, well_statuses, well_types, year_slider):
+#     dff = df[df['Well_Status'].isin(well_statuses)
+#              & df['Well_Type'].isin(well_types)
+#              & (df['Date_Well_Completed'] > dt.datetime(year_slider[0], 1, 1))
+#              & (df['Date_Well_Completed'] < dt.datetime(year_slider[1], 1, 1))]
+#     return dff
+#
+#
+# def fetch_individual(api):
+#     try:
+#         points[api]
+#     except:
+#         return None, None, None, None
+#
+#     index = list(range(min(points[api].keys()), max(points[api].keys()) + 1))
+#     gas = []
+#     oil = []
+#     water = []
+#
+#     for year in index:
+#         try:
+#             gas.append(points[api][year]['Gas Produced, MCF'])
+#         except:
+#             gas.append(0)
+#         try:
+#             oil.append(points[api][year]['Oil Produced, bbl'])
+#         except:
+#             oil.append(0)
+#         try:
+#             water.append(points[api][year]['Water Produced, bbl'])
+#         except:
+#             water.append(0)
+#
+#     return index, gas, oil, water
+#
+#
+# def fetch_aggregate(selected, year_slider):
+#
+#     index = list(range(max(year_slider[0], 1985), 2016))
+#     gas = []
+#     oil = []
+#     water = []
+#
+#     for year in index:
+#         count_gas = 0
+#         count_oil = 0
+#         count_water = 0
+#         for api in selected:
+#             try:
+#                 count_gas += points[api][year]['Gas Produced, MCF']
+#             except:
+#                 pass
+#             try:
+#                 count_oil += points[api][year]['Oil Produced, bbl']
+#             except:
+#                 pass
+#             try:
+#                 count_water += points[api][year]['Water Produced, bbl']
+#             except:
+#                 pass
+#         gas.append(count_gas)
+#         oil.append(count_oil)
+#         water.append(count_water)
+#
+#     return index, gas, oil, water
+#
 
 # In[]:
 # Create callbacks
 
-# Radio -> multi
-@app.callback(Output('well_statuses', 'value'),
-              [Input('well_status_selector', 'value')])
-def display_status(selector):
-    if selector == 'all':
-        return list(WELL_STATUSES.keys())
-    elif selector == 'active':
-        return ['AC']
-    else:
-        return []
-
-
-# Radio -> multi
-@app.callback(Output('well_types', 'value'),
-              [Input('well_type_selector', 'value')])
-def display_type(selector):
-    if selector == 'all':
-        return list(WELL_TYPES.keys())
-    elif selector == 'productive':
-        return ['GD', 'GE', 'GW', 'IG', 'IW', 'OD', 'OE', 'OW']
-    else:
-        return []
+# # Radio -> multi
+# @app.callback(Output('well_statuses', 'value'),
+#               [Input('well_status_selector', 'value')])
+# def display_status(selector):
+#     if selector == 'all':
+#         return list(WELL_STATUSES.keys())
+#     elif selector == 'active':
+#         return ['AC']
+#     else:
+#         return []
+#
+#
+# # Radio -> multi
+# @app.callback(Output('well_types', 'value'),
+#               [Input('well_type_selector', 'value')])
+# def display_type(selector):
+#     if selector == 'all':
+#         return list(WELL_TYPES.keys())
+#     elif selector == 'productive':
+#         return ['GD', 'GE', 'GW', 'IG', 'IW', 'OD', 'OE', 'OW']
+#     else:
+#         return []
 
 #
 # # Slider -> count graph
@@ -416,64 +314,65 @@ def display_type(selector):
 #     return "{} | {}".format(year_slider[0], year_slider[1])
 
 
-# Selectors -> main graph
-@app.callback(Output('main_graph', 'figure'),
-              [Input('well_statuses', 'value'),
-               Input('well_types', 'value'),
-               Input('year_slider', 'value')],
-              [State('lock_selector', 'values'),
-               State('main_graph', 'relayoutData')])
-def make_main_figure(well_statuses, well_types, year_slider,
-                     selector, main_graph_layout):
-
-    # dff = filter_dataframe(df, well_statuses, well_types, year_slider)
-
-    traces = []
-    # for well_type, dfff in dff.groupby('Well_Type'):
-    trace = dict(
-        type='scatter',
-        x=df['prediction_V'],
-        y=df['prediction_A'],
-        text=df['songnames'],
-        mode='markers',
-        # customdata=dfff['API_WellNo'],
-        name='MusicMap',
-        marker=dict(
-            size=20,
-            opacity=1.0,
-            color='o'
-        )
-    )
-    traces.append(trace)
-    #
-    # layout['images'] = [dict(
-    #     source="/static/va_scale.png",
-    #     xref="x",
-    #     yref="y",
-    #     sizing="stretch",
-    #     # xref="paper", yref="paper",
-    #     # x=1, y=1.05,
-    #     # sizex=1000, sizey=1000,
-    #     # xanchor="right", yanchor="bottom"
-    # )]
-
-    # if (main_graph_layout is not None and 'locked' in selector):
-    #
-    #     lon = float(main_graph_layout['mapbox']['center']['lon'])
-    #     lat = float(main_graph_layout['mapbox']['center']['lat'])
-    #     zoom = float(main_graph_layout['mapbox']['zoom'])
-    #     layout['mapbox']['center']['lon'] = lon
-    #     layout['mapbox']['center']['lat'] = lat
-    #     layout['mapbox']['zoom'] = zoom
-    # else:
-    #     lon = -78.05
-    #     lat = 42.54
-    #     zoom = 7
-
-    figure = dict(data=traces, layout=layout)
-    return figure
-
+# # # Selectors -> main graph
+# @app.callback(Output('main_graph', 'figure'),
+#               [],
+#               # [Input('main_graph', 'figure')],
+#                # Input('well_types', 'value'),
+#                # Input('year_slider', 'value')],
+#               # [State('lock_selector', 'values'),
+#                [State('main_graph', 'relayoutData')])
+# def make_main_figure(well_statuses, well_types, year_slider,
+#                      selector, main_graph_layout):
 #
+#     # dff = filter_dataframe(df, well_statuses, well_types, year_slider)
+#
+#     traces = []
+#     # for well_type, dfff in dff.groupby('Well_Type'):
+#     trace = dict(
+#         type='scatter',
+#         x=df['prediction_V'],
+#         y=df['prediction_A'],
+#         text=df['songnames'],
+#         mode='markers',
+#         # customdata=dfff['API_WellNo'],
+#         name='MusicMap',
+#         marker=dict(
+#             size=20,
+#             opacity=0.8,
+#             color="#ffba00"
+#         )
+#     )
+#     traces.append(trace)
+#     #
+#     # layout['images'] = [dict(
+#     #     source="/static/va_scale.png",
+#     #     xref="x",
+#     #     yref="y",
+#     #     sizing="stretch",
+#     #     # xref="paper", yref="paper",
+#     #     # x=1, y=1.05,
+#     #     # sizex=1000, sizey=1000,
+#     #     # xanchor="right", yanchor="bottom"
+#     # )]
+#
+#     # if (main_graph_layout is not None and 'locked' in selector):
+#     #
+#     #     lon = float(main_graph_layout['mapbox']['center']['lon'])
+#     #     lat = float(main_graph_layout['mapbox']['center']['lat'])
+#     #     zoom = float(main_graph_layout['mapbox']['zoom'])
+#     #     layout['mapbox']['center']['lon'] = lon
+#     #     layout['mapbox']['center']['lat'] = lat
+#     #     layout['mapbox']['zoom'] = zoom
+#     # else:
+#     #     lon = -78.05
+#     #     lat = 42.54
+#     #     zoom = 7
+#
+#     figure = dict(data=traces, layout=layout)
+#     return figure
+
+# #
 # # Main graph -> individual graph
 # @app.callback(Output('individual_graph', 'figure'),
 #               [Input('main_graph', 'hoverData')])
