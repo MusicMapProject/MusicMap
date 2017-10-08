@@ -11,6 +11,7 @@ import torchvision.transforms as transforms
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from torch.autograd import Variable
 import torch.nn as nn
@@ -85,7 +86,7 @@ class Network:
     def load(self, model_filename):
         self.net = torch.load(model_filename)
 
-    def predict(self, img_dir):
+    def predict(self, img_dir, dst_path):
         if not self.net:
             raise Exception("Load or train model before predict, bro")
         else:
@@ -108,14 +109,20 @@ class Network:
                 else:
                     predictions = outputs.data.cpu().numpy()
 
-            return predictions, test_set.get_songnames()
+            songnames = test_set.get_songnames()
+
+            tmp_df = pd.DataFrame(data=zip(predictions[:,0], predictions[:,1], songnames),
+                                  columns=["valence", "arousal", "songnames"])
+            tmp_df.to_csv(dst_path, index=False)
+
+            return predictions, songnames
 
 
     def train(self, 
               train_csv="10sec/spectrs_10sec_labels_train.csv",
               validate_csv="10sec/spectrs_10sec_labels_val.csv",
               spectrs_dir="10sec/spectrs_10sec_new/",
-              nb_epochs=6, verbose_step=200, save_step=20, visualize_step=5,
+              nb_epochs=6, verbose_step=200, save_step=100, visualize_step=20,
               model_name="10sec"):
         print "START TRAIN"
         
@@ -200,8 +207,8 @@ class Network:
                     outputs = self.net(inputs)
                     outputs = outputs.data.cpu().numpy()
                     names = valid_set.get_songnames(range(0,200,4))
-                    # print outputs[:10]
-                    # print "labels", labels[:10]
+                    print outputs[:10]
+                    print "labels", labels[:10]
                     visualization.show_on_map(
                         outputs[0:200:4,0], outputs[0:200:4,1], names, 
                         train_pics + str(epoch)
@@ -216,13 +223,13 @@ class Network:
 
 
 if __name__ == "__main__":
-    pass
+    # pass
     # print torch.cuda.is_available()
-    # net = Network()
+    net = Network()
     # net.train(nb_epochs=10000000, verbose_step=50)
-    # net.load("../models/test_model_epoch_220")
-    # preprocess_dir("../data/our_audio/")
-    # predictions, names = net.predict("../data/preprocess_data_our_audio/spectrs/")
-    # visualization.show_on_map(
-                        # predictions[0:200:4,0], predictions[0:200:4,1], names, "../train_pic/our_audio"
-                    # )
+    net.load("../models/balanced_40sec/saved_models/9500")
+    preprocess_dir("../data/our_audio/", nb_secs=40)
+    predictions, names = net.predict("../data/preprocess_data_our_audio/spectrs/")
+    visualization.show_on_map(
+                        predictions[:,0], predictions[:,1], names, "../train_pic/our_audio"
+                    )
