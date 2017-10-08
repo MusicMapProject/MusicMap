@@ -20,7 +20,10 @@ def add_postfix(dir_name, postfix):
     files = os.listdir(dir_name)
     for f in tqdm(files):
         filename, extension = os.path.splitext(f)
-        os.rename(dir_name + filename + extension, dir_name + filename + postfix + extension)
+        os.rename(
+            os.path.join(dir_name, filename + extension),
+            os.path.join(dir_name, filename + postfix + extension)
+        )
 
 
 def split_one_audio((f, dir_src, dir_dst, nb_secs)):
@@ -34,15 +37,14 @@ def split_one_audio((f, dir_src, dir_dst, nb_secs)):
     """
     try:
         filename, extension = os.path.splitext(f)
-        mp3_to_wav(dir_src + filename + extension)
-    except Exception as e:
-        print e
+        mp3_to_wav(os.path.join(dir_src, filename + extension))
+    except:
         return
     new_extension = '.wav'
     # print nb_secs
     # print "create " + dir_src + filename + new_extension
-    split(dir_src + filename + new_extension, nb_secs, dir_dst)
-    os.remove(dir_src + filename + new_extension)
+    split(os.path.join(dir_src, filename + new_extension), nb_secs, dir_dst)
+    os.remove(os.path.join(dir_src, filename + new_extension))
     # print "delete " + dir_src + filename + new_extension
 
 
@@ -55,8 +57,8 @@ def create_one_spectrogram((f, dir_src, dir_dst)):
     """
     # filename, extension = os.path.splitext(f) в аудио может быть точка в названии :(
     filename, extension = ".".join(f.strip().split(".")[:-1]), f.strip().split(".")[-1]
-    wav_file = WavFile.read(dir_src + f)
-    save_spectrogram(wav_file, dir_dst + filename, size=(256, 215))
+    wav_file = WavFile.read(os.path.join(dir_src, f))
+    save_spectrogram(wav_file, os.path.join(dir_dst, filename), size=(256, 215))
 
 
     #32 processes - 4 min
