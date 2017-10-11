@@ -2,7 +2,7 @@ FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu16.04
 MAINTAINER Vladimir Bugaevsky <bugaevsky@mail.ru>
 
 # install common dependencies
-RUN apt-get update -y && apt-get install -y sudo vim less python wget git
+RUN apt-get update -y && apt-get install -y sudo vim less python wget git screen liblua5.2
 
 # install anaconda
 RUN . ~/.bashrc && wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-x86_64.sh -O ~/Anaconda2.sh && \
@@ -10,9 +10,13 @@ RUN . ~/.bashrc && wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-
     echo 'export PATH="/opt/anaconda2/bin:$PATH"' >> ~/.bashrc && \
     rm ~/Anaconda2.sh
 
+# install avbin
+RUN . ~/.bashrc && wget https://github.com/downloads/AVbin/AVbin/install-avbin-linux-x86-64-v10 -O ~/avbin.sh && \
+    bash ~/avbin.sh && rm ~/avbin.sh
+
 # install python packages
 ADD requirements.txt .
-RUN . ~/.bashrc && pip install -r requirements.txt
+RUN . ~/.bashrc && pip install -r requirements.txt && rm requirements.txt
 
 # install pytorch
 RUN . ~/.bashrc && conda install pytorch torchvision cuda80 -c soumith

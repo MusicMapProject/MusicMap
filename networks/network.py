@@ -76,6 +76,7 @@ class Net(nn.Module):
 ssd_path = "/mnt/ssd/musicmap_data/"
 project_dir = os.environ.get("HOME") + "/workdir/MusicMap/"
 
+
 class Network:
     def __init__(self):
         self.net = None
@@ -110,8 +111,8 @@ class Network:
 
             songnames = test_set.get_songnames()
 
-            tmp_df = pd.DataFrame(data=np.concatenate([predictions, songnames], axis=1),
-                                  columns=["prediction", "songnames"])
+            tmp_df = pd.DataFrame(data=zip(predictions[:,0], predictions[:,1], songnames),
+                                  columns=["valence", "arousal", "songnames"])
             tmp_df.to_csv(dst_path, index=False)
 
             return predictions, songnames
@@ -129,24 +130,14 @@ class Network:
         saved_models = model_path + "saved_models/"
         train_pics = model_path + "train_pic/"
         
-        try:
+        if not os.path.isdir(model_path):
             os.mkdir(model_path)
-        except Exception as e:
-            print e
-            pass
-        
-        try:
+
+        if not os.path.isdir(saved_models):
             os.mkdir(saved_models)
-        except Exception as e:
-            print e
-            pass
-        
-        try:
+
+        if not os.path.isdir(train_pics):
             os.mkdir(train_pics)
-        except Exception as e:
-            print e
-            pass
-        
         
         logging.basicConfig(filename=model_path + "train.log", filemode='w', level=logging.INFO)
 
