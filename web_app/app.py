@@ -19,6 +19,7 @@ server.secret_key = os.environ.get('secret_key', 'secret')
 
 app = dash.Dash(__name__, server=server, url_base_pathname='/music_map/', csrf_protect=False)  # noqa: E501
 app.css.append_css({'external_url': 'https://cdn.rawgit.com/plotly/dash-app-stylesheets/2d266c578d2a6e8850ebce48fdb52759b2aef506/stylesheet-oil-and-gas.css'})  # noqa: E501
+app.css.append_css({'external_url': 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css'})  # noqa: E501
 app.scripts.append_script({
     "external_url": "/static/framework/js/SSUhtml5Audio.js"
 })
@@ -108,39 +109,56 @@ figure = dict(
 
 app.layout = html.Div(children=
     [html.Div(
-            [
-                html.H1(
-                    'MusicMap',
-                    ),
-            ],
-        className = 'row'
+        html.H1(
+            'Music Map',
+            style = {'margin-top': '15', "font-size":"50px"},
+            className='col-md-auto'
+            ),
+        # className='row'
+        className="row justify-content-center"
     ),
 
-    dcc.Graph(id='main_graph',
-              figure = figure,
-              className = 'two columns',
-              style = {'margin-top': '5'}
-              )
-    ],
-    className='three columns offset-by-two'
+    html.Div(
+        [
+        # className='medium-5 columns offset-by-two'
+        html.Div(
+            dcc.Graph(id='main_graph',
+                      figure = figure,
+
+                      # style = {'margin-top': '5'}
+                      ),
+            className='col-md-auto'
+        ),
+        html.Div(
+            children = [html.Audio(id='player',
+                       # src="",
+                       src="/static/Imagine Dragons - Thunder_3.wav",
+                       style = {"margin-top":"100", "width":"500"},
+                       controls="controls",
+                       contextMenu="trololo",
+                       # autoPlay = "false",
+                       contentEditable="contentEditable",
+                       title="kekekekekke",
+                       draggable='draggable')],
+            className='col-md-4',
+            id = 'players'
+        )
+        ],
+
+        className="row justify-content-center"
+    )]
 )
 
-# Main graph -> indiviual graph
-@app.callback(Output('main_graph', 'figure'),
-              [Input('main_graph', 'clickData')])
-def play_audio(main_graph_click):
-    global first_click
-    global player
-    global cur_audio_name
-
-    if first_click:
-        first_click = False
-        return figure
-
-    audio_dir = "../data/our_audio/audio_parts/"
+@app.callback(Output('players', 'children'),
+              [Input('main_graph', 'clickData')],
+               [State('players', 'children')])
+def play_audio(main_graph_click, cur_players):
+    audio_dir = "/static/audio_parts/"
+    # print cur_players
+    cur_audio_name = cur_players[0]["props"]["contextMenu"]
 
     if not main_graph_click:
-        return figure
+        return cur_players
 
     chosen = [point['customdata'] for point in main_graph_click['points']]
 
@@ -151,37 +169,15 @@ def play_audio(main_graph_click):
         audio_name = audio_dir + filename + ".wav"
 
         if cur_audio_name == audio_name:
-            print "PAUSE"
-            print player
-            for i, p in enumerate(player):
-                p.pause()
-            player = []
-            cur_audio_name = ""
-            # player.pause()
-            # player = None
+            cur_players[0]["props"]["src"] = ""
+            cur_players[0]["props"]["contextMenu"] = ""
         else:
-            print "PLAY AUDIO, last", cur_audio_name
-            print "NEW audio", audio_name
-            if player:
-                for i, p in enumerate(player):
-                    p.pause()
-                player = []
-            audio = media.load(audio_name)
-            try:
-                print "APPEND"
-                player.append(audio.play())
-                # sleep(10)
-                cur_audio_name = audio_name
-            except Exception as e:
-                print "I am here"
-                print e
+            cur_players[0]["props"]["src"] = audio_name
+            cur_players[0]["props"]["contextMenu"] = audio_name
+            cur_players[0]["props"]["autoPlay"] = "autoPlay"
 
-        # player.load(audio_dir + filename + ".wav")
 
-    print len(chosen)
-    print "CUR AUDIO ", cur_audio_name
-
-    return figure
+    return cur_players
 
 
 if __name__ == '__main__':
