@@ -10,7 +10,6 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import os
-import pyglet.media as media
 from time import sleep
 # In[]:
 # Setup app
