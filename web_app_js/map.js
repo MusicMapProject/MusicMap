@@ -1,63 +1,71 @@
-Plotly.d3.csv('https://github.com/MusicMapProject/MusicMap/blob/master/web_app/predictions', function(err, rows){
-    // var YEAR = 2007;
-    // var continents = ['Asia', 'Europe', 'Africa', 'Oceania', 'Americas'];
-    // var POP_TO_PX_SIZE = 2e5;
+Plotly.d3.csv('/data/preprocess_data_our_audio/predictions', function(err, rows){
     function unpack(rows, key) {
+        console.log(rows[0][key])
         return rows.map(function(row) { return row[key]; });
     };
 
     var data = {
+            type: 'scatter',
             mode: 'markers',
             name: 'Music Map',
             x: unpack(rows, 'prediction_V'),
             y: unpack(rows, 'prediction_A'),
             text: unpack(rows, 'songnames'),
             marker: {
-                // sizemode: 'area',
                 size: 25,
-//                sizeref: POP_TO_PX_SIZE
+                opacity: 0.8,
+                color: "#ffba00"
             }
         };
 
     var layout = {
-        images: {
+        images: [{
             opacity: 1,
-            layer: "below",
             xref: "x",
             yref: "y",
             sizex: 8,
             sizey: 8,
+            layer: "below",
+
             source: "http://static.tumblr.com/c7iuapz/0mEnlqrs8/a4e096545ff6937dbf066981adf56ffe.media.700x700.jpg",
             y: 9,
             x: 1,
-            sizing: 'contain'
-        },
+            sizing: 'stretch'
+        }],
         height: 850,
         width: 850,
-        font: dict(color='#CCCCCC'),
-        titlefont: dict(color='#CCCCCC', size='14'),
+        font: {
+            color:'#CCCCCC'
+        },
+        titlefont: {
+            color: '#CCCCCC', 
+            size: '14',
+            },
         yaxis: {
-            "zeroline": False,
+            "zeroline": false,
             "title": "Valence",
             "range": [
                 1,
                 9
             ],
             "ticklen": 1,
-            "showgrid": False
+            "showgrid": false
         },
         xaxis: {
-            "zeroline": False,
+            "zeroline": false,
             "title": "Arousal",
             "range": [
                 1,
                 9
             ],
             "ticklen": 1,
-            "showgrid": False
+            "showgrid": false
         },
         margin: {t: 20},
         hovermode: 'closest'
     };
-    Plotly.plot('myDiv', data, layout, {showLink: false});
+
+    Plotly.plot('myDiv', [data], layout
+                // , {showLink: false}
+               );
 });
