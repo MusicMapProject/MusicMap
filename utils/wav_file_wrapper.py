@@ -80,6 +80,7 @@ def split(file_name, nb_secs, dir_dst):
     """
     :param file_name: input file name
     :param nb_secs: number of seconds in each part
+    :param dir_dst: destination directory, where split files will be stored
     """
     filename, extension = os.path.splitext(file_name)
     wav_file = WavFile.read(file_name)
@@ -90,26 +91,35 @@ def split(file_name, nb_secs, dir_dst):
 
         wav_current = wav_file.get_sub_track(part, part + nb_secs)
         wav_current.write(
-            file_name="{}{}_{}{}".format(dir_dst, os.path.basename(filename), idx, extension)
+            file_name=os.path.join(dir_dst, "{}_{}{}".format(os.path.basename(filename), idx, extension))
         )
 
 
-def save_spectrogram(wav_file, png_image, size=None):
+def bootstrap_track(wav_file, nb_secs, size=10):
     """
-    :param wav_file:  input  file *.wav
+    :param wav_file: WavFile object
+    :param nb_secs: length of sampled track
+    :param size: times to bootstrap
+    :return: list of pairs (offset, subsample)
+    """
+    transfer = len(wav_file) - nb_secs
+    mean, std = transfer / 2.0, transfer / 8.0
+
+    offsets = np.random.normal(loc=mean, scale=std, size=size).astype(int)
+    offsets = np.clip(offsets, 0, transfer).tolist()
+    return [(offset, wav_file.get_sub_track(offset, offset + nb_secs)) for offset in offsets]
+
+
+def save_spectrogram(wav_file, png_image, size=(256, 256), kind='common'):
+    """
+    :param wav_file:  WavFile object
     :param png_image: output file *.png
     :param size: output size of image. default = 1 + wav_file.rate / 2
+    :param kind: type of spectrogram: either 'common' or 'mel'
     """
-    default_height = 862
-    
-    # print "wav file", wav_file
-    # print png_image
-
-    D = librosa.amplitude_to_db(librosa.stft(wav_file.get_channel(0)), ref=np.max)
-    D = D[:, :default_height]
-
-    if size is None:
-        size = D.shape
+    S = {'common': librosa.stft(wav_file.get_channel(0)),
+         'mel': librosa.feature.melspectrogram(y=wav_file.get_channel(0), sr=wav_file.rate)}[kind]
+    D = librosa.power_to_db(S, ref=np.max)
 
     figure = plt.figure(frameon=False, figsize=size, dpi=1)
     ax = plt.Axes(figure, [0., 0., 1., 1.])
@@ -117,7 +127,7 @@ def save_spectrogram(wav_file, png_image, size=None):
     figure.add_axes(ax)
     specshow(D, y_axis='linear', cmap='jet')
     try:
-        figure.savefig(png_image.encode("utf-8"), dpi = 1)
+        figure.savefig(png_image.encode("utf-8"), dpi=1)
     except:
         pass
     plt.close(figure)

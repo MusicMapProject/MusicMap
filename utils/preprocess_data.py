@@ -9,8 +9,9 @@ from multiprocessing import Pool
 import pandas as pd
 import random as r
 import warnings
-import numpy
-
+import numpy as np
+import itertools
+import operator
 
 def add_postfix(dir_name, postfix):
     """
@@ -19,13 +20,15 @@ def add_postfix(dir_name, postfix):
     files = os.listdir(dir_name)
     for f in tqdm(files):
         filename, extension = os.path.splitext(f)
-        os.rename(dir_name + filename + extension, dir_name + filename + postfix + extension)
+        os.rename(
+            os.path.join(dir_name, filename + extension),
+            os.path.join(dir_name, filename + postfix + extension)
+        )
 
 
 def split_one_audio((f, dir_src, dir_dst, nb_secs)):
     """
     Split mp3 file from dir_src to parts and save to dir_dst directory
-
     :f: filename
     :dir_src: source directory
     :dir_dst: destination directory
@@ -34,13 +37,14 @@ def split_one_audio((f, dir_src, dir_dst, nb_secs)):
     """
     try:
         filename, extension = os.path.splitext(f)
-        mp3_to_wav(dir_src + filename + extension)
+        mp3_to_wav(os.path.join(dir_src, filename + extension))
     except:
         return
     new_extension = '.wav'
+    # print nb_secs
     # print "create " + dir_src + filename + new_extension
-    split(dir_src + filename + new_extension, nb_secs, dir_dst)
-    os.remove(dir_src + filename + new_extension)
+    split(os.path.join(dir_src, filename + new_extension), nb_secs, dir_dst)
+    os.remove(os.path.join(dir_src, filename + new_extension))
     # print "delete " + dir_src + filename + new_extension
 
 
@@ -53,8 +57,8 @@ def create_one_spectrogram((f, dir_src, dir_dst)):
     """
     # filename, extension = os.path.splitext(f) в аудио может быть точка в названии :(
     filename, extension = ".".join(f.strip().split(".")[:-1]), f.strip().split(".")[-1]
-    wav_file = WavFile.read(dir_src + f)
-    save_spectrogram(wav_file, dir_dst + filename, size=(256, 215))
+    wav_file = WavFile.read(os.path.join(dir_src, f))
+    save_spectrogram(wav_file, os.path.join(dir_dst, filename), size=(256, 215))
 
 
     #32 processes - 4 min
@@ -73,7 +77,7 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
         os.makedirs(dir_dst)
 
     files_src = os.listdir(dir_src)
-    print "WAV files cnt: ", len(files_src)
+    # print "WAV files cnt: ", len(files_src)
 
     #for split
     #8 processes - 4 min
@@ -101,8 +105,8 @@ def process_all_files(process_function, dir_src, dir_dst, function_param=None):
 def create_labels_for_dataset(labels_file, new_labels_file, tracks_dir):
     """
     """
-    tmp_df = np.asarray(pd.read_csv(labels_file))
-    song_va = {i[1]: [i[2], i[3]] for i in tmp_df}
+    tmp_df = np.asarray(pd.read_csv(labels_file, index_col=0))
+    song_va = {i[0]: [i[1], i[2]] for i in tmp_df}
 
     tracks_filename = os.listdir(tracks_dir)
     songs_parts = {}
@@ -153,6 +157,37 @@ def train_val_split(csv_file):
     tmp_df.to_csv(filename + "_val" + ext, index=False)
 
 
+def bootstrap_spectrogram((music_name, music_dir, spectro_dir)):
+    name, ext = os.path.splitext(music_name)
+    name = name.replace(' ', '_')
+    
+    music_name = os.path.join(music_dir, music_name)
+    if ext == ".mp3":
+        music_name = mp3_to_wav(music_name)
+
+    wav_file = WavFile.read(music_name)
+    for offset, subsample in bootstrap_track(wav_file, nb_secs=40, size=10):
+        subsample_output = os.path.join(spectro_dir, '{}_{}'.format(name, offset))
+        save_spectrogram(subsample, subsample_output, size=(256, 215))
+
+    if ext == ".mp3":
+        os.remove(music_name)
+
+
+def group_by_predictions(preds, names):
+    names = map(lambda x: re.findall(r"^(.*?)_\d+\.png$", x)[0], names)
+    valence, arousal = preds[:, 0].tolist(), preds[:, 1].tolist()
+
+    preds_, names_ = [], []
+    for name, grouped in itertools.groupby(
+            sorted(zip(valence, arousal, names), key=operator.itemgetter(2)),
+            key=operator.itemgetter(2)):
+        preds_.append(np.mean(map(lambda x: (x[0], x[1]), grouped), axis=0))
+        names_.append(name)
+
+    return np.array(preds_), names_
+
+
 def preprocess_dir(dir_path, nb_secs=10):
     path, dir_name = os.path.split(dir_path.strip("/"))
     # print path, dir_name
@@ -172,7 +207,7 @@ if __name__ == "__main__":
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")
-    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_15sec/", 15)
-    # process_all_files(create_one_spectrogram, "../data/audio_parts_10sec/", "../data/spectrs_10sec_new/")
+    # process_all_files(split_one_audio, "../data/audio/", "../data/audio_parts_40sec/", 40)
+    # process_all_files(create_one_spectrogram, "../data/audio_parts_40sec/", "../data/spectrs_40sec_changed/")
     # wav_file = WavFile.read("../data/audio_parts_10sec/5S_1.wav")
     # save_spectrogram(wav_file, "trololo.png", size=(256, 215))
