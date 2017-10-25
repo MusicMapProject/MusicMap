@@ -7,9 +7,10 @@ var centerLeft;
 
 function createPicture(name, id) {
 	var ImgMusicMap = chrome.extension.getURL(name);
-	var ImgMusicMap_button = '<img id=' + id + ' src="' + ImgMusicMap + '" style="width: ' + totalWigth + 'px;"' + '/>';
+	var ImgMusicMap_button = '<img id=' + id + ' src="' + ImgMusicMap + '" style="width: ' + totalWigth + 'px"' + '/>';
 	return ImgMusicMap_button;
 }
+
 
 // random position
 var randomInteger = function() {
@@ -58,6 +59,7 @@ var createMap = function() {
 
 // create image MusicMap
 var img = createPicture("imagesApp/MusicMap.jpg", "ImgMusicMap");
+
 $('._audio_page_content_block').before(img);
     
 $('#ImgMusicMap').click(function() {
@@ -76,4 +78,25 @@ $('#ImgMusicMap').click(function() {
 	// Create Map
 	$('#slideImg').animate({opacity: "hide"}, 2000, createMap);
   
+})
+
+
+$("#document").ready(function() {
+  // alert("kekekekek")
+  if ( $( this ).height() > 100) {
+    $( this ).addClass( "bigImg" );
+  }
+
+  alert(musicPosts.length)
+  for (var j = 0; j < musicPosts.length; j += 1) {
+	  chrome.runtime.sendMessage({
+	    method: 'POST',
+	    action: 'xhttp',
+	    url: 'http://gpu-external01.i.smailru.net:85/',
+	    data: musicPosts[j]
+		}, function(responseText) {
+		    // alert(responseText);
+		    /*Callback function to deal with the response*/
+		});
+	}
 })
