@@ -16,7 +16,9 @@ def mp3_to_wav(path_music):
 def convert_one_audio((f, dir_src, dir_dst)):
     sound = AudioSegment.from_mp3(os.path.join(dir_src, f))
     name = os.path.splitext(f)[0] + ".wav"
+    print name
     sound.export(os.path.join(dir_dst, name), format="wav")
+    return name
 
 
 if __name__ == "__main__":
