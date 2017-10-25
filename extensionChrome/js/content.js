@@ -12,28 +12,9 @@ function createPicture(name, id) {
 };
 
 window.onscroll = function() {
-	console.log("soooooooooooooo")
-	// $('._audio_friends_list_content audio_friends_fixed').before($('.MusicMap'));
 	$('._audio_friends_list_content').removeClass('audio_friends_fixed');
 
 };
-
-// div.audio_friends_list_wrap._audio_friends_list_wrap\
-
-// $(window).scroll(function() {
-// 	console.log("kek")
-// 	$('._audio_friends_list_content audio_friends_fixed').before($('.MusicMap'));
-// 	// $('._audio_friends_list_wrap').offset({top : 1210});
-// 	// $('._audio_page_content_block').before(newDiv);
-// 	// var newDiv = '<div class="MusicMap"></div>';
-// 	// $('._audio_friends_list_wrap').before($('.MusicMap'));
-// });
-
-
-// $('.audio_friends_list_content ._audio_friends_list_content .audio_friends_fixed').ready( function() {
-// 	console.log("sfafsa")
-// 	
-// });
 
 
 // random position
