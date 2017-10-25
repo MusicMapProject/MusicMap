@@ -14,12 +14,13 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import BaseHTTPServer, SimpleHTTPServer
 import ssl
 
+import json
+import codecs
 import os
 import urllib
 import time
 from multiprocessing import Pool
 import threading
-import operator
 
 download_pool = []
 database = dict()
@@ -27,6 +28,7 @@ database = dict()
 
 def download_audio(args):
     urllib.urlretrieve(*args)
+
 
 def proccess_download_pool(path):
     t = threading.currentThread()
@@ -48,6 +50,9 @@ def proccess_download_pool(path):
         pool.close()
         pool.join()
 
+        for audio_id, url in download_backup:
+            user_id = audio_id.split('_')[0]
+            database[user_id][audio_id]['downloaded'] = 1
         download_pool = filter(lambda d: d not in download_backup, download_pool)
 
 
@@ -74,8 +79,8 @@ class S(BaseHTTPRequestHandler):
 
         if user_id not in database:
             database[user_id] = dict()
-        audio = {'id': audio_id, 'artist': artist, 'title': title, 'url': url}
-        if audio_id not in database[user_id] or database[user_id][audio_id] != audio:
+        audio = {'id': audio_id, 'artist': artist, 'title': title, 'url': url, 'downloaded': 0}
+        if audio_id not in database[user_id] or database[user_id][audio_id]['url'] != audio['url']:
             print "{} need to be download!".format(audio_id)
             download_pool.append((audio_id, url))
             database[user_id][audio_id] = audio 
@@ -86,16 +91,26 @@ class S(BaseHTTPRequestHandler):
 
 
 def run(server_class=HTTPServer, handler_class=S, port=86):
+    global database
+
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print 'Starting httpd...at port ', port
+    print 'Starting httpd... at port ', port
     t1 = threading.Thread(target=proccess_download_pool, args=('/mnt/hdd/music_map_project/data_mp3', ))
+    
+    if os.path.isfile("server.conf"):
+        with codecs.open("server.conf", mode='r', encoding='utf-8') as f_json:
+            database = json.load(f_json)
+    
     try:
         t1.start()
         httpd.serve_forever()
     finally:
         t1.do_run = False
         t1.join()
+        
+        with codecs.open("server.conf", mode='w', encoding='utf-8') as f_json:
+            json.dump(database, f_json)
 
 
 if __name__ == "__main__":
