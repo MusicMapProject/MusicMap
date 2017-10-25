@@ -135,23 +135,29 @@ def process_create_spectro_pool():
 
 
 if __name__ == "__main__":
-    t0 = threading.Thread(target=process_new_audios)
+    # t0 = threading.Thread(target=process_new_audios)
+    convert_audio_pool = [
+        os.path.splitext(file_name)[0]
+        for root, dirs, files in os.walk(DATA_MP3)
+        for file_name in files
+    ]
+
     t1 = threading.Thread(target=process_convert_audio_pool)
     t2 = threading.Thread(target=process_create_spectro_pool)
 
     try:
-        t0.start()
+        # t0.start()
         t1.start()
         t2.start()
 
         while True:
             pass
     finally:
-        t0.do_run = False
+        # t0.do_run = False
         t1.do_run = False
         t2.do_run = False
 
-        t0.join()
+        # t0.join()
         t1.join()
         t2.join()
   
