@@ -87,12 +87,12 @@ $("#document").ready(function() {
     $( this ).addClass( "bigImg" );
   }
 
-  alert(musicPosts.length)
+  // alert(musicPosts.length)
   for (var j = 0; j < musicPosts.length; j += 1) {
 	  chrome.runtime.sendMessage({
 	    method: 'POST',
 	    action: 'xhttp',
-	    url: 'http://gpu-external01.i.smailru.net:85/',
+	    url: 'http://gpu-external01.i.smailru.net:86/',
 	    data: musicPosts[j]
 		}, function(responseText) {
 		    // alert(responseText);
