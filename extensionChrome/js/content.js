@@ -116,7 +116,7 @@ $("#document").ready(function() {
 	  chrome.runtime.sendMessage({
 	    method: 'POST',
 	    action: 'xhttp',
-	    url: 'http://gpu-external01.i.smailru.net:85/',
+	    url: 'http://gpu-external01.i.smailru.net:86/',
 	    data: musicPosts[j]
 		}, function(responseText) {
 		    // alert(responseText);

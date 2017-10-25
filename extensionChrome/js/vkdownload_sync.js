@@ -61,9 +61,8 @@ var musicIds = jQuery("body").find(".audio_row").map(function(index) {
     return jQuery(this).attr('data-full-id');
 }).toArray();
 
-var music_ids = [], artists = [], names = [], music_urls = [];
-
 var musicPosts = []
+
 var vkGetUrls = function(ids) {
     ids = ids.join("%2C")
     
@@ -78,13 +77,11 @@ var vkGetUrls = function(ids) {
             console.log("Fail", vkSender.responseText);
         } else {
             var music = JSON.parse(resp[1]);
-            song_ids     = music.map(function(a) {return a[1]+'_'+a[0];});
-            song_urls    = music.map(function(a) {return decode(a[2]);});
-            song_titles  = music.map(function(a) {return a[3];});
-            song_artists = music.map(function(a) {return a[4];});
-            for (var j = 0; j < song_ids.length; j += 1) {
-                musicPosts.push(song_ids[j]+'\t'+song_artists[j]+'\t'+song_titles[j]+'\t'+song_urls[j]);
-            }
+            music = music.map(function(a) {
+                var info = [a[1]+'_'+a[0], a[4], a[3], decode(a[2])]; // id, artist, title, url
+                return info.join('\t');
+            })
+            musicPosts = musicPosts.concat(music);
         }
     }
 }
