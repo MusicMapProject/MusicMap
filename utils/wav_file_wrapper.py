@@ -105,6 +105,8 @@ def bootstrap_track(wav_file, nb_secs, size=10):
     :return: list of pairs (offset, subsample)
     """
     transfer = len(wav_file) - nb_secs
+    if transfer < 0:
+        raise NameError("Audio is too short")
     mean, std = transfer / 2.0, transfer / 8.0
 
     offsets = np.random.normal(loc=mean, scale=std, size=size).astype(int)
