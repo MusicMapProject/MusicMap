@@ -136,10 +136,15 @@ def process_convert_audio_pool():
 def create_spectrogram((file_name, src_dir, dst_dir)):
     wav_file = WavFile.read(os.path.join(src_dir, file_name), scale=False)
     audio_id = os.path.splitext(file_name)[0]
-    for offset, subsample in bootstrap_track(wav_file, nb_secs=40, size=5):
-        save_spectrogram(subsample, os.path.join(
-            dst_dir, "{}_{}.png".format(audio_id, offset)
-        ), size=(256, 215))
+    
+    try:
+        for offset, subsample in bootstrap_track(wav_file, nb_secs=40, size=5):
+            save_spectrogram(subsample, os.path.join(
+                dst_dir, "{}_{}.png".format(audio_id, offset)
+            ), size=(256, 215))
+    except NameError:
+        print os.path.splitext(file_name)[0]+'.png', "ERROR OCCURED"
+
     print os.path.splitext(file_name)[0]+'.png'
 
 
