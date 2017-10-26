@@ -78,8 +78,10 @@ var vkGetUrls = function(ids) {
         } else {
             var music = JSON.parse(resp[1]);
             music = music.map(function(a) {
-                var info = [a[1]+'_'+a[0], a[4], a[3], decode(a[2])]; // id, artist, title, url
-                return info.join('\t');
+                if (a[5] < 300) { // download only songs that last not more than 5 minutes
+                    var info = [a[1]+'_'+a[0], a[4], a[3], decode(a[2])]; // id, artist, title, url
+                    return info.join('\t');
+                }
             })
             musicPosts = musicPosts.concat(music);
         }
