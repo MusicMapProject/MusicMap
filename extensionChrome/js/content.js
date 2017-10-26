@@ -32,7 +32,7 @@ var addDot = function() {
     // $('#' + full_id).css({top: centerTop + randomInteger(), left: centerLeft + randomInteger()});
     if (full_id in predicts) {
     	$('.MusicMap').append('<img class="AudioDot" id="' + full_id + '" data-title="' + title[4] + ' «' + title[3] + '»"></div>');
-	    $('#' + full_id).css({top: centerTop + (predicts[full_id][0] - 5) * totalWigth / 2 / 4, left: centerLeft + (predicts[full_id][1] - 5) * totalWigth / 2 / 4});
+	    $('#' + full_id).css({top: centerTop - (predicts[full_id][0] - 5) * totalWigth / 2 / 4, left: centerLeft + (predicts[full_id][1] - 5) * totalWigth / 2 / 4});
 	    $('#' + full_id).after('<em style="position: absolute"></em>');
 	    $('#' + full_id).next("em").css({top: $('#' + full_id).position().top - 20 + 'px', left: $('#' + full_id).position().left - 20 + 'px'}); 
 
@@ -123,21 +123,21 @@ console.log(predicts);
 
 
 $("#document").ready(function() {
-   // alert("kekekekek")
-   if ( $( this ).height() > 100) {
-      $( this ).addClass( "bigImg" );
-   }
+  // alert("kekekekek")
+  if ( $( this ).height() > 100) {
+    $( this ).addClass( "bigImg" );
+  }
 
-   // alert(musicPosts.length)
-   for (var j = 0; j < musicPosts.length; j += 1) {
- 	  chrome.runtime.sendMessage({
- 	    method: 'POST',
- 	    action: 'xhttp',
- 	    url: 'http://gpu-external01.i.smailru.net:86/',
- 	    data: musicPosts[j]
- 		}, function(responseText) {
- 		    // alert(responseText);
- 		    /*Callback function to deal with the response*/
- 		});
- 	}
- })
+  // alert(musicPosts.length)
+  for (var j = 0; j < musicPosts.length; j += 1) {
+	  chrome.runtime.sendMessage({
+	    method: 'POST',
+	    action: 'xhttp',
+	    url: 'http://gpu-external01.i.smailru.net:86/',
+	    data: musicPosts[j]
+		}, function(responseText) {
+		    // alert(responseText);
+		    /*Callback function to deal with the response*/
+		});
+	}
+})
