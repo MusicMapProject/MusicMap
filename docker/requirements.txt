@@ -8,4 +8,7 @@ dash-html-components==0.8.0  # HTML components
 dash-core-components==0.13.0
 plotly==2.0.16
 
-pyglet==1.2.4
+browsermob-proxy==0.8.0
+selenium==3.6.0
+enum34==1.1.6
+fontconfig==0.1
