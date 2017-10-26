@@ -178,7 +178,7 @@ def process_create_spectro_pool():
         print "Done!"
         
 def grepPartsOfSong(filename):
-    spectro_name = os.path.splitext(file_name)[0]
+    spectro_name = os.path.splitext(filename)[0]
     found = map(lambda line: re.search(spectro_name+'_\d+.png', line), os.listdir(DATA_SPECTRO))
     return map(lambda s: s.group(0), filter(lambda s: s, found))
   
