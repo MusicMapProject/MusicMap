@@ -87,6 +87,10 @@ class Network:
         self.net = torch.load(model_filename)
 
     def predict(self, img_dir, dst_path):
+        
+        #self.net = torch.nn.DataParallel(Net(), device_ids=[0, 2, 3])
+        
+        
         if not self.net:
             raise Exception("Load or train model before predict, bro")
         else:
@@ -111,9 +115,6 @@ class Network:
 
             songnames = test_set.get_songnames()
 
-            tmp_df = pd.DataFrame(data=zip(predictions[:,0], predictions[:,1], songnames),
-                                  columns=["valence", "arousal", "songnames"])
-            tmp_df.to_csv(dst_path, index=False)
 
             return predictions, songnames
 
