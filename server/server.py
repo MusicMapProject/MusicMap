@@ -74,18 +74,19 @@ class S(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
         print post_data # <-- Print post data
         
-        audio_id, artist, title, url = post_data.split('\t')
-        user_id = audio_id.split('_')[0]
+        if post_data != '':
+            audio_id, artist, title, url = post_data.split('\t')
+            user_id = audio_id.split('_')[0]
 
-        if user_id not in database:
-            database[user_id] = dict()
-        audio = {'id': audio_id, 'artist': artist, 'title': title, 'url': url, 'downloaded': 0}
-        if audio_id not in database[user_id] or database[user_id][audio_id]['url'] != audio['url']:
-            print "{} need to be download!".format(audio_id)
-            download_pool.append((audio_id, url))
-            database[user_id][audio_id] = audio 
-        else:
-            print "{} has already been downloaded!".format(audio_id)
+            if user_id not in database:
+                database[user_id] = dict()
+            audio = {'id': audio_id, 'artist': artist, 'title': title, 'url': url, 'downloaded': 0}
+            if audio_id not in database[user_id] or database[user_id][audio_id]['url'] != audio['url']:
+                print "{} need to be download!".format(audio_id)
+                download_pool.append((audio_id, url))
+                database[user_id][audio_id] = audio 
+            else:
+                print "{} has already been downloaded!".format(audio_id)
         
         self._set_headers()
 
