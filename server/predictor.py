@@ -22,7 +22,7 @@ MNT_HDD_PROJECT="/mnt/hdd/music_map_project/"
 MNT_SSD_PROJECT="/mnt/ssd/musicmap_data/"
 
 PROJECT_DIR = os.path.join(os.environ['HOME'], "workdir/MusicMap/")
-MODEL_PATH = os.path.join(PROJECT_DIR, "musicmap_data/models/9500")
+MODEL_PATH = os.path.join(MNT_SSD_PROJECT, "models/9500")
 
 DATA_MP3 = os.path.join(MNT_HDD_PROJECT, "data_mp3")
 DATA_WAV = os.path.join(MNT_HDD_PROJECT, "data_wav")
@@ -30,7 +30,7 @@ DATA_WAV = os.path.join(MNT_HDD_PROJECT, "data_wav")
 DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro")
 DATA_PREDICT = os.path.join(MNT_SSD_PROJECT, "predict")
 
-DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working") 
+DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working")
 #DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro_vbugaevsky")
 
 
