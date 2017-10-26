@@ -20,9 +20,9 @@ MNT_HDD_PROJECT="/mnt/hdd/music_map_project/"
 MNT_SSD_PROJECT="/mnt/ssd/musicmap_data/"
 
 DATA_MP3 = os.path.join(MNT_HDD_PROJECT, "data_mp3")
-DATA_WAV = os.path.join(MNT_HDD_PROJECT, "data_wav")
+DATA_WAV = os.path.join(MNT_HDD_PROJECT, "data_wav_vbugaevsky")
 
-DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro")
+DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro_vbugaevsky")
 
 
 if not os.path.isdir(DATA_MP3):
@@ -41,6 +41,18 @@ convert_audio_pool = []
 create_spectro_pool = []
 predict_pool = []
 
+def load_proccessed_audios(file_name):
+    if not os.path.isfile(file_name):
+        return []
+
+    with open(file_name, mode='r') as f_name:
+        return filter(lambda x: len(x) > 0, f_name)
+
+def dump_proccessed_audios(file_name):
+    with open(file_name, mode='w') as f_name:
+        f_name.writelines(audio_processed)
+
+audio_processed = load_proccessed_audios("predictor.base")
 
 def process_new_audios():
     t = threading.currentThread()
@@ -49,13 +61,21 @@ def process_new_audios():
     global audio_processed
 
     while getattr(t, "do_run", True):
+        print "Looking for new audios..."
         audio = [
             os.path.splitext(file_name)[0]
             for root, dirs, files in os.walk(DATA_MP3)
             for file_name in files
         ]
         audio = filter(lambda f: f not in audio_processed and f not in convert_audio_pool, audio)
-        convert_audio_pool.extend(audio)
+        
+        if len(audio) == 0:
+            print "No new audios found!"
+        else:
+            for a in audio:
+                print a + '.mp3'
+            convert_audio_pool.extend(audio)
+        
         time.sleep(30)
         # TODO: Think of better way to do it
 
@@ -63,6 +83,7 @@ def process_new_audios():
 def process_convert_audio_pool():
     t = threading.currentThread()
 
+    global audio_processed
     global convert_audio_pool
     global create_spectro_pool 
 
@@ -102,7 +123,7 @@ def create_spectrogram((file_name, src_dir, dst_dir)):
         save_spectrogram(subsample, os.path.join(
             dst_dir, "{}_{}.png".format(audio_id, offset)
         ), size=(256, 215))
-    print file_name
+    print os.path.splitext(file_name)[0]+'.png'
 
 
 def process_create_spectro_pool():
@@ -135,29 +156,25 @@ def process_create_spectro_pool():
 
 
 if __name__ == "__main__":
-    # t0 = threading.Thread(target=process_new_audios)
-    convert_audio_pool = [
-        os.path.splitext(file_name)[0]
-        for root, dirs, files in os.walk(DATA_MP3)
-        for file_name in files
-    ]
-
+    t0 = threading.Thread(target=process_new_audios)
     t1 = threading.Thread(target=process_convert_audio_pool)
     t2 = threading.Thread(target=process_create_spectro_pool)
 
     try:
-        # t0.start()
+        t0.start()
         t1.start()
         t2.start()
 
         while True:
             pass
     finally:
-        # t0.do_run = False
+        t0.do_run = False
         t1.do_run = False
         t2.do_run = False
 
-        # t0.join()
+        t0.join()
         t1.join()
         t2.join()
+
+        dump_proccessed_audios("predictor.base")
   
