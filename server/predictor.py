@@ -27,11 +27,11 @@ DATA_MP3 = os.path.join(MNT_HDD_PROJECT, "data_mp3")
 DATA_WAV = os.path.join(MNT_HDD_PROJECT, "data_wav_vbugaevsky")
 
 
-DATA_SPECTRO_TOTAL = os.path.join(MNT_SSD_PROJECT, "spectro")
+DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro")
 DATA_PREDICT = os.path.join(MNT_SSD_PROJECT, "predict")
 
 DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working") 
-DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro_vbugaevsky")
+#DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro_vbugaevsky")
 
 
 if not os.path.isdir(DATA_MP3):
@@ -184,24 +184,27 @@ def process_predict():
     global net
     
     while getattr(t, "do_run", True):
-        '''
+       
         backup = predict_pool[:]
         if len(backup) == 0:
             print "process_create_predict_pool waiting..."
             time.sleep(5)
             continue
-        '''
-        #backup = ['21087037_456240747', '15598144_456239280']
-        #for file_name in backup:
-        #    for part in grepPartsOfSong(file_name):
-        #        os.rename(os.path.join(DATA_SPECTRO_TOTAL, part), \
-        #                  os.path.join(DATA_SPECTRO_WORKING, part))
+      
+        for file_name in backup:
+            for part in grepPartsOfSong(file_name):
+                os.rename(os.path.join(DATA_SPECTRO, part), \
+                          os.path.join(DATA_SPECTRO_WORKING, part))
        
         predictions, songnames = net.predict(DATA_SPECTRO_WORKING + '/', DATA_PREDICT)
-        print songnames
         names_, preds_ = group_by_predictions(predictions, songnames)
-        print names_
         saveToCsv(names_, preds_, DATA_PREDICT)
+        
+        files = os.listdir(DATA_SPECTRO_WORKING)
+        for file_name in files:
+            file_path = os.path.join(DATA_SPECTRO_WORKING, files)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
 
         print "Predicted!"
     
@@ -210,13 +213,13 @@ if __name__ == "__main__":
     t0 = threading.Thread(target=process_new_audios)
     t1 = threading.Thread(target=process_convert_audio_pool)
     t2 = threading.Thread(target=process_create_spectro_pool)
-    #t3 = threading.Thread(target=process_predict)
+    t3 = threading.Thread(target=process_predict)
 
     try:
         t0.start()
         t1.start()
         t2.start()
-        #t3.start()
+        t3.start()
 
         while True:
             pass
@@ -224,11 +227,11 @@ if __name__ == "__main__":
         t0.do_run = False
         t1.do_run = False
         t2.do_run = False
-        #t3.do_run = False
+        t3.do_run = False
 
         t0.join()
         t1.join()
         t2.join()
-        #t3.join()
+        t3.join()
 
         dump_proccessed_audios("predictor.base")
