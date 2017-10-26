@@ -210,13 +210,13 @@ if __name__ == "__main__":
     t0 = threading.Thread(target=process_new_audios)
     t1 = threading.Thread(target=process_convert_audio_pool)
     t2 = threading.Thread(target=process_create_spectro_pool)
-    t3 = threading.Thread(target=process_predict)
+    #t3 = threading.Thread(target=process_predict)
 
     try:
         t0.start()
         t1.start()
         t2.start()
-        t3.start()
+        #t3.start()
 
         while True:
             pass
@@ -224,11 +224,11 @@ if __name__ == "__main__":
         t0.do_run = False
         t1.do_run = False
         t2.do_run = False
-        t3.do_run = False
+        #t3.do_run = False
 
         t0.join()
         t1.join()
         t2.join()
-        t3.join()
+        #t3.join()
 
         dump_proccessed_audios("predictor.base")
