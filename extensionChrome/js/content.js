@@ -32,7 +32,7 @@ var addDot = function() {
     // $('#' + full_id).css({top: centerTop + randomInteger(), left: centerLeft + randomInteger()});
     if (full_id in predicts) {
     	$('.MusicMap').append('<img class="AudioDot" id="' + full_id + '" data-title="' + title[4] + ' «' + title[3] + '»"></div>');
-	    $('#' + full_id).css({top: centerTop + (predicts[full_id][0] - 5) * totalWigth / 2 / 4, left: centerLeft + (predicts[full_id][1] - 5) * totalWigth / 2 / 4});
+	    $('#' + full_id).css({top: centerTop - (predicts[full_id][0] - 5) * totalWigth / 2 / 4, left: centerLeft + (predicts[full_id][1] - 5) * totalWigth / 2 / 4});
 	    $('#' + full_id).after('<em style="position: absolute"></em>');
 	    $('#' + full_id).next("em").css({top: $('#' + full_id).position().top - 20 + 'px', left: $('#' + full_id).position().left - 20 + 'px'}); 
 
