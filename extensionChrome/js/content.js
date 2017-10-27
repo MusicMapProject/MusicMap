@@ -118,11 +118,11 @@ function processData(allText) {
 
 var userId = $('.audio_row').first().attr("data-full-id").split('_')[0];
 
-getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict_tmp/' + userId);
+getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' + userId);
 console.log(predicts);
 
 
-$("#document").ready(function() {
+/* $("#document").ready(function() {
   // alert("kekekekek")
   if ( $( this ).height() > 100) {
     $( this ).addClass( "bigImg" );
@@ -137,7 +137,7 @@ $("#document").ready(function() {
 	    data: musicPosts[j]
 		}, function(responseText) {
 		    // alert(responseText);
-		    /*Callback function to deal with the response*/
+		    // Callback function to deal with the response
 		});
 	}
-})
+}) */
