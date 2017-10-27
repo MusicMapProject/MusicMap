@@ -103,18 +103,21 @@ def process_convert_audio_pool():
         spoiled = filter(lambda f: os.path.getsize(os.path.join(DATA_MP3, f+'.mp3')) < 2048, backup)
         backup = filter(lambda f: f not in spoiled, backup)
 
-        pool = Pool(processes=10)
-        res = pool.map_async(convert_one_audio, zip(
-                map(lambda s: s+'.mp3', backup),
-                [DATA_MP3] * len(backup),
-                [DATA_WAV] * len(backup)
-        ))
-        res.get()
-        pool.close()
-        pool.join()
+        try:
+            pool = Pool(processes=10)
+            res = pool.map_async(convert_one_audio, zip(
+                    map(lambda s: s+'.mp3', backup),
+                    [DATA_MP3] * len(backup),
+                    [DATA_WAV] * len(backup)
+            ))
+            res.get()
+        finally:
+            pool.terminate()
+            pool.join()
 
         convert_audio_pool = filter(lambda d: d not in backup + spoiled, convert_audio_pool)
         create_spectro_pool.extend(backup)
+        audio_processed.extend(spoiled)
         
         print "Convert: Done!"
 
@@ -147,15 +150,17 @@ def process_create_spectro_pool():
             time.sleep(5)
             continue
         
-        pool = Pool(processes=10)
-        res = pool.map_async(create_spectrogram, zip(
-                map(lambda s: s+'.wav', backup),
-                [DATA_WAV] * len(backup),
-                [DATA_SPECTRO] * len(backup)
-        ))
-        res.get()
-        pool.close()
-        pool.join()
+        try:
+            pool = Pool(processes=10)
+            res = pool.map_async(create_spectrogram, zip(
+                    map(lambda s: s+'.wav', backup),
+                    [DATA_WAV] * len(backup),
+                    [DATA_SPECTRO] * len(backup)
+            ))
+            res.get()
+        finally:
+            pool.terminate()
+            pool.join()
 
         create_spectro_pool = filter(lambda d: d not in backup, create_spectro_pool)
         audio_processed.extend(backup)
