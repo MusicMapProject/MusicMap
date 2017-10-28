@@ -131,6 +131,7 @@ def create_spectrogram((file_name, src_dir, dst_dir)):
             save_spectrogram(subsample, os.path.join(
                 dst_dir, "{}_{}.png".format(audio_id, offset)
             ), size=(256, 215))
+            print "{}_{}.png".format(audio_id, offset)
     except NameError:
         print os.path.splitext(file_name)[0]+'.png', "ERROR OCCURED"
 
@@ -184,6 +185,8 @@ if __name__ == "__main__":
         t0.do_run = False
         t1.do_run = False
         t2.do_run = False
+
+        print "Trying to stop..."
 
         t0.join()
         t1.join()
