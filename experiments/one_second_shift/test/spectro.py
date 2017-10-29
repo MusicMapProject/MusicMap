@@ -27,7 +27,7 @@ def save_spectro((offset, subsample)):
     global spectro_track_name
 
     save_spectrogram(subsample, os.path.join( 
-        spectro_track_name, "{}_{}.png".format(track_name, offset)
+        spectro_track_name, "{}.png".format(offset)
     ), size=(256, 215))
 
 
@@ -48,7 +48,7 @@ for root, dirs_list, files_list in os.walk(DATA_MP3):
         os.mkdir(spectro_track_name)
 
         pool = Pool(processes=10)
-        args = [(offset, wav_file.get_sub_track(offset, offset + 40)) for offset in range(30, 40)]
+        args = [(offset, wav_file.get_sub_track(offset, offset + 40)) for offset in range(60, 70)]
         res = pool.map_async(save_spectro, args)
         res.wait()
         pool.close()
