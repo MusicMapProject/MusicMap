@@ -7,8 +7,8 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-epoch_pattern = r'epoch = (\d+)'
-score_pattern = r'loss = (\d+\.?\d*)'
+EPOCH_PATTERN = r'epoch = (\d+)'
+SCORE_PATTERN = r'loss = (\d+\.?\d*)'
 
 
 def extract_train_valid_scores(file_name):
@@ -20,14 +20,14 @@ def extract_train_valid_scores(file_name):
 
         for line in f_logs:
             if "train" in line:
-                score = float(re.findall(score_pattern, line)[0])
+                score = float(re.findall(SCORE_PATTERN, line)[0])
                 train_score_curr.append(score)
             if "valid" in line:
                 train_score.append(np.mean(train_score_curr))
                 train_score_curr = []
-                score = float(re.findall(score_pattern, line)[0])
+                score = float(re.findall(SCORE_PATTERN, line)[0])
                 valid_score.append(score)
-                epoch = int(re.findall(epoch_pattern, line)[0])
+                epoch = int(re.findall(EPOCH_PATTERN, line)[0])
                 epochs.append(epoch)
 
         return train_score, valid_score, epochs
