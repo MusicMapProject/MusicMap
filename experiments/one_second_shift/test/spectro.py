@@ -49,7 +49,7 @@ for root, dirs_list, files_list in os.walk(DATA_MP3):
         os.mkdir(spectro_track_name)
 
         pool = Pool(processes=10)
-        args = [(offset, wav_file.get_sub_track(offset, offset + 40)) for offset in range(OFFSET_START, OFFSET_START + 20)]
+        args = [(offset, wav_file.get_sub_track(offset, offset + 30)) for offset in range(OFFSET_START, OFFSET_START + 20)]
         res = pool.map_async(save_spectro, args)
         res.wait()
         pool.close()

@@ -19,7 +19,8 @@ from utils.visualization import show_on_map
 from utils.preprocess_data import process_all_files, bootstrap_spectrogram, group_by_predictions
 
 net = Network()
-net.load("/mnt/ssd/musicmap_data/models/2200_1gpu_good_spectro")
+# net.load("/mnt/ssd/musicmap_data/models/2200_1gpu_good_spectro")
+net.load(os.getenv("HOME") + "/workdir/MusicMap/experiments/one_second_shift/models/200_30sec_1gpu")
 
 for root, dirs_list, files_list in os.walk(SPECTRO):
     for dir_spectros in dirs_list:
