@@ -24,7 +24,7 @@
 .AudioDot {
 	background: #6699FF center;
 	/*background: #000000 center;*/
-	border-radius: 100px;
+	border-radius: 60px;
 	width: 20px;
 	height: 20px;
 	position: absolute;

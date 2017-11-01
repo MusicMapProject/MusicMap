@@ -23,12 +23,12 @@ MNT_SSD_PROJECT="/mnt/ssd/musicmap_data/"
 MODELS_DIR = os.path.join(MNT_SSD_PROJECT, "models")
 
 DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro")
-DATA_PREDICT = os.path.join(MNT_SSD_PROJECT, "predict_tmp")
+DATA_PREDICT = os.path.join(MNT_SSD_PROJECT, "predict")
+
+DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working")
 
 if not os.path.isdir(DATA_PREDICT):
         os.mkdir(DATA_PREDICT)
-
-DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working_tmp") 
 
 if not os.path.isdir(DATA_SPECTRO_WORKING):
     os.mkdir(DATA_SPECTRO_WORKING)
