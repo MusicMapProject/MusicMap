@@ -88,9 +88,6 @@ class Network:
 
     def predict(self, img_dir, dst_path):
         
-        #self.net = torch.nn.DataParallel(Net(), device_ids=[0, 2, 3])
-        
-        
         if not self.net:
             raise Exception("Load or train model before predict, bro")
         else:
@@ -108,7 +105,7 @@ class Network:
             for inputs in test_loader:
                 inputs = Variable(inputs.cuda())
                 outputs = self.net(inputs)
-                if predictions:
+                if predictions is not None:
                     predictions = np.concatenate([predictions, outputs.data.cpu().numpy()], axis=0)
                 else:
                     predictions = outputs.data.cpu().numpy()

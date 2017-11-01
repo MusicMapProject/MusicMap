@@ -175,7 +175,7 @@ def bootstrap_spectrogram((music_name, music_dir, spectro_dir)):
 
 
 def group_by_predictions(preds, names):
-    names = map(lambda x: re.findall(r"^(\d+_\d+)_\d+\.png$", x)[0], names)
+    names = map(lambda x: re.findall(r"^-?(\d+_\d+)_\d+\.png$", x)[0], names)
     #names = map(lambda x: x.split('_')[0], names)
     valence, arousal = preds[:, 0].tolist(), preds[:, 1].tolist()
 
@@ -190,8 +190,8 @@ def group_by_predictions(preds, names):
 
 def saveToCsv(songnames, predictions, dst_path):
     
-    df = pd.DataFrame(data=zip(songnames, predictions[:,0], predictions[:,1]),
-                          columns=["songnames", "valence", "arousal"])
+    df = pd.DataFrame(data=zip(songnames, predictions[:,1], predictions[:,0]),
+                          columns=["songnames", "arousal", "valence"])
 
     groups = df.groupby(lambda s: df.iloc[s]["songnames"].split('_')[0])
     print df
