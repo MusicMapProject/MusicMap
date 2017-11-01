@@ -6,6 +6,8 @@ import gc
 import re
 import numpy as np
 import scipy.io.wavfile as wav
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 import librosa
@@ -103,10 +105,16 @@ def bootstrap_track(wav_file, nb_secs, size=10):
     :return: list of pairs (offset, subsample)
     """
     transfer = len(wav_file) - nb_secs
+    if transfer < 0:
+        raise NameError("Audio is too short")
     mean, std = transfer / 2.0, transfer / 8.0
 
-    offsets = np.random.normal(loc=mean, scale=std, size=size).astype(int)
-    offsets = np.clip(offsets, 0, transfer).tolist()
+    offsets = set()
+    while len(offsets) != size:
+        offsets_ = np.random.normal(loc=mean, scale=std, size=size - len(offsets)).astype(int)
+        offsets_ = np.clip(offsets_, 0, transfer).tolist()
+        offsets |= set(offsets_)
+
     return [(offset, wav_file.get_sub_track(offset, offset + nb_secs)) for offset in offsets]
 
 

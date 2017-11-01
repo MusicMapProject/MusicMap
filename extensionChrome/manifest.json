@@ -1,0 +1,60 @@
+{
+  "manifest_version": 2,
+  "name": "__Map_music_name__",
+  "short_name": "VK_MusicMap",
+  "version": "1.0",
+  "icons": {
+    "20": "imagesApp/icon-20.png"
+  },
+  "permissions": [ "tabs", "https://vkontakte.ru/audios*", "https://vk.com/audios*",
+                  "http://gpu-external01.i.smailru.net:*/*"],
+  "browser_action": {
+    "default_icon": {
+      "20": "imagesApp/icon-20.png"
+    },
+    "default_title": "Music Mood Map"
+  },
+
+  "web_accessible_resources": [
+    "js/jquery.js",
+    "imagesApp/MusicMap.jpg",
+    "imagesApp/stars.gif",
+    "imagesApp/background.png",
+    "imagesApp/background6.png",
+    "imagesApp/background3.png",
+    "imagesApp/wolf.jpg"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://vk.com/audios*",
+        "https://vk.com/audios*",
+        "http://www.vk.com/audios*",
+        "https://www.vk.com/audios*"
+      ],
+
+      "js": [
+        "js/jquery.js",
+        "js/content.js",
+        "js/vkdownload_sync.js"
+      ],
+
+      "permissions": [
+        "chrome-extension://*",
+        "http://www.stackoverflow.com/search*",
+        "http://gpu-external01.i.smailru.net:*/*",
+        "tabs", "background", "activeTab",
+        "webNavigation", "webRequest",
+        "http://anywhere.com/request"
+         ],
+
+      "css": ["css/styles.css"],
+      "run_at": "document_end"
+     }
+  ],
+
+  "background": {
+     "scripts": ["js/jquery.js", "js/background.js"]
+    }
+}

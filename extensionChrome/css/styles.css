@@ -1,0 +1,44 @@
+#slideImg {
+	width: 795px;
+	height: 780px;
+}
+
+#ImgMusicMap {
+	width: 795px;
+	height: 150px;
+}
+
+#backgroundMusicMap {
+	width: 795px;
+	height: 780px;
+	/*top: -795px;*/
+	z-index: 2;
+}
+
+.MusicMap {
+	width: 795px;
+	margin-top: 15px;
+	margin-bottom : 15px;
+}
+
+.AudioDot {
+	background: #6699FF center;
+	/*background: #000000 center;*/
+	border-radius: 60px;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	opacity: 0.3;
+	z-index: 3;
+}
+
+.TitleSong {
+	background: #BABABA;
+	width: 100px;
+	height: 30px;
+	opacity: 0.7;
+	z-index: 4;
+	text-align: center;
+	font-weight: normal;
+	display: none;
+}
