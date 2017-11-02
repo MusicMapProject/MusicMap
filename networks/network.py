@@ -120,7 +120,7 @@ class Network:
               train_csv="10sec/spectrs_10sec_labels_train.csv",
               validate_csv="10sec/spectrs_10sec_labels_val.csv",
               spectrs_dir="10sec/spectrs_10sec_new/",
-              nb_epochs=6, verbose_step=200, save_step=100, visualize_step=20,
+              nb_epochs=6, verbose_step=200, save_step=200, visualize_step=20,
               model_name="10sec"):
         print "START TRAIN"
         
@@ -157,8 +157,8 @@ class Network:
         valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=200,
                                                    shuffle=False, num_workers=16)
 
-        # net = Net()
-        self.net = torch.nn.DataParallel(Net(), device_ids=[0, 1, 2, 3])
+        self.net = Net()
+        # self.net = torch.nn.DataParallel(Net(), device_ids=[2, 3])
         self.net.cuda()
 
         criterion = nn.MSELoss()
@@ -204,11 +204,11 @@ class Network:
                     inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
                     outputs = self.net(inputs)
                     outputs = outputs.data.cpu().numpy()
-                    names = valid_set.get_songnames(range(0,200,4))
+                    names = valid_set.get_songnames(range(0,outputs.shape[0],4))
                     print outputs[:10]
                     print "labels", labels[:10]
                     visualization.show_on_map(
-                        outputs[0:200:4,0], outputs[0:200:4,1], names, 
+                        outputs[0::4,0], outputs[0::4,1], names, 
                         train_pics + str(epoch)
                     )
                     break
@@ -225,9 +225,9 @@ if __name__ == "__main__":
     # print torch.cuda.is_available()
     net = Network()
     # net.train(nb_epochs=10000000, verbose_step=50)
-    net.load("../models/balanced_40sec/saved_models/9500")
+    net.load("../models/balanced_40sec_new/saved_models/0")
     preprocess_dir("../data/our_audio/", nb_secs=40)
-    predictions, names = net.predict("../data/preprocess_data_our_audio/spectrs/")
+    predictions, names = net.predict("../data/preprocess_data_our_audio/spectrs/", "./kek")
     visualization.show_on_map(
                         predictions[:,0], predictions[:,1], names, "../train_pic/our_audio"
                     )
