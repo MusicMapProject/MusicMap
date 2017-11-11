@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
 import time
 import requests
 
-TOKEN = "TOKEN"
 
-
-class VkApiAudio:
+class VkAudioAPI:
     def __init__(self, token):
         self.version = "5.68"
         self.token = token
@@ -44,8 +41,9 @@ class VkApiAudio:
         }).json()
 
 
-def main1():
-    vk_api = VkApiAudio(TOKEN)
+def main():
+    token = None
+    vk_api = VkAudioAPI(token)
     # owner_id = 32993651  # Ралина
     owner_id = 15598144  # Вова
     nb_asserted = vk_api.getCount(owner_id=owner_id)['response']
@@ -85,14 +83,5 @@ def main1():
             print music["url"]
 
 
-def main2():
-    vk_api = VkApiAudio(TOKEN)
-    for i in range(4):
-        resp = vk_api.search("Мумий Тролль - Время Тепла", count=100, offset=i * 100, search_own=0, sort=2)
-        for music in resp['response']['items']:
-            print u"{} - {}".format(music['artist'], music['title'])
-
-
 if __name__ == '__main__':
-    main1()
-
+    main()
