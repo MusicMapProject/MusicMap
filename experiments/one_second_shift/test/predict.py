@@ -20,7 +20,8 @@ from utils.preprocess_data import process_all_files, bootstrap_spectrogram, grou
 
 net = Network()
 # net.load("/mnt/ssd/musicmap_data/models/2200_1gpu_good_spectro")
-net.load(os.getenv("HOME") + "/workdir/MusicMap/experiments/one_second_shift/models/200_30sec_1gpu_noshift")
+MODEL_PATH = "/workdir/MusicMap/models/exp_02/saved_models/600"
+net.load(os.getenv("HOME") + MODEL_PATH)
 
 for root, dirs_list, files_list in os.walk(SPECTRO):
     for dir_spectros in dirs_list:
