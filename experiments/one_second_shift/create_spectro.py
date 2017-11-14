@@ -24,7 +24,7 @@ MNT_SSD_PROJECT="/mnt/ssd/musicmap_data/"
 DATA_MP3 = os.path.join(MNT_HDD_PROJECT, "audio")
 DATA_WAV = os.path.join(MNT_HDD_PROJECT, "audio_wav")
 
-SPECTRO = os.path.join(MNT_SSD_PROJECT, "audio_spectro")
+SPECTRO = os.path.join(MNT_SSD_PROJECT, "audio_spectro_vbugaevsky")
 
 print "DATA_MP3: {}".format(DATA_MP3)
 print "DATA_WAV: {}".format(DATA_WAV)
