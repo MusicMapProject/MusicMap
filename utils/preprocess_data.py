@@ -202,12 +202,14 @@ def saveToCsv(songnames, predictions, dst_path):
 
 
 def preprocess_dir(dir_path, nb_secs=10):
-    path, dir_name = os.path.split(dir_path.strip("/"))
-    # print path, dir_name
+    path, dir_name = os.path.split(dir_path[0] + dir_path[1:].strip("/"))
+    print path, dir_name
     preprocess_data_dir = path + "/preprocess_data_" + dir_name
+    print preprocess_data_dir 
     try:
-        os.mkdir(preprocess_data_dir)
-    except:
+        os.makedirs(preprocess_data_dir)
+    except Exception as e:
+        print e
         pass
     parts_dir = preprocess_data_dir + "/audio_parts/"
     spectrs_dir =  preprocess_data_dir + "/spectrs/"
@@ -217,6 +219,8 @@ def preprocess_dir(dir_path, nb_secs=10):
 
 if __name__ == "__main__":
     pass
+    # preprocess_dir("/mnt/hdd/music_map_project/audio/", nb_secs=30)
+    
     # add_postfix("../data/Deam/audio/", "D")
     # add_postfix("../data/1000S/clips_45seconds/", "S")
     # add_postfix("../data/test/", "R")

@@ -55,6 +55,8 @@ if __name__ == "__main__":
     if len(sys.argv) > 3:
         raise "Wrong number of variables" 
     
+    print dir_spectro
+    
     if number_model not in os.listdir(MODELS_DIR):
         raise "Model doesn't exist"
     model_path = os.path.join(MODELS_DIR, number_model)
@@ -70,5 +72,5 @@ if __name__ == "__main__":
     net.load(model_path)
     
     data_spectro = os.path.join(MNT_SSD_PROJECT, dir_spectro)
-    
+    print MNT_SSD_PROJECT,  dir_spectro, data_spectro
     process_predict(net, data_spectro, data_predict)
