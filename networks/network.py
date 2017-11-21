@@ -207,9 +207,18 @@ class Network:
                     names = valid_set.get_songnames(range(0,outputs.shape[0],4))
                     print outputs[:10]
                     print "labels", labels[:10]
+                    """
                     visualization.show_on_map(
                         outputs[0::4,0], outputs[0::4,1], names, 
                         train_pics + str(epoch)
+                    )
+                    """
+                    
+                    labels = labels.data.cpu().numpy()
+                    visualisation.show_on_map_debug(
+                        (labels[0::4, 0],  labels[0::4, 1]),
+                        (outputs[0::4, 0], outputs[0::4, 1]),
+                        names, train_pics + str(epoch)
                     )
                     break
 
