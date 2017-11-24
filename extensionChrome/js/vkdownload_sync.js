@@ -1,3 +1,6 @@
+var arr = document.getElementsByTagName('script');
+var userId = parseInt(arr[1].innerHTML.match(/id: (\d+)/)[1]);
+
 var decode = function(t, e) {
         "use strict";
         function i() {
@@ -47,7 +50,7 @@ var decode = function(t, e) {
                 return t
             },
             i: function(t, e) {
-                return l.s(t, e ^ vk.id)
+                return l.s(t, e ^ userId)
             },
             x: function(t, e) {
                 var i = [];
