@@ -87,7 +87,7 @@ class S(BaseHTTPRequestHandler):
             if user_id not in database:
                 database[user_id] = dict()
             audio = {'id': audio_id, 'artist': artist, 'title': title, 'url': url, 'downloaded': 0}
-            if audio_id not in database[user_id] or database[user_id][audio_id]['url'] != audio['url']:
+            if audio_id not in database[user_id]: # or database[user_id][audio_id]['url'] != audio['url']:
                 print "{} need to be download!".format(audio_id)
                 download_pool.append((audio_id, url))
                 database[user_id][audio_id] = audio 
