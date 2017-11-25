@@ -33,7 +33,7 @@ def show_on_map_debug((valence_true, arousal_true), (valence_pred, arousal_pred)
         ax.annotate(name, (x, y), textcoords='data')
 
     ax.plot(valence_pred, arousal_pred, 'ro', markersize='8')
-    for name, x, y in zip(annotations, valence_true, arousal_true):
+    for name, x, y in zip(annotations, valence_pred, arousal_pred):
         ax.annotate(name, (x, y), textcoords='data')
 
     fig.savefig(image_name)
