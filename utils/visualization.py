@@ -20,3 +20,23 @@ def show_on_map(valence_list, arousal_list, annotations, image_name, figsize=(15
     fig.savefig(image_name)
     plt.close(fig)
     gc.collect()
+
+def show_on_map_debug((valence_true, arousal_true), (valence_pred, arousal_pred),
+        annotations, image_name, figsize=(15, 15)):
+    fig = plt.figure(figsize=figsize)
+    ax = fig.add_subplot(111)
+    background = plt.imread(project_dir + 'utils/va_scale.jpg')
+    ax.imshow(background, extent=[1, 9, 1, 9])
+
+    ax.plot(valence_true, arousal_true, 'bo', markersize='8', alpha=0.6)
+    for name, x, y in zip(annotations, valence_true, arousal_true):
+        ax.annotate(name, (x, y), textcoords='data')
+
+    ax.plot(valence_pred, arousal_pred, 'ro', markersize='8')
+    for name, x, y in zip(annotations, valence_true, arousal_true):
+        ax.annotate(name, (x, y), textcoords='data')
+
+    fig.savefig(image_name)
+    plt.close(fig)
+    gc.collect()
+
