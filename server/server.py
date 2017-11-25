@@ -79,9 +79,9 @@ class S(BaseHTTPRequestHandler):
         
         if post_data != '':
             audio_id, artist, title, url = post_data.split('\t')
-            url = list(urlparse(url))
-            url[-2] = ''
-            url = urlunparse(url)
+            # url = list(urlparse(url))
+            # url[-2] = ''
+            # url = urlunparse(url)
             user_id = audio_id.split('_')[0]
 
             if user_id not in database:
