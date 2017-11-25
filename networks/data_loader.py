@@ -30,6 +30,10 @@ class SpectrogramDataset(Dataset):
 
 
     def __getitem__(self, index):
+        img_name = self.img_path + self.X_train[index]
+        # print self.img_path + self.X_train[index]
+        # if "/mnt/ssd/musicmap_data/audio_spectro_20sec_boots3/1605M_0005.png" == self.img_path + self.X_train[index]:
+        #     img_name = "/mnt/ssd/musicmap_data/audio_spectro_20sec_boots3/1369D_0017.png"
         img = Image.open(self.img_path + self.X_train[index])
         img = img.convert('RGB')
         if self.transform is not None:
