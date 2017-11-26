@@ -108,6 +108,7 @@ def bootstrap_track(wav_file, nb_secs, size=10):
     if transfer < 0:
         raise NameError("Audio is too short")
     mean, std = transfer / 2.0, transfer / 8.0
+    size = min(transfer + 1, size)
 
     offsets = set()
     while len(offsets) != size:
@@ -128,6 +129,13 @@ def save_spectrogram(wav_file, png_image, size=(256, 256), kind='common'):
     S = {'common': librosa.stft(wav_file.get_channel(0)),
          'mel': librosa.feature.melspectrogram(y=wav_file.get_channel(0), sr=wav_file.rate)}[kind]
     D = librosa.power_to_db(S, ref=np.max)
+
+    """
+    S = np.abs(librosa.stft(wav_file.get_channel(0))) ** 2
+    if kind == 'mel':
+        S = librosa.feature.melspectrogram(S=S)
+    D = librosa.power_to_db(S, ref=np.max)
+    """
 
     figure = plt.figure(frameon=False, figsize=size, dpi=1)
     ax = plt.Axes(figure, [0., 0., 1., 1.])
