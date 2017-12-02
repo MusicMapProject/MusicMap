@@ -53,18 +53,29 @@ var addDot = function() {
 
 	    // play music by click
 	    $(document).on('click', '#' + full_id, function() {
-            // This is example how to play a playlist 
-            /*
-            var playlist_id = Math.random() > 0.5 ? '32706276' : '31782403';
-            var actualCode = "getAudioPlayer().playPlaylist(vk.id.toString(),  "
-                    .concat(playlist_id).concat(", '', 'my');");
-            var script = document.createElement('script');
-            script.textContent = actualCode;
-            (document.head||document.documentElement).appendChild(script);
-            script.remove();
-            */
+            var ownerId = $('.audio_row').first().attr("data-full-id").split('_')[0];
+            var path = '/mnt/ssd/musicmap_data/predict/' + ownerId
 
-	        $("[data-full-id$='"+full_id+"']").click();
+            var arr = document.getElementsByTagName('script');
+            var userId = arr[1].innerHTML.match(/id: (\d+)/)[1];
+
+            var audio_id = full_id.split('_')[1];
+
+			chrome.runtime.sendMessage({
+        		method: 'GET',
+        		action: 'xhttp',
+        		url: 'http://gpu-external01.i.smailru.net:86/playlist?user_id='
+                    .concat(userId).concat('&predict=').concat(path).concat('&audio_id=').concat(audio_id)
+        	}, function(playlist_id) {
+                var actualCode = "getAudioPlayer().playPlaylist(vk.id.toString(), "
+                	    .concat(playlist_id).concat(", '', '');");
+	            var script = document.createElement('script');
+    	        script.textContent = actualCode;
+        	    (document.head||document.documentElement).appendChild(script);
+            	script.remove();
+        	});
+            
+	        // $("[data-full-id$='"+full_id+"']").click();
 	    });
 
 	    // animate 

@@ -23,6 +23,8 @@ import time
 from multiprocessing import Pool
 import threading
 
+from utils.vk_api import VkAudioAPI
+
 download_pool = []
 database_audios = dict()
 database_users = dict()
@@ -71,14 +73,48 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         print "Input path:", self.path
 
-        if self.path == '/auth':
+        if self.path.startswith('/auth'):
             # TODO: Right way to authorise: https://vk.com/dev/auth_sites
             # params = parse_qs(urlparse(self.path).query)
             # code = params['code'][0]
             self.wfile.write(answer)
-        elif self.path == "/playlist":
+        elif self.path.startswith("/playlist"):
             # TODO: Implement creating playlist using VkApi
-            pass
+            params = parse_qs(urlparse(self.path).query)
+            user_id = params['user_id'][0]
+
+            """
+            vk_api = VkAudioAPI(database_users[user_id]['access_token'])
+
+            if 'album' in database_users[user_id]:
+                album_id = database_users[user_id]['album']
+                vk_api.deleteAlbum(album_id, user_id)
+            resp = vk_api.addAlbum()
+            print resp
+            album_id = str(resp['response']['album_id'])
+            print 'user_id = {}; album_id = {}'.format(user_id, album_id)
+            database_users[user_id]['album'] = album_id
+            """
+
+            audio_ids = {params['audio_id'][0]}
+            # No check if file exists cause if point is on map then file do exist
+            with open(params['predict'][0]) as f_csv:
+                _ = f_csv.next()  # skip header
+                for line in f_csv:
+                    if len(audio_ids) == 9:
+                        break
+                    audio_id = line.strip().split(',')[0]
+                    audio_id = audio_id.split('_')[1]
+                    audio_ids.add(audio_id)
+                audio_id = params['audio_id'][0]
+                audio_ids.remove(audio_id)
+            audio_ids = [audio_id] + list(audio_ids)
+            print audio_ids
+
+            """
+            vk_api.moveToAlbum(album_id, audio_ids, user_id)
+            """
+            self.wfile.write("31572772")
         else:
             if os.path.exists(self.path):
                 with open(self.path) as f_csv:
