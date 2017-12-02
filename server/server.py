@@ -92,7 +92,7 @@ class S(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
         print post_data # <-- Print post data
 
-        if post_data.find("access_token"):
+        if post_data.find("access_token") != -1:
             user_token = dict(map(lambda x: x.split('='), post_data.split('&')))
             database_users[user_token["user_id"]] = {
                 'access_token': user_token['access_token'],
@@ -100,9 +100,6 @@ class S(BaseHTTPRequestHandler):
             }
         elif post_data != '':
             audio_id, artist, title, url = post_data.split('\t')
-            # url = list(urlparse(url))
-            # url[-2] = ''
-            # url = urlunparse(url)
             user_id = audio_id.split('_')[0]
 
             if user_id not in database_audios:
