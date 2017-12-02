@@ -55,7 +55,9 @@ var addDot = function() {
 	    $(document).on('click', '#' + full_id, function() {
             // This is example how to play a playlist 
             /*
-            var actualCode = "getAudioPlayer().playPlaylist(15598144, 32706276, '', 'my');"
+            var playlist_id = Math.random() > 0.5 ? '32706276' : '31782403';
+            var actualCode = "getAudioPlayer().playPlaylist(vk.id.toString(),  "
+                    .concat(playlist_id).concat(", '', 'my');");
             var script = document.createElement('script');
             script.textContent = actualCode;
             (document.head||document.documentElement).appendChild(script);
