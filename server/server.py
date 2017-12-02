@@ -96,7 +96,7 @@ class S(BaseHTTPRequestHandler):
             user_token = dict(map(lambda x: x.split('='), post_data.split('&')))
             database_users[user_token["user_id"]] = {
                 'access_token': user_token['access_token'],
-                'expires': user_token['expires']
+                'expires_in': user_token['expires_in']
             }
         elif post_data != '':
             audio_id, artist, title, url = post_data.split('\t')
