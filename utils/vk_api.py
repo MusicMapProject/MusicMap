@@ -40,11 +40,10 @@ class VkAudioAPI:
             'access_token': self.token
         }).json()
 
-    def addAlbum(self, query="MusicMAP", owner_id=15598144):
+    def addAlbum(self, title="MusicMAP"):
         return requests.get("https://api.vk.com/method/audio.addAlbum", params={
             'v': 5.64,
-            'title': query,
-            'owner_id': owner_id,
+            'title': title,
             'access_token': self.token,
         }).json()
 
