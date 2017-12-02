@@ -13,9 +13,7 @@ Send a POST request::
     curl -d "foo=bar&bin=baz" http://localhost
 """
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import BaseHTTPServer, SimpleHTTPServer
-import ssl
-from urlparse import urlparse, urlunparse
+from urlparse import urlparse, parse_qs
 
 import json
 import codecs
@@ -74,6 +72,9 @@ class S(BaseHTTPRequestHandler):
         print "Input path:", self.path
 
         if self.path == '/auth':
+            # TODO: Right way to authorise: https://vk.com/dev/auth_sites
+            # params = parse_qs(urlparse(self.path).query)
+            # code = params['code'][0]
             self.wfile.write(answer)
         elif self.path == "/playlist":
             # TODO: Implement creating playlist using VkApi
