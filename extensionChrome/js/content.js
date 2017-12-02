@@ -53,6 +53,15 @@ var addDot = function() {
 
 	    // play music by click
 	    $(document).on('click', '#' + full_id, function() {
+            // This is example how to play a playlist 
+            /*
+            var actualCode = "getAudioPlayer().playPlaylist(15598144, 32706276, '', 'my');"
+            var script = document.createElement('script');
+            script.textContent = actualCode;
+            (document.head||document.documentElement).appendChild(script);
+            script.remove();
+            */
+
 	        $("[data-full-id$='"+full_id+"']").click();
 	    });
 
@@ -136,8 +145,8 @@ var userId = $('.audio_row').first().attr("data-full-id").split('_')[0];
 getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' + userId);
 console.log(predicts);
 
-
-/* $("#document").ready(function() {
+/*
+$("#document").ready(function() {
   // alert("kekekekek")
   if ( $( this ).height() > 100) {
     $( this ).addClass( "bigImg" );
@@ -155,4 +164,6 @@ console.log(predicts);
 		    // Callback function to deal with the response
 		});
 	}
-}) */
+})
+*/
+
