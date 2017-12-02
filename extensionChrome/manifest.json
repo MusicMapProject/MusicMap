@@ -31,7 +31,8 @@
         "http://vk.com/audios*",
         "https://vk.com/audios*",
         "http://www.vk.com/audios*",
-        "https://www.vk.com/audios*"
+        "https://www.vk.com/audios*",
+        "http://gpu-external01.i.smailru.net:*/auth"
       ],
 
       "js": [

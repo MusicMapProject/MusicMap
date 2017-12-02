@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Very simple HTTP server in python.
 Usage::
@@ -24,7 +26,8 @@ from multiprocessing import Pool
 import threading
 
 download_pool = []
-database = dict()
+database_audios = dict()
+database_users = dict()
 
 
 def download_audio(args):
@@ -53,8 +56,11 @@ def proccess_download_pool(path):
 
         for audio_id, url in download_backup:
             user_id = audio_id.split('_')[0]
-            database[user_id][audio_id]['downloaded'] = 1
+            database_audios[user_id][audio_id]['downloaded'] = 1
         download_pool = filter(lambda d: d not in download_backup, download_pool)
+
+
+answer = "<html><body><h1>Get Request Received!</h1></body></html>"
 
 
 class S(BaseHTTPRequestHandler):
@@ -65,9 +71,17 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_headers()
-        #self.send_response(200)
-        f = open(self.path)
-        self.wfile.write(f.read())
+        print "Input path:", self.path
+
+        if self.path == '/auth':
+            self.wfile.write(answer)
+        elif self.path == "/playlist":
+            # TODO: Implement creating playlist using VkApi
+            pass
+        else:
+            if os.path.exists(self.path):
+                with open(self.path) as f_csv:
+                    self.wfile.write(f_csv.read())
 
     def do_HEAD(self):
         self._set_headers()
@@ -76,21 +90,27 @@ class S(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
         print post_data # <-- Print post data
-        
-        if post_data != '':
+
+        if post_data.find("access_token"):
+            user_token = dict(map(lambda x: x.split('='), post_data.split('&')))
+            database_users[user_token["user_id"]] = {
+                'access_token': user_token['access_token'],
+                'expires': user_token['expires']
+            }
+        elif post_data != '':
             audio_id, artist, title, url = post_data.split('\t')
             # url = list(urlparse(url))
             # url[-2] = ''
             # url = urlunparse(url)
             user_id = audio_id.split('_')[0]
 
-            if user_id not in database:
-                database[user_id] = dict()
+            if user_id not in database_audios:
+                database_audios[user_id] = dict()
             audio = {'id': audio_id, 'artist': artist, 'title': title, 'url': url, 'downloaded': 0}
-            if audio_id not in database[user_id]: # or database[user_id][audio_id]['url'] != audio['url']:
+            if audio_id not in database_audios[user_id]: # or database[user_id][audio_id]['url'] != audio['url']:
                 print "{} need to be download!".format(audio_id)
                 download_pool.append((audio_id, url))
-                database[user_id][audio_id] = audio 
+                database_audios[user_id][audio_id] = audio
             else:
                 print "{} has already been downloaded!".format(audio_id)
         
@@ -98,7 +118,8 @@ class S(BaseHTTPRequestHandler):
 
 
 def run(server_class=HTTPServer, handler_class=S, port=86):
-    global database
+    global database_audios
+    global database_users
 
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
@@ -107,7 +128,11 @@ def run(server_class=HTTPServer, handler_class=S, port=86):
     
     if os.path.isfile("server.conf"):
         with codecs.open("server.conf", mode='r', encoding='utf-8') as f_json:
-            database = json.load(f_json)
+            database_audios = json.load(f_json)
+
+    if os.path.isfile("users.conf"):
+        with codecs.open("users.conf", mode='r', encoding='utf-8') as f_json:
+            database_users = json.load(f_json)
     
     try:
         t1.start()
@@ -117,7 +142,10 @@ def run(server_class=HTTPServer, handler_class=S, port=86):
         t1.join()
         
         with codecs.open("server.conf", mode='w', encoding='utf-8') as f_json:
-            json.dump(database, f_json)
+            json.dump(database_audios, f_json)
+
+        with codecs.open("users.conf", mode='w', encoding='utf-8') as f_json:
+            json.dump(database_users, f_json)
 
 
 if __name__ == "__main__":

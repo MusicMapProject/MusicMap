@@ -1,3 +1,18 @@
+if (document.URL.includes("gpu-external01.i.smailru.net")) {
+chrome.runtime.sendMessage({
+    method: 'POST',
+    action: 'xhttp',
+    url: 'http://gpu-external01.i.smailru.net:86/auth',
+    data: window.location.hash.substr(1)
+    }, function(responseText) {
+		var user_id = document.URL.match( /user_id=\d+/i )[0].match( /\d+/i )[0];
+		console.log(user_id);
+        window.location.replace("https://vk.com/audios".concat(user_id));
+		// alert(responseText);
+        // Callback function to deal with the response
+    });
+}
+
 // move music down
 $('._audio_page_content_block').offset({top : 110});
 
