@@ -10,6 +10,15 @@ class VkAudioAPI:
         self.version = 5.68
         self.token = token
 
+    @staticmethod
+    def auth(client_id, client_secret, redirect_uri, code):
+        return requests.get("https://oauth.vk.com/access_token", params={
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'redirect_uri': redirect_uri,
+            'code': code
+        }).json()
+
     def search(self, query, search_own=1, sort=0, count=10, offset=0):
         if count > 100:
             raise ValueError("Max limit for count is 100")
@@ -64,6 +73,14 @@ class VkAudioAPI:
             'access_token': self.token,
         }).json()
 
+    def add(self, album_id, audio_id, owner_id=15598144):
+        return requests.get("https://api.vk.com/method/audio.add", params={
+            'v': 5.64,
+            'album_id': album_id,
+            'audio_id': audio_id,
+            'owner_id': owner_id,
+            'access_token': self.token,
+        }).json()
 
 def main():
     token = None
