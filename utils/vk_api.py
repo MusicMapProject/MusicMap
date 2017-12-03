@@ -7,7 +7,7 @@ import requests
 
 class VkAudioAPI:
     def __init__(self, token):
-        self.version = "5.68"
+        self.version = 5.68
         self.token = token
 
     def search(self, query, search_own=1, sort=0, count=10, offset=0):
@@ -38,6 +38,30 @@ class VkAudioAPI:
             'v': self.version,
             'owner_id': owner_id,
             'access_token': self.token
+        }).json()
+
+    def addAlbum(self, title="MusicMAP"):
+        return requests.get("https://api.vk.com/method/audio.addAlbum", params={
+            'v': 5.64,
+            'title': title,
+            'access_token': self.token,
+        }).json()
+
+    def deleteAlbum(self, album_id, owner_id=15598144):
+        return requests.get("https://api.vk.com/method/audio.deleteAlbum", params={
+            'v': 5.64,
+            'album_id': album_id,
+            'owner_id': owner_id,
+            'access_token': self.token,
+        }).json()
+
+    def moveToAlbum(self, album_id, audio_ids, owner_id=15598144):
+        return requests.get("https://api.vk.com/method/audio.moveToAlbum", params={
+            'v': 5.64,
+            'album_id': album_id,
+            'audio_ids': audio_ids,
+            'owner_id': owner_id,
+            'access_token': self.token,
         }).json()
 
 
