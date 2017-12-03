@@ -1,16 +1,15 @@
 #slideImg {
 	width: 795px;
-	height: 780px;
+	height: 600px;
 }
 
 #ImgMusicMap {
 	width: 795px;
-	height: 150px;
+	height: 180px;
 }
 
 #backgroundMusicMap {
-	width: 795px;
-	height: 780px;
+	height: 600px;
 	/*top: -795px;*/
 	z-index: 2;
 }
@@ -22,13 +21,15 @@
 }
 
 .AudioDot {
-	background: #6699FF center;
-	/*background: #000000 center;*/
-	border-radius: 60px;
-	width: 20px;
-	height: 20px;
+	/*background: #6699FF center;*/
+	background: #FFFFFF center;
+	border: 1px solid #909090;
+	border-radius: 30px;
+	/*border-color: #000000;*/
+	width: 15px;
+	height: 15px;
 	position: absolute;
-	opacity: 0.3;
+	opacity: 0.8;
 	z-index: 3;
 }
 
