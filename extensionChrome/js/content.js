@@ -163,25 +163,27 @@ function processData(allText) {
 
 var userId = $('.audio_row').first().attr("data-full-id").split('_')[0];
 
-getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict_resnet_b5_mel_5200/' + userId);
+getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' + userId);
 console.log(predicts);
 
-// $("#document").ready(function() {
-//   // alert("kekekekek")
-//   if ( $( this ).height() > 100) {
-//     $( this ).addClass( "bigImg" );
-//   }
+/*
+$("#document").ready(function() {
+  // alert("kekekekek")
+  if ( $( this ).height() > 100) {
+    $( this ).addClass( "bigImg" );
+  }
 
-//   // alert(musicPosts.length)
-//   for (var j = 0; j < musicPosts.length; j += 1) {
-// 	  chrome.runtime.sendMessage({
-// 	    method: 'POST',
-// 	    action: 'xhttp',
-// 	    url: 'http://gpu-external01.i.smailru.net:86/',
-// 	    data: musicPosts[j]
-// 		}, function(responseText) {
-// 		    // alert(responseText);
-// 		    /*Callback function to deal with the response*/
-// 		});
-// 	}
-// })
+  // alert(musicPosts.length)
+  for (var j = 0; j < musicPosts.length; j += 1) {
+	  chrome.runtime.sendMessage({
+	    method: 'POST',
+	    action: 'xhttp',
+	    url: 'http://gpu-external01.i.smailru.net:86/',
+	    data: musicPosts[j]
+		}, function(responseText) {
+		    // alert(responseText);
+		    /*Callback function to deal with the response*/
+		});
+	}
+})
+*/
