@@ -182,7 +182,7 @@ $("#document").ready(function() {
 	    data: musicPosts[j]
 		}, function(responseText) {
 		    // alert(responseText);
-		    /*Callback function to deal with the response*/
+		    // Callback function to deal with the response
 		});
 	}
 })
