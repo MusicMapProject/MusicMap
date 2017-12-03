@@ -39,6 +39,57 @@ var randomInteger = function() {
 	return Math.random() * (max - min) + min;
 }
 
+
+jQuery.fn.sortElements = (function(){
+ 
+    var sort = [].sort;
+ 
+    return function(comparator, getSortable) {
+ 
+        getSortable = getSortable || function(){return this;};
+ 
+        var placements = this.map(function(){
+ 
+            var sortElement = getSortable.call(this),
+                parentNode = sortElement.parentNode,
+ 
+                // Since the element itself will change position, we have
+                // to have some way of storing its original position in
+                // the DOM. The easiest way is to have a 'flag' node:
+                nextSibling = parentNode.insertBefore(
+                    document.createTextNode(''),
+                    sortElement.nextSibling
+                );
+ 
+            return function() {
+ 
+                if (parentNode === this) {
+                    throw new Error(
+                        "You can't sort elements if any one is a descendant of another."
+                    );
+                }
+ 
+                // Insert before flag:
+                parentNode.insertBefore(this, nextSibling)
+                $(parentNode).hide().fadeIn(180);
+                // $(parentNode).slideToggle();
+                // Remove flag:
+                parentNode.removeChild(nextSibling);
+ 
+            };
+ 
+        });
+
+
+ 
+        return sort.call(this, comparator).each(function(i){
+            placements[i].call(getSortable.call(this));
+        });
+ 
+    };
+ 
+})();
+
 // add dots on Map
 var addDot = function() {
 	var full_id = $(this).attr("data-full-id");
@@ -77,7 +128,33 @@ var addDot = function() {
         	});
             */
 
+
 	        $("[data-full-id$='"+full_id+"']").click();
+
+	        var sorted_fullid_list = fullid_sorted[full_id];
+	        $('.audio_row').sortElements(function(a, b){
+				// console.log($(a).attr('data-full-id'))
+				// console.log(sorted_fullid_list.indexOf($(a).attr('data-full-id')))
+				a_ = sorted_fullid_list.indexOf($(a).attr('data-full-id'))
+				b_ = sorted_fullid_list.indexOf($(b).attr('data-full-id'))
+
+				if (a_ === -1) {
+					if (b_ !== -1) {
+						console.log("kek")
+						return 1
+					}
+				}
+
+				if (b_ === -1) {
+					if (a_ !== -1) {
+						console.log("kek1")
+						return -1
+					}
+				}
+
+				return sorted_fullid_list.indexOf($(a).attr('data-full-id')) > sorted_fullid_list.indexOf($(b).attr('data-full-id')) ? 1 : -1;
+			});
+			
 	    });
 
 	    // animate 
@@ -133,14 +210,22 @@ $('#ImgMusicMap').click(function() {
   
 })
 
-function getCsv(filename) {
+function getCsv(filename, is_sort) {
     chrome.runtime.sendMessage({
     method: 'GET',
     action: 'xhttp',
     url: filename,
     }, function(data) {
         // console.log(data);
-        processData(data);
+        if (is_sort === false) {
+        	processData(data);
+        	// alert("get csv")
+        } else {
+        	processSortData(data)
+        	// alert("get sorted csv")
+        }
+        
+
     });
 };
 
@@ -161,9 +246,22 @@ function processData(allText) {
     }
 }
 
+var fullid_sorted = {}; 
+function processSortData(allText) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    var headers = allTextLines[0].split(',');
+
+    for (var i=1; i<allTextLines.length; i++) {
+        var data = allTextLines[i].split(',');
+        fullid_sorted[data[0]] = data
+    }
+}
+
 var userId = $('.audio_row').first().attr("data-full-id").split('_')[0];
 
-getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' + userId);
+getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' + userId, false);
+getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' + userId + "_sorted", true);
+
 console.log(predicts);
 
 /*
