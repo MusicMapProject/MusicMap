@@ -104,7 +104,6 @@ var addDot = function() {
 
 	    // play music by click
 	    $(document).on('click', '#' + full_id, function() {
-            /*
             var ownerId = $('.audio_row').first().attr("data-full-id").split('_')[0];
             var path = '/mnt/ssd/musicmap_data/predict/' + ownerId
 
@@ -126,10 +125,8 @@ var addDot = function() {
         	    (document.head||document.documentElement).appendChild(script);
             	script.remove();
         	});
-            */
 
-
-	        $("[data-full-id$='"+full_id+"']").click();
+	        // $("[data-full-id$='"+full_id+"']").click();
 
 	        var sorted_fullid_list = fullid_sorted[full_id];
 	        $('.audio_row').sortElements(function(a, b){
@@ -154,7 +151,6 @@ var addDot = function() {
 
 				return sorted_fullid_list.indexOf($(a).attr('data-full-id')) > sorted_fullid_list.indexOf($(b).attr('data-full-id')) ? 1 : -1;
 			});
-			
 	    });
 
 	    // animate 
