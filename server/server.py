@@ -106,6 +106,7 @@ class S(BaseHTTPRequestHandler):
                 album_id = database_users[user_id]['album']
                 vk_api.deleteAlbum(album_id, user_id)
             resp = vk_api.addAlbum()
+            print resp
             album_id = str(resp['response']['album_id'])
             database_users[user_id]['album'] = album_id
 
@@ -127,7 +128,9 @@ class S(BaseHTTPRequestHandler):
             # Audios should be reversed order. It's a must
             audio_ids = list(audio_ids) + [audio_id]
             for audio_id in audio_ids:
-                vk_api.add(album_id, audio_id, user_id)
+                print audio_id
+                print vk_api.moveToAlbum(album_id, audio_id, user_id)
+                time.sleep(1.0)
             
             self.wfile.write(album_id)
         else:
