@@ -111,6 +111,8 @@ class S(BaseHTTPRequestHandler):
             database_users[user_id]['album'] = album_id
 
             audio_id = params['audio_id'][0]
+            
+            """
             audio_ids = {audio_id}
             
             # No check if file exists cause if point is on map then file do exist
@@ -127,7 +129,27 @@ class S(BaseHTTPRequestHandler):
             
             # Audios should be reversed order. It's a must
             audio_ids = list(audio_ids) + [audio_id]
-            for audio_id in audio_ids:
+            
+            """
+            
+            user_id = params['user_id'][0]
+            audio_id = params['audio_id'][0]
+            predict_path = params['predict'][0]
+            
+            playlist_array = []
+            if not os.path.isfile(predict_path + '_sorted'):
+                print  "Not exit predicted sorted file"
+            else:
+                with open(predict_path + '_sorted') as sort_predict_file:
+                    for line in sort_predict_file.readlines():
+                        ids = line.strip().split(',')
+                        if ids[0] == user_id + '_' + audio_id:
+                            for audio in ids:
+                                playlist_array = [audio.split('_')[1]] + playlist_array
+                                
+            playlist_array = [audio_id] + playlist_array
+            
+            for audio_id in playlist_array:
                 print audio_id
                 print vk_api.moveToAlbum(album_id, audio_id, user_id)
                 time.sleep(1.0)
@@ -176,13 +198,15 @@ def run(server_class=HTTPServer, handler_class=S, port=86):
     global database_audios
     global database_users
 
+    
     if os.path.isfile("server.conf"):
         with codecs.open("server.conf", mode='r', encoding='utf-8') as f_json:
             database_audios = json.load(f_json)
-
+   
     if os.path.isfile("users.conf"):
         with codecs.open("users.conf", mode='r', encoding='utf-8') as f_json:
             database_users = json.load(f_json)
+    
     
     try:
         t1.start()
@@ -196,6 +220,7 @@ def run(server_class=HTTPServer, handler_class=S, port=86):
 
         with codecs.open("users.conf", mode='w', encoding='utf-8') as f_json:
             json.dump(database_users, f_json)
+        
 
 
 if __name__ == "__main__":
