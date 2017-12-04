@@ -104,29 +104,54 @@ var addDot = function() {
 
 	    // play music by click
 	    $(document).on('click', '#' + full_id, function() {
-            var ownerId = $('.audio_row').first().attr("data-full-id").split('_')[0];
-            var path = '/mnt/ssd/musicmap_data/predict/' + ownerId
+            var owner_id = $('.audio_row').first().attr("data-full-id").split('_')[0];
+            var path = '/mnt/ssd/musicmap_data/predict/' + owner_id
 
             var arr = document.getElementsByTagName('script');
-            var userId = arr[1].innerHTML.match(/id: (\d+)/)[1];
+            var user_id = arr[1].innerHTML.match(/id: (\d+)/)[1];
 
             var audio_id = full_id.split('_')[1];
 
+            if (owner_id === user_id) {
 			chrome.runtime.sendMessage({
         		method: 'GET',
         		action: 'xhttp',
-        		url: 'http://gpu-external01.i.smailru.net:86/playlist?user_id='
-                    .concat(userId).concat('&predict=').concat(path).concat('&audio_id=').concat(audio_id)
+        		url: 'http://gpu-external01.i.smailru.net:86/playlist'
+                    .concat('?user_id=').concat(user_id)
+                    .concat('&predict=').concat(path)
+                    .concat('&audio_id=').concat(audio_id)
+                    .concat('&owner_id=').concat(owner_id)
         	}, function(playlist_id) {
-                var actualCode = "getAudioPlayer().playPlaylist(vk.id.toString(), "
-                	    .concat(playlist_id).concat(", '', '');");
+                var actualCode = "";
+                actualCode = actualCode.concat(`
+                    var player = getAudioPlayer();
+                    player.pause();
+                    var prevIsPlaying = player.isPlaying();
+                    console.log(prevIsPlaying);
+                    var prevAudioName = player.getCurrentAudio()[3]
+                        .concat(" - ").concat(player.getCurrentAudio()[4]);
+                    var prevOffset = player.getCurrentProgress();
+                    player.playPlaylist(vk.id.toString(), `.concat(playlist_id).concat(", '', '');")
+                );
+                actualCode = actualCode.concat(`
+                    var currAudioName = player.getCurrentAudio()[3]
+                        .concat(" - ").concat(player.getCurrentAudio()[4]);
+                    if (currAudioName === prevAudioName) {
+                        player.seek(prevOffset);
+                    }
+                    if (prevIsPlaying === false) {
+					    player.pause();
+                    }`
+                );
 	            var script = document.createElement('script');
     	        script.textContent = actualCode;
         	    (document.head||document.documentElement).appendChild(script);
             	script.remove();
         	});
+            }
 
-	        // $("[data-full-id$='"+full_id+"']").click();
+            console.log('click');
+	        $("[data-full-id$='"+full_id+"']").click();
 
 	        var sorted_fullid_list = fullid_sorted[full_id];
 	        $('.audio_row').sortElements(function(a, b){
@@ -260,7 +285,6 @@ getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' +
 
 console.log(predicts);
 
-/*
 $("#document").ready(function() {
   // alert("kekekekek")
   if ( $( this ).height() > 100) {
@@ -280,4 +304,3 @@ $("#document").ready(function() {
 		});
 	}
 })
-*/

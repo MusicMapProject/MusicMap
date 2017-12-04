@@ -56,11 +56,10 @@ class VkAudioAPI:
             'access_token': self.token,
         }).json()
 
-    def deleteAlbum(self, album_id, owner_id=15598144):
+    def deleteAlbum(self, album_id):
         return requests.get("https://api.vk.com/method/audio.deleteAlbum", params={
             'v': 5.64,
             'album_id': album_id,
-            'owner_id': owner_id,
             'access_token': self.token,
         }).json()
 

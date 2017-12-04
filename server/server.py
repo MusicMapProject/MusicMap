@@ -99,14 +99,17 @@ class S(BaseHTTPRequestHandler):
             # TODO: Implement creating playlist using VkApi
             params = parse_qs(urlparse(self.path).query)
             user_id = params['user_id'][0]
+            owner_id = params['owner_id'][0]
 
             vk_api = VkAudioAPI(database_users[user_id]['access_token'])
 
             if 'album' in database_users[user_id]:
                 album_id = database_users[user_id]['album']
-                vk_api.deleteAlbum(album_id, user_id)
+                vk_api.deleteAlbum(album_id)
             resp = vk_api.addAlbum()
             print resp
+            time.sleep(1)
+
             album_id = str(resp['response']['album_id'])
             database_users[user_id]['album'] = album_id
 
@@ -151,8 +154,17 @@ class S(BaseHTTPRequestHandler):
             
             for audio_id in playlist_array:
                 print audio_id
-                print vk_api.moveToAlbum(album_id, audio_id, user_id)
+                for attempt_i in range(3):
+                    r = vk_api.moveToAlbum(album_id, audio_id, owner_id)
+                    # r = vk_api.add(album_id, audio_id, owner_id)
+                    # 201 -- 'Access denied: one or more of the audios given can not be accessed'
+                    if 'error' in r and r['error']['error_code'] != 201:
+                        time.sleep(1.0)
+                    else:
+                        break
+                print r
                 time.sleep(1.0)
+            print "Playlist is created!"
             
             self.wfile.write(album_id)
         else:
