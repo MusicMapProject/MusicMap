@@ -130,8 +130,8 @@ var addDot = function() {
                     var currAudio = player.getCurrentAudio()[0];
                     if (currAudio == prevAudio) {
                         player.seek(prevOffset);
-                        player.play();
-                    }`
+                    }
+					player.play();`
                 );
 	            var script = document.createElement('script');
     	        script.textContent = actualCode;
