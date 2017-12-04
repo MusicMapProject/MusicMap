@@ -113,27 +113,6 @@ class S(BaseHTTPRequestHandler):
             album_id = str(resp['response']['album_id'])
             database_users[user_id]['album'] = album_id
 
-            audio_id = params['audio_id'][0]
-            
-            """
-            audio_ids = {audio_id}
-            
-            # No check if file exists cause if point is on map then file do exist
-            with open(params['predict'][0]) as f_csv:
-                _ = f_csv.next()  # skip header
-                for line in f_csv:
-                    if len(audio_ids) == 10:
-                        break
-                    audio_id = line.strip().split(',')[0]
-                    audio_id = audio_id.split('_')[1]
-                    audio_ids.add(audio_id)
-                audio_id = params['audio_id'][0]
-                audio_ids.remove(audio_id)
-            
-            # Audios should be reversed order. It's a must
-            audio_ids = list(audio_ids) + [audio_id]
-            
-            """
             
             user_id = params['user_id'][0]
             audio_id = params['audio_id'][0]
@@ -144,15 +123,17 @@ class S(BaseHTTPRequestHandler):
                 print  "Not exit predicted sorted file"
             else:
                 with open(predict_path + '_sorted') as sort_predict_file:
+                    sort_predict_file.readline()
                     for line in sort_predict_file.readlines():
                         ids = line.strip().split(',')
                         if ids[0] == user_id + '_' + audio_id:
                             for audio in ids:
                                 playlist_array = [audio.split('_')[1]] + playlist_array
                                 
-            playlist_array = [audio_id] + playlist_array
+            print playlist_array
             
-            for audio_id in playlist_array:
+            GET_FIRST_N = 5
+            for audio_id in playlist_array[-GET_FIRST_N:]:
                 print audio_id
                 for attempt_i in range(3):
                     r = vk_api.moveToAlbum(album_id, audio_id, owner_id)
