@@ -126,6 +126,8 @@ var addDot = function() {
                 actualCode = actualCode.concat(`
                     var player = getAudioPlayer();
                     player.pause();
+                    var prevIsPlaying = player.isPlaying();
+                    console.log(prevIsPlaying);
                     var prevAudioName = player.getCurrentAudio()[3]
                         .concat(" - ").concat(player.getCurrentAudio()[4]);
                     var prevOffset = player.getCurrentProgress();
@@ -137,7 +139,9 @@ var addDot = function() {
                     if (currAudioName === prevAudioName) {
                         player.seek(prevOffset);
                     }
-					player.play();`
+                    if (prevIsPlaying === false) {
+					    player.pause();
+                    }`
                 );
 	            var script = document.createElement('script');
     	        script.textContent = actualCode;
@@ -146,6 +150,7 @@ var addDot = function() {
         	});
             }
 
+            console.log('click');
 	        $("[data-full-id$='"+full_id+"']").click();
 
 	        var sorted_fullid_list = fullid_sorted[full_id];
@@ -280,7 +285,6 @@ getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' +
 
 console.log(predicts);
 
-/*
 $("#document").ready(function() {
   // alert("kekekekek")
   if ( $( this ).height() > 100) {
@@ -300,4 +304,3 @@ $("#document").ready(function() {
 		});
 	}
 })
-*/
