@@ -131,6 +131,7 @@ class S(BaseHTTPRequestHandler):
                 print audio_id
                 print vk_api.moveToAlbum(album_id, audio_id, user_id)
                 time.sleep(1.0)
+            print "Playlist is created!"
             
             self.wfile.write(album_id)
         else:

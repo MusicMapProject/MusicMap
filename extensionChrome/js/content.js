@@ -118,15 +118,28 @@ var addDot = function() {
         		url: 'http://gpu-external01.i.smailru.net:86/playlist?user_id='
                     .concat(userId).concat('&predict=').concat(path).concat('&audio_id=').concat(audio_id)
         	}, function(playlist_id) {
-                var actualCode = "getAudioPlayer().playPlaylist(vk.id.toString(), "
-                	    .concat(playlist_id).concat(", '', '');");
+                var actualCode = "";
+                actualCode = actualCode.concat(`
+                    var player = getAudioPlayer();
+                    player.pause();
+                    var prevAudio = player.getCurrentAudio()[0];
+                    var prevOffset = player.getCurrentProgress();
+                    player.playPlaylist(vk.id.toString(), `.concat(playlist_id).concat(", '', '');")
+                );
+                actualCode = actualCode.concat(`
+                    var currAudio = player.getCurrentAudio()[0];
+                    if (currAudio == prevAudio) {
+                        player.seek(prevOffset);
+                        player.play();
+                    }`
+                );
 	            var script = document.createElement('script');
     	        script.textContent = actualCode;
         	    (document.head||document.documentElement).appendChild(script);
             	script.remove();
         	});
 
-	        // $("[data-full-id$='"+full_id+"']").click();
+	        $("[data-full-id$='"+full_id+"']").click();
 
 	        var sorted_fullid_list = fullid_sorted[full_id];
 	        $('.audio_row').sortElements(function(a, b){
