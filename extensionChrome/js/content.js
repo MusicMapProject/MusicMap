@@ -285,6 +285,7 @@ getCsv('http://gpu-external01.i.smailru.net:86/mnt/ssd/musicmap_data/predict/' +
 
 console.log(predicts);
 
+/*
 $("#document").ready(function() {
   // alert("kekekekek")
   if ( $( this ).height() > 100) {
@@ -304,3 +305,4 @@ $("#document").ready(function() {
 		});
 	}
 })
+*/
