@@ -104,31 +104,37 @@ var addDot = function() {
 
 	    // play music by click
 	    $(document).on('click', '#' + full_id, function() {
-            var ownerId = $('.audio_row').first().attr("data-full-id").split('_')[0];
-            var path = '/mnt/ssd/musicmap_data/predict/' + ownerId
+            var owner_id = $('.audio_row').first().attr("data-full-id").split('_')[0];
+            var path = '/mnt/ssd/musicmap_data/predict/' + owner_id
 
             var arr = document.getElementsByTagName('script');
-            var userId = arr[1].innerHTML.match(/id: (\d+)/)[1];
+            var user_id = arr[1].innerHTML.match(/id: (\d+)/)[1];
 
             var audio_id = full_id.split('_')[1];
 
+            if (owner_id === user_id) {
 			chrome.runtime.sendMessage({
         		method: 'GET',
         		action: 'xhttp',
-        		url: 'http://gpu-external01.i.smailru.net:86/playlist?user_id='
-                    .concat(userId).concat('&predict=').concat(path).concat('&audio_id=').concat(audio_id)
+        		url: 'http://gpu-external01.i.smailru.net:86/playlist'
+                    .concat('?user_id=').concat(user_id)
+                    .concat('&predict=').concat(path)
+                    .concat('&audio_id=').concat(audio_id)
+                    .concat('&owner_id=').concat(owner_id)
         	}, function(playlist_id) {
                 var actualCode = "";
                 actualCode = actualCode.concat(`
                     var player = getAudioPlayer();
                     player.pause();
-                    var prevAudio = player.getCurrentAudio()[0];
+                    var prevAudioName = player.getCurrentAudio()[3]
+                        .concat(" - ").concat(player.getCurrentAudio()[4]);
                     var prevOffset = player.getCurrentProgress();
                     player.playPlaylist(vk.id.toString(), `.concat(playlist_id).concat(", '', '');")
                 );
                 actualCode = actualCode.concat(`
-                    var currAudio = player.getCurrentAudio()[0];
-                    if (currAudio == prevAudio) {
+                    var currAudioName = player.getCurrentAudio()[3]
+                        .concat(" - ").concat(player.getCurrentAudio()[4]);
+                    if (currAudioName === prevAudioName) {
                         player.seek(prevOffset);
                     }
 					player.play();`
@@ -138,6 +144,7 @@ var addDot = function() {
         	    (document.head||document.documentElement).appendChild(script);
             	script.remove();
         	});
+            }
 
 	        $("[data-full-id$='"+full_id+"']").click();
 
