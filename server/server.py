@@ -107,6 +107,8 @@ class S(BaseHTTPRequestHandler):
                 vk_api.deleteAlbum(album_id, user_id)
             resp = vk_api.addAlbum()
             print resp
+            time.sleep(1)
+
             album_id = str(resp['response']['album_id'])
             database_users[user_id]['album'] = album_id
 
@@ -129,7 +131,13 @@ class S(BaseHTTPRequestHandler):
             audio_ids = list(audio_ids) + [audio_id]
             for audio_id in audio_ids:
                 print audio_id
-                print vk_api.moveToAlbum(album_id, audio_id, user_id)
+                for attempt_i in range(3):
+                    r = vk_api.moveToAlbum(album_id, audio_id, user_id)
+                    if 'error' in r:
+                        time.sleep(1.0)
+                    else:
+                        break
+                print r
                 time.sleep(1.0)
             print "Playlist is created!"
             
