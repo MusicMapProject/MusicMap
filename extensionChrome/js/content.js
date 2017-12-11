@@ -240,6 +240,7 @@ function getCsv(filename, is_sort) {
         // console.log(data);
         if (is_sort === false) {
         	processData(data);
+	        $('.audio_row').each(addDot);
         	// alert("get csv")
         } else {
         	processSortData(data)
