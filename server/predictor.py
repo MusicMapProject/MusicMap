@@ -25,15 +25,16 @@ MODELS_DIR = os.path.join(MNT_SSD_PROJECT, "models")
 DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro")
 DATA_PREDICT = os.path.join(MNT_SSD_PROJECT, "predict")
 
-DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working")
-
-if not os.path.isdir(DATA_PREDICT):
-        os.mkdir(DATA_PREDICT)
-
-if not os.path.isdir(DATA_SPECTRO_WORKING):
-    os.mkdir(DATA_SPECTRO_WORKING)
+DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working_tmp")
 
 predicted_files = []
+
+def rmDir(dirname):
+    files = os.listdir(dirname)
+    for file_name in files:
+        file_path = os.path.join(dirname, file_name)
+        if os.path.isfile(file_path):
+            os.unlink(file_path)
         
 def grepPartsOfSong(filename):
     spectro_name = re.search('(-?\d+_\d+)_\d+', os.path.splitext(filename)[0]).group(0)
@@ -46,14 +47,16 @@ def process_predict(net):
     global predicted_files
     
     while getattr(t, "do_run", True):
-       
+        
         toPredict = []
         for filename in os.listdir(DATA_SPECTRO):
             if filename not in predicted_files:
+                predicted_files.append(filename)
                 for part in grepPartsOfSong(filename):
                     copyfile(os.path.join(DATA_SPECTRO, part), \
                              os.path.join(DATA_SPECTRO_WORKING, part))
                     toPredict.append(part)
+            
                 
         if len(toPredict) == 0:
             print "process_create_predict_pool waiting..."
@@ -65,24 +68,23 @@ def process_predict(net):
         saveToCsv(names_, preds_, DATA_PREDICT)
         
         # clear DATA_SPECTRO_WORKING
+        rmDir(DATA_SPECTRO_WORKING)
+        
         files = os.listdir(DATA_SPECTRO_WORKING)
         for file_name in files:
             file_path = os.path.join(DATA_SPECTRO_WORKING, file_name)
             if os.path.isfile(file_path):
                 os.unlink(file_path)
-        
         '''
+        
+        
         backup = sorted(os.listdir(DATA_SPECTRO))
-        step = 10
+        step = 30
         cnt = len(backup)
         print cnt
         for load_to in range(step, cnt + 1, step):
             print load_to
-            files = os.listdir(DATA_SPECTRO_WORKING)
-            for file_name in files:
-                file_path = os.path.join(DATA_SPECTRO_WORKING, file_name)
-                if os.path.isfile(file_path):
-                    os.unlink(file_path)
+            rmDir(DATA_SPECTRO_WORKING)
                     
             for file_name in backup[load_to - step : load_to]:
                 print file_name
@@ -102,14 +104,15 @@ def process_predict(net):
 if __name__ == "__main__":
     
     number_model = sys.argv[1]
-    '''
+    
     if len(sys.argv) > 2:
         dir_spectro = sys.argv[2]
     else:
         dir_spectro = "spectro"
-    '''
+    """
     if len(sys.argv) > 2:
         raise "Wrong number of variables" 
+    """
     
     if number_model not in os.listdir(MODELS_DIR):
         raise "Model doesn't exist"
@@ -117,6 +120,14 @@ if __name__ == "__main__":
     
     net = Network()
     net.load(model_path)
+    
+    if not os.path.isdir(DATA_PREDICT):
+        os.mkdir(DATA_PREDICT)
+        
+    rmDir(DATA_PREDICT)
+
+    if not os.path.isdir(DATA_SPECTRO_WORKING):
+        os.mkdir(DATA_SPECTRO_WORKING)
     
     #data_spectro = os.path.join(MNT_SSD_PROJECT, dir_spectro)
     
@@ -131,4 +142,3 @@ if __name__ == "__main__":
         t3.do_run = False
 
         t3.join()
-
