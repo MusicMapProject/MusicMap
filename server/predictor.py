@@ -20,9 +20,11 @@ from networks.network import *
 MNT_HDD_PROJECT="/mnt/hdd/music_map_project/"
 MNT_SSD_PROJECT="/mnt/ssd/musicmap_data/"
 
+# /mnt/ssd/musicmap_data/spe
+# ctro_selected_data_expand_dataset/
 MODELS_DIR = os.path.join(MNT_SSD_PROJECT, "models")
 
-DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "spectro")
+DATA_SPECTRO = os.path.join(MNT_SSD_PROJECT, "/mnt/ssd/musicmap_data/spectro/")
 DATA_PREDICT = os.path.join(MNT_SSD_PROJECT, "predict")
 
 DATA_SPECTRO_WORKING = os.path.join(MNT_SSD_PROJECT, "spectro_working")
