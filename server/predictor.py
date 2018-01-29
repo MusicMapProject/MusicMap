@@ -16,6 +16,7 @@ sys.path.insert(0, os.getenv("HOME") + "/workdir/MusicMap/")
 
 from utils.preprocess_data import *
 from networks.network import *
+from utils.sort_predicts import get_sorted_predict
 
 MNT_HDD_PROJECT="/mnt/hdd/music_map_project/"
 MNT_SSD_PROJECT="/mnt/ssd/musicmap_data/"
@@ -39,9 +40,16 @@ def rmDir(dirname):
             os.unlink(file_path)
         
 def grepPartsOfSong(filename):
-    spectro_name = re.search('(-?\d+_\d+)_\d+', os.path.splitext(filename)[0]).group(0)
-    found = map(lambda line: re.search(spectro_name +'.png', line), os.listdir(DATA_SPECTRO))
-    return map(lambda s: s.group(0), filter(lambda s: s, found))
+    spectro_name = re.findall('(-?\d+_\d+)_\d+', os.path.splitext(filename)[0])[0]
+    
+    found = []
+    for line in os.listdir(DATA_SPECTRO):
+        if spectro_name in line:
+            found.append(line.strip())
+            
+    #found = map(lambda line: re.search(spectro_name +'.png', line), os.listdir(DATA_SPECTRO))
+    #result = map(lambda s: s.group(0), filter(lambda s: s, found))
+    return found
   
 def process_predict(net):
     t = threading.currentThread()
@@ -49,17 +57,22 @@ def process_predict(net):
     global predicted_files
     
     while getattr(t, "do_run", True):
-        
+
         toPredict = []
         for filename in os.listdir(DATA_SPECTRO):
-            if filename not in predicted_files:
-                predicted_files.append(filename)
-                for part in grepPartsOfSong(filename):
+            song_name = re.findall('(-?\d+_\d+)_\d+', os.path.splitext(filename)[0])[0]
+            if song_name not in predicted_files:
+                parts = grepPartsOfSong(filename)
+                if len(parts) < 5:
+                    continue
+                    
+                for part in parts:
                     copyfile(os.path.join(DATA_SPECTRO, part), \
                              os.path.join(DATA_SPECTRO_WORKING, part))
                     toPredict.append(part)
-            
-                
+                    
+                predicted_files.append(song_name)
+                   
         if len(toPredict) == 0:
             print "process_create_predict_pool waiting..."
             time.sleep(5)
@@ -68,6 +81,9 @@ def process_predict(net):
         predictions, songnames = net.predict(DATA_SPECTRO_WORKING + '/', DATA_PREDICT)
         names_, preds_ = group_by_predictions(predictions, songnames)
         saveToCsv(names_, preds_, DATA_PREDICT)
+        
+        get_sorted_predict(DATA_PREDICT)
+        
         
         # clear DATA_SPECTRO_WORKING
         rmDir(DATA_SPECTRO_WORKING)
